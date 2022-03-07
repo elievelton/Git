@@ -1,11 +1,12 @@
-import Class_Cliente
-import Class_Conta
-import Class_Histo
+from ClassConta import Conta
+from ClassCliente import Cliente
+from ClassHisto import Historico
 
-cliente1 = Cliente('elievelto','edimar','00899987')
-cliente2 = Cliente('dougla','edimar','0231231')
-conta1 = Conta(1243,cliente1,200,500)
-conta2= Conta(122,cliente1,400,1000)
+
+cliente1 =Cliente('elievelto','edimar','00899987')
+cliente2 =Cliente('dougla','edimar','0231231')
+conta1 =Conta(1243,cliente1,200,500)
+conta2=Conta(122,cliente1,400,1000)
 conta1.deposita(100)
 conta1.sacar(50)
 conta1.historico.imprime()

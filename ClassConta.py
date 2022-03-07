@@ -1,3 +1,4 @@
+from ClassHisto import Historico
 class Conta:
     
     _contador_de_contas = 0

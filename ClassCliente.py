@@ -8,17 +8,14 @@ class Cliente:
         self._cpf = cpf
 
     @property
-
     def nome(self):
         return self._nome
 
     @property
-
     def sobre_nome(self):
         return self._sobre_nome
 
     @property
-
     def cpf(self):
         return self._cpf
 
