@@ -38,7 +38,7 @@ class Ui_MainWindow(object):
         self.lineEdit_2.setText("")
         self.lineEdit_2.setObjectName("lineEdit_2")
         self.label_2 = QtWidgets.QLabel(self.centralwidget)
-        self.label_2.setGeometry(QtCore.QRect(70, 90, 63, 20))
+        self.label_2.setGeometry(QtCore.QRect(70, 90, 71, 20))
         self.label_2.setObjectName("label_2")
         self.lineEdit_3 = QtWidgets.QLineEdit(self.centralwidget)
         self.lineEdit_3.setGeometry(QtCore.QRect(155, 130, 240, 21))
@@ -50,13 +50,13 @@ class Ui_MainWindow(object):
         self.lineEdit_4.setGeometry(QtCore.QRect(158, 170, 221, 21))
         self.lineEdit_4.setObjectName("lineEdit_4")
         self.label_4 = QtWidgets.QLabel(self.centralwidget)
-        self.label_4.setGeometry(QtCore.QRect(60, 170, 81, 20))
+        self.label_4.setGeometry(QtCore.QRect(60, 170, 91, 20))
         self.label_4.setObjectName("label_4")
         self.pushButton = QtWidgets.QPushButton(self.centralwidget)
         self.pushButton.setGeometry(QtCore.QRect(210, 210, 106, 21))
         self.pushButton.setObjectName("pushButton")
         self.Buscar = QtWidgets.QLabel(self.centralwidget)
-        self.Buscar.setGeometry(QtCore.QRect(250, 260, 71, 20))
+        self.Buscar.setGeometry(QtCore.QRect(250, 260, 91, 20))
         self.Buscar.setMaximumSize(QtCore.QSize(91, 41))
         font = QtGui.QFont()
         font.setPointSize(14)
@@ -79,20 +79,20 @@ class Ui_MainWindow(object):
         self.pushButton_2.setGeometry(QtCore.QRect(340, 302, 106, 21))
         self.pushButton_2.setObjectName("pushButton_2")
         self.label_6 = QtWidgets.QLabel(self.centralwidget)
-        self.label_6.setGeometry(QtCore.QRect(60, 400, 63, 20))
+        self.label_6.setGeometry(QtCore.QRect(60, 370, 63, 20))
         self.label_6.setObjectName("label_6")
         self.lineEdit_6 = QtWidgets.QLineEdit(self.centralwidget)
-        self.lineEdit_6.setGeometry(QtCore.QRect(145, 370, 241, 21))
+        self.lineEdit_6.setGeometry(QtCore.QRect(140, 400, 241, 21))
         self.lineEdit_6.setText("")
         self.lineEdit_6.setObjectName("lineEdit_6")
         self.label_7 = QtWidgets.QLabel(self.centralwidget)
-        self.label_7.setGeometry(QtCore.QRect(60, 370, 63, 20))
+        self.label_7.setGeometry(QtCore.QRect(60, 400, 63, 20))
         self.label_7.setObjectName("label_7")
         self.lineEdit_7 = QtWidgets.QLineEdit(self.centralwidget)
-        self.lineEdit_7.setGeometry(QtCore.QRect(148, 430, 221, 21))
+        self.lineEdit_7.setGeometry(QtCore.QRect(140, 430, 221, 21))
         self.lineEdit_7.setObjectName("lineEdit_7")
         self.lineEdit_8 = QtWidgets.QLineEdit(self.centralwidget)
-        self.lineEdit_8.setGeometry(QtCore.QRect(145, 400, 240, 21))
+        self.lineEdit_8.setGeometry(QtCore.QRect(140, 370, 240, 21))
         self.lineEdit_8.setObjectName("lineEdit_8")
         self.label_8 = QtWidgets.QLabel(self.centralwidget)
         self.label_8.setGeometry(QtCore.QRect(50, 430, 81, 20))
@@ -104,17 +104,19 @@ class Ui_MainWindow(object):
 
         self.retranslateUi(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
-        
+
         '''modificações'''
         self.cad = Cadastro()
         self.pushButton.clicked.connect(self.botaoCadastro)
         self.pushButton_2.clicked.connect(self.botaoBusca)
 
     def botaoCadastro(self):
-        nome=self.lineEdit.text()
-        endereco = self.label_2.text()
-        cpf = self.label_3.text()
-        nascimento = self.label_4.text()
+
+        nome = self.lineEdit.text()
+        endereco = self.lineEdit_2.text()
+        cpf = self.lineEdit_3.text()
+        nascimento = self.lineEdit_4.text()
+
         if not (nome == '' or endereco == '' or cpf == '' or nascimento == ''):
             c = Cliente(nome,endereco,cpf,nascimento)
             if(self.cad.cadastrar(c)):
@@ -128,16 +130,17 @@ class Ui_MainWindow(object):
         else:
             QMessageBox.information(None,'POO2', 'Todos os valores devem ser preenchidos')
 
-    def botaoBusca(self):
+    def botaoBusca(self,cpf):
         cpf = self.lineEdit_5.text()
         cliente = self.cad.buscar(cpf)
-        if(cliente == None):
+        if(cliente != None):
 
             self.lineEdit_8.setText(cliente.nome)
             self.lineEdit_6.setText(cliente.endereco)
             self.lineEdit_7.setText(cliente.nascimento)
         else:
             QMessageBox.information(None,'POO2', 'CPF não encontrado')
+
 
 
 
@@ -153,7 +156,7 @@ class Ui_MainWindow(object):
         self.Buscar.setText(_translate("MainWindow", "Buscar"))
         self.label_5.setText(_translate("MainWindow", "CPF"))
         self.pushButton_2.setText(_translate("MainWindow", "Buscar"))
-        self.label_6.setText(_translate("MainWindow", "CPF"))
+        self.label_6.setText(_translate("MainWindow", "Nome"))
         self.label_7.setText(_translate("MainWindow", "Endereço"))
         self.label_8.setText(_translate("MainWindow", "Nascimento"))
 
@@ -168,4 +171,3 @@ if __name__ == "__main__":
     ui.setupUi(MainWindow)
     MainWindow.show()
     sys.exit(app.exec_())
-

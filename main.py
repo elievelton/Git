@@ -2,7 +2,7 @@ from ClassConta import Conta
 from ClassCliente import Cliente
 from ClassHisto import Historico
 from ClassCadastro import Cadastro
-import TelaTeste
+
 
 
 cliente1 =Cliente('elievelto','edimar','00899987','09/12/1985')

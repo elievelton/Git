@@ -19,8 +19,8 @@
      <rect>
       <x>258</x>
       <y>10</y>
-      <width>91</width>
-      <height>20</height>
+      <width>140</width>
+      <height>30</height>
      </rect>
     </property>
     <property name="maximumSize">
@@ -45,7 +45,7 @@
      <rect>
       <x>155</x>
       <y>50</y>
-      <width>231</width>
+      <width>261</width>
       <height>21</height>
      </rect>
     </property>
@@ -81,7 +81,7 @@
      <rect>
       <x>70</x>
       <y>90</y>
-      <width>63</width>
+      <width>71</width>
       <height>20</height>
      </rect>
     </property>
@@ -127,7 +127,7 @@
      <rect>
       <x>60</x>
       <y>170</y>
-      <width>81</width>
+      <width>91</width>
       <height>20</height>
      </rect>
     </property>
@@ -153,7 +153,7 @@
      <rect>
       <x>250</x>
       <y>260</y>
-      <width>71</width>
+      <width>91</width>
       <height>20</height>
      </rect>
     </property>
@@ -227,20 +227,20 @@
     <property name="geometry">
      <rect>
       <x>60</x>
-      <y>400</y>
+      <y>370</y>
       <width>63</width>
       <height>20</height>
      </rect>
     </property>
     <property name="text">
-     <string>CPF</string>
+     <string>Nome</string>
     </property>
    </widget>
    <widget class="QLineEdit" name="lineEdit_6">
     <property name="geometry">
      <rect>
-      <x>145</x>
-      <y>370</y>
+      <x>140</x>
+      <y>400</y>
       <width>241</width>
       <height>21</height>
      </rect>
@@ -253,7 +253,7 @@
     <property name="geometry">
      <rect>
       <x>60</x>
-      <y>370</y>
+      <y>400</y>
       <width>63</width>
       <height>20</height>
      </rect>
@@ -265,7 +265,7 @@
    <widget class="QLineEdit" name="lineEdit_7">
     <property name="geometry">
      <rect>
-      <x>148</x>
+      <x>140</x>
       <y>430</y>
       <width>221</width>
       <height>21</height>
@@ -275,8 +275,8 @@
    <widget class="QLineEdit" name="lineEdit_8">
     <property name="geometry">
      <rect>
-      <x>145</x>
-      <y>400</y>
+      <x>140</x>
+      <y>370</y>
       <width>240</width>
       <height>21</height>
      </rect>
