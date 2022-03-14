@@ -1,30 +1,31 @@
 class Cliente:
     
-    __slots__ = ['_nome', '_sobre_nome','_cpf']
+    __slots__ = ['_nome', '_endereco','_cpf','_nascimento']
     
-    def __init__(self,nome,sobre_nome,cpf):
+    def __init__(self,nome,endereco,cpf,nascimento):
         self._nome = nome
-        self._sobre_nome = sobre_nome
+        self._endereco = endereco
         self._cpf = cpf
+        self._nascimento = nascimento
 
     @property
     def nome(self):
         return self._nome
 
     @property
-    def sobre_nome(self):
-        return self._sobre_nome
+    def endereco(self):
+        return self._endereco
 
     @property
     def cpf(self):
         return self._cpf
+    @property
+    def nascimento(self):
+        return self._nascimento
 
     @nome.setter
     def nome(self,novo_valor):
         self._nome = novo_valor
-    @sobre_nome.setter
-    def sobre_nome(self,novo_valor):
-        self._sobre_nome = novo_valor
-    @cpf.setter
-    def cpf(self,novo_valor):
-        self._cpf = novo_valor
+    @endereco.setter
+    def endereco(self,novo_valor):
+        self._endereco = novo_valor

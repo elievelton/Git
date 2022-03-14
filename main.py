@@ -3,8 +3,8 @@ from ClassCliente import Cliente
 from ClassHisto import Historico
 
 
-cliente1 =Cliente('elievelto','edimar','00899987')
-cliente2 =Cliente('dougla','edimar','0231231')
+cliente1 =Cliente('elievelto','edimar','00899987','09/12/1985')
+cliente2 =Cliente('dougla','edimar','0231231','12/08/2000')
 conta1 =Conta(1243,cliente1,200,500)
 conta2=Conta(122,cliente1,400,1000)
 conta1.deposita(100)
