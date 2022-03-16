@@ -1,4 +1,4 @@
-from ClassHisto import Historico
+from classHisto import Historico
 class Conta:
     
     _contador_de_contas = 0
@@ -45,7 +45,7 @@ class Conta:
     def deposita(self, novo_valor):
         self.saldo += novo_valor
         self.historico.transacoes.append("Depositou o valor de: {}".format(novo_valor))
-                                         
+
     def sacar(self, novo_valor):
         if (self.saldo < novo_valor):
             return False
