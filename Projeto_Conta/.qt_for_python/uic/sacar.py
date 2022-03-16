@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'extrato.ui'
+## Form generated from reading UI file 'sacar.ui'
 ##
 ## Created by: Qt User Interface Compiler version 5.15.2
 ##
@@ -21,33 +21,46 @@ class Ui_MainWindow(object):
         MainWindow.setStyleSheet(u"background-color: rgb(0, 0, 127);")
         self.centralwidget = QWidget(MainWindow)
         self.centralwidget.setObjectName(u"centralwidget")
-        self.pushButton_2 = QPushButton(self.centralwidget)
-        self.pushButton_2.setObjectName(u"pushButton_2")
-        self.pushButton_2.setGeometry(QRect(20, 410, 106, 36))
-        self.pushButton_2.setStyleSheet(u"background-color: rgb(65, 65, 65);\n"
-"color: rgb(255, 255, 255);")
-        self.textBrowser = QTextBrowser(self.centralwidget)
-        self.textBrowser.setObjectName(u"textBrowser")
-        self.textBrowser.setGeometry(QRect(150, 130, 311, 271))
-        self.textBrowser.setStyleSheet(u"background-color: rgb(255, 255, 127);\n"
-"color: rgb(0, 0, 0);")
+        self.label_2 = QLabel(self.centralwidget)
+        self.label_2.setObjectName(u"label_2")
+        self.label_2.setGeometry(QRect(60, 180, 151, 20))
+        self.label_2.setStyleSheet(u"color: rgb(255, 255, 255);")
         self.label_3 = QLabel(self.centralwidget)
         self.label_3.setObjectName(u"label_3")
-        self.label_3.setGeometry(QRect(270, 110, 63, 20))
+        self.label_3.setGeometry(QRect(66, 230, 131, 20))
         self.label_3.setStyleSheet(u"color: rgb(255, 255, 255);")
+        self.pushButton = QPushButton(self.centralwidget)
+        self.pushButton.setObjectName(u"pushButton")
+        self.pushButton.setGeometry(QRect(250, 310, 106, 36))
+        font = QFont()
+        font.setPointSize(14)
+        font.setBold(True)
+        font.setWeight(75)
+        self.pushButton.setFont(font)
+        self.pushButton.setStyleSheet(u"background-color: rgb(0, 170, 0);\n"
+"color: rgb(255, 255, 255);")
+        self.pushButton_2 = QPushButton(self.centralwidget)
+        self.pushButton_2.setObjectName(u"pushButton_2")
+        self.pushButton_2.setGeometry(QRect(20, 400, 106, 36))
+        self.pushButton_2.setStyleSheet(u"background-color: rgb(65, 65, 65);\n"
+"color: rgb(255, 255, 255);")
+        self.lineEdit = QLineEdit(self.centralwidget)
+        self.lineEdit.setObjectName(u"lineEdit")
+        self.lineEdit.setGeometry(QRect(208, 180, 113, 21))
+        self.lineEdit.setStyleSheet(u"background-color: rgb(255, 170, 0);")
+        self.lineEdit_2 = QLineEdit(self.centralwidget)
+        self.lineEdit_2.setObjectName(u"lineEdit_2")
+        self.lineEdit_2.setGeometry(QRect(210, 230, 113, 21))
+        self.lineEdit_2.setStyleSheet(u"background-color: rgb(255, 170, 0);")
         self.frame = QFrame(self.centralwidget)
         self.frame.setObjectName(u"frame")
-        self.frame.setGeometry(QRect(0, 30, 651, 61))
+        self.frame.setGeometry(QRect(-10, 40, 741, 61))
         self.frame.setStyleSheet(u"background-color: rgb(65, 65, 65);")
         self.frame.setFrameShape(QFrame.StyledPanel)
         self.frame.setFrameShadow(QFrame.Raised)
         self.label = QLabel(self.frame)
         self.label.setObjectName(u"label")
-        self.label.setGeometry(QRect(220, 10, 221, 31))
-        font = QFont()
-        font.setPointSize(14)
-        font.setBold(True)
-        font.setWeight(75)
+        self.label.setGeometry(QRect(270, 10, 121, 31))
         self.label.setFont(font)
         self.label.setStyleSheet(u"color: rgb(255, 255, 255);")
         MainWindow.setCentralWidget(self.centralwidget)
@@ -62,8 +75,10 @@ class Ui_MainWindow(object):
 
     def retranslateUi(self, MainWindow):
         MainWindow.setWindowTitle(QCoreApplication.translate("MainWindow", u"MainWindow", None))
+        self.label_2.setText(QCoreApplication.translate("MainWindow", u"Conta para Saque", None))
+        self.label_3.setText(QCoreApplication.translate("MainWindow", u"Valor para Saque", None))
+        self.pushButton.setText(QCoreApplication.translate("MainWindow", u"Sacar", None))
         self.pushButton_2.setText(QCoreApplication.translate("MainWindow", u"Voltar", None))
-        self.label_3.setText(QCoreApplication.translate("MainWindow", u"Extrato", None))
-        self.label.setText(QCoreApplication.translate("MainWindow", u"Extrato da Conta", None))
+        self.label.setText(QCoreApplication.translate("MainWindow", u"Sacar", None))
     # retranslateUi
 
