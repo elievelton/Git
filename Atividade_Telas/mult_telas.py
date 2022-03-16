@@ -16,16 +16,19 @@ class Ui_Main(QtWidgets.QWidget):
     def setupUi(self, Main):
         Main.setObjectName('Main')
         Main.resize(640, 480)
-        self.QtStack = QtWidgets.QStackedLayout()
+
+        self.QtStack = QtWidgets.QStackedLayout() #pilhas de telas
 
         self.stack0 = QtWidgets.QMainWindow()
         self.stack1 = QtWidgets.QMainWindow()
         self.stack2 = QtWidgets.QMainWindow()
 
-        self.tela_inicial = Tela_Inicial()
+        self.tela_inicial = Tela_Inicial() 
         self.tela_inicial.setupUi(self.stack0)
+
         self.tela_cadastro = Tela_Cadastro()
         self.tela_cadastro.setupUi(self.stack1)
+
         self.tela_busca = Tela_Busca()
         self.tela_busca.setupUi(self.stack2)
 
@@ -43,7 +46,8 @@ class Main(QMainWindow, Ui_Main):
         self.cad = Cadastro()
         self.tela_inicial.pushButton.clicked.connect(self.abrirTelaCadastro)
         self.tela_inicial.pushButton_2.clicked.connect(self.abrirTelaBuscar)
-        self.tela_busca.pushButton_2.clicked.connect(self.abrirTelaInicial)
+
+        self.tela_busca.pushButton_2.clicked.connect(self.abrirTelaInicial)# tela de inicio
 
         self.tela_cadastro.pushButton.clicked.connect(self.botaoCadastro)
         self.tela_busca.pushButton.clicked.connect(self.botaoBusca)
@@ -89,7 +93,7 @@ class Main(QMainWindow, Ui_Main):
     def abrirTelaBuscar(self):
         self.QtStack.setCurrentIndex(2)
 
-    def abrirTelaInicial(self):
+    def abrirTelaInicial(self):  #usado para botão voltar na tela de busca
         self.QtStack.setCurrentIndex(0)
 
 if __name__ == "__main__":
