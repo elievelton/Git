@@ -64,6 +64,15 @@ class Tela_Transferir(object):
         self.label.setFont(font)
         self.label.setStyleSheet("color: rgb(255, 255, 255);")
         self.label.setObjectName("label")
+        self.lineEdit_3 = QtWidgets.QLineEdit(self.centralwidget)
+        self.lineEdit_3.setGeometry(QtCore.QRect(210, 140, 111, 21))
+        self.lineEdit_3.setStyleSheet("background-color: rgb(255, 170, 0);\n"
+"color: rgb(0, 0, 0);")
+        self.lineEdit_3.setObjectName("lineEdit_3")
+        self.label_4 = QtWidgets.QLabel(self.centralwidget)
+        self.label_4.setGeometry(QtCore.QRect(30, 140, 121, 20))
+        self.label_4.setStyleSheet("color: rgb(255, 255, 255);")
+        self.label_4.setObjectName("label_4")
         MainWindow.setCentralWidget(self.centralwidget)
         self.statusbar = QtWidgets.QStatusBar(MainWindow)
         self.statusbar.setObjectName("statusbar")
@@ -80,6 +89,7 @@ class Tela_Transferir(object):
         self.pushButton.setText(_translate("MainWindow", "Transferir"))
         self.pushButton_2.setText(_translate("MainWindow", "Voltar"))
         self.label.setText(_translate("MainWindow", "Transferir"))
+        self.label_4.setText(_translate("MainWindow", "Conta de Saída"))
 
 
 

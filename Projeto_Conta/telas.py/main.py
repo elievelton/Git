@@ -78,7 +78,7 @@ class Main(QMainWindow, Ui_Main):
 
         self.cad = Cadastro()
 
-        self.tela_login.pushButton.clicked.connect(self.login)
+        self.tela_login.pushButton.clicked.connect(self.abrirTelaMenu)
         self.tela_login.pushButton_2.clicked.connect(self.abrirTelaMenu_Cadastro)
 
         self.tela_menu.pushButton.clicked.connect(self.abrirTelaDepositar)
@@ -106,11 +106,12 @@ class Main(QMainWindow, Ui_Main):
         self.tela_transferir.pushButton.clicked.connect(self.transferir)
         self.tela_transferir.pushButton_2.clicked.connect(self.abrirTelaMenu)
 
-        self.tela_extrato.pushButton_2.clicked.connect(self.extrato)
+        self.tela_extrato.pushButton.clicked.connect(self.extrato)
+        self.tela_extrato.pushButton_2.clicked.connect(self.abrirTelaMenu)
 
 
     def abrirTelaLogin(self):
-        self.QtStack.setCurrentIndex(1)
+        self.QtStack.setCurrentIndex(0)
 
     def abrirTelaMenu(self):
         self.QtStack.setCurrentIndex(1)
@@ -135,6 +136,7 @@ class Main(QMainWindow, Ui_Main):
 
     def abrirTelaExtrato(self):
         self.QtStack.setCurrentIndex(8)
+    
 
 
     def login(self):
@@ -145,8 +147,8 @@ class Main(QMainWindow, Ui_Main):
         endereco = self.tela_CadastroCli.lineEdit_2.text()
         cpf = self.tela_CadastroCli.lineEdit_3.text()
         nascimento = self.tela_CadastroCli.lineEdit_4.text()
-        usuario = self.tela_CadastroCli.lineEdit_5.text() #falta adicionar o campo na tela
-        senha = self.tela_CadastroCli.lineEdit_6.text() #falta adicionar o campo na tela
+        usuario = self.tela_CadastroCli.lineEdit_5.text() 
+        senha = self.tela_CadastroCli.lineEdit_6.text() 
 
         if not (nome == '' or endereco == '' or cpf == '' or nascimento == '' or usuario == ' ' or senha == ''):
             c = Cliente(nome, endereco, cpf, nascimento, usuario, senha)
@@ -209,9 +211,9 @@ class Main(QMainWindow, Ui_Main):
             QMessageBox.information(None, 'POO2', 'Todos os campos devem ser preenchidos!')
         
     def transferir(self):
-        conta_saida = self.tela_transferir.lineEdit.text()
-        conta_destino = self.tela_transferir.lineEdit_2.text()
-        valor = self.tela_transferir.lineEdit3.text() #falta adicionar campo na tela
+        conta_saida = self.tela_transferir.lineEdit_3.text()
+        conta_destino = self.tela_transferir.lineEdit.text()
+        valor = self.tela_transferir.lineEdit_2.text()
 
         if not(conta_saida == '' or conta_destino == '' or valor == ''):
             if (self.cad.buscarCon(conta_saida)):
@@ -225,14 +227,16 @@ class Main(QMainWindow, Ui_Main):
             QMessageBox.information(None, 'POO2', 'Todos os campos devem ser preenchidos!')
 
     def extrato(self):
-        conta = self.tela_extrato.lineEdit.text() #falta adicionar campo na tela
-        if not(conta == ''):
+        conta = self.tela_extrato.lineEdit.text()
+
+        if not(conta== ''):
             if (self.cad.buscarCon(conta)):
                 pass
             else:
-                QMessageBox.information(None, 'POO2', 'Conta informada não existe!')
+                QMessageBox.information(None, 'POO2', 'Essa conta não existe!')
         else:
             QMessageBox.information(None, 'POO2', 'Todos os campos devem ser preenchidos!')
+        
 
     
 if __name__ == "__main__":

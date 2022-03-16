@@ -65,6 +65,15 @@ class Ui_MainWindow(object):
         self.label.setGeometry(QRect(240, 20, 131, 31))
         self.label.setFont(font)
         self.label.setStyleSheet(u"color: rgb(255, 255, 255);")
+        self.lineEdit_3 = QLineEdit(self.centralwidget)
+        self.lineEdit_3.setObjectName(u"lineEdit_3")
+        self.lineEdit_3.setGeometry(QRect(210, 140, 111, 21))
+        self.lineEdit_3.setStyleSheet(u"background-color: rgb(255, 170, 0);\n"
+"color: rgb(0, 0, 0);")
+        self.label_4 = QLabel(self.centralwidget)
+        self.label_4.setObjectName(u"label_4")
+        self.label_4.setGeometry(QRect(30, 140, 121, 20))
+        self.label_4.setStyleSheet(u"color: rgb(255, 255, 255);")
         MainWindow.setCentralWidget(self.centralwidget)
         self.statusbar = QStatusBar(MainWindow)
         self.statusbar.setObjectName(u"statusbar")
@@ -82,5 +91,6 @@ class Ui_MainWindow(object):
         self.pushButton.setText(QCoreApplication.translate("MainWindow", u"Transferir", None))
         self.pushButton_2.setText(QCoreApplication.translate("MainWindow", u"Voltar", None))
         self.label.setText(QCoreApplication.translate("MainWindow", u"Transferir", None))
+        self.label_4.setText(QCoreApplication.translate("MainWindow", u"Conta de Sa\u00edda", None))
     # retranslateUi
 

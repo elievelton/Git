@@ -20,8 +20,8 @@
    <widget class="QLabel" name="label_2">
     <property name="geometry">
      <rect>
-      <x>70</x>
-      <y>130</y>
+      <x>130</x>
+      <y>100</y>
       <width>61</width>
       <height>16</height>
      </rect>
@@ -34,6 +34,9 @@
       <bold>true</bold>
      </font>
     </property>
+    <property name="styleSheet">
+     <string notr="true">color: rgb(255, 255, 255);</string>
+    </property>
     <property name="text">
      <string>Nome:</string>
     </property>
@@ -41,9 +44,9 @@
    <widget class="QLineEdit" name="lineEdit_4">
     <property name="geometry">
      <rect>
-      <x>202</x>
-      <y>250</y>
-      <width>141</width>
+      <x>258</x>
+      <y>220</y>
+      <width>211</width>
       <height>20</height>
      </rect>
     </property>
@@ -55,8 +58,8 @@ color: rgb(0, 0, 0);</string>
    <widget class="QLineEdit" name="lineEdit">
     <property name="geometry">
      <rect>
-      <x>198</x>
-      <y>130</y>
+      <x>254</x>
+      <y>100</y>
       <width>211</width>
       <height>21</height>
      </rect>
@@ -69,8 +72,8 @@ color: rgb(0, 0, 0);</string>
    <widget class="QLineEdit" name="lineEdit_2">
     <property name="geometry">
      <rect>
-      <x>198</x>
-      <y>170</y>
+      <x>254</x>
+      <y>140</y>
       <width>211</width>
       <height>20</height>
      </rect>
@@ -83,9 +86,9 @@ color: rgb(0, 0, 0);</string>
    <widget class="QLineEdit" name="lineEdit_3">
     <property name="geometry">
      <rect>
-      <x>201</x>
-      <y>208</y>
-      <width>161</width>
+      <x>255</x>
+      <y>178</y>
+      <width>211</width>
       <height>20</height>
      </rect>
     </property>
@@ -97,8 +100,8 @@ color: rgb(0, 0, 0);</string>
    <widget class="QLabel" name="label_5">
     <property name="geometry">
      <rect>
-      <x>70</x>
-      <y>170</y>
+      <x>130</x>
+      <y>140</y>
       <width>91</width>
       <height>21</height>
      </rect>
@@ -111,6 +114,9 @@ color: rgb(0, 0, 0);</string>
       <bold>true</bold>
      </font>
     </property>
+    <property name="styleSheet">
+     <string notr="true">color: rgb(255, 255, 255);</string>
+    </property>
     <property name="text">
      <string>Endereço:</string>
     </property>
@@ -118,8 +124,8 @@ color: rgb(0, 0, 0);</string>
    <widget class="QLabel" name="label_6">
     <property name="geometry">
      <rect>
-      <x>71</x>
-      <y>210</y>
+      <x>131</x>
+      <y>180</y>
       <width>61</width>
       <height>16</height>
      </rect>
@@ -132,6 +138,9 @@ color: rgb(0, 0, 0);</string>
       <bold>true</bold>
      </font>
     </property>
+    <property name="styleSheet">
+     <string notr="true">color: rgb(255, 255, 255);</string>
+    </property>
     <property name="text">
      <string>CPF:</string>
     </property>
@@ -139,8 +148,8 @@ color: rgb(0, 0, 0);</string>
    <widget class="QLabel" name="label_7">
     <property name="geometry">
      <rect>
-      <x>70</x>
-      <y>250</y>
+      <x>130</x>
+      <y>220</y>
       <width>121</width>
       <height>16</height>
      </rect>
@@ -153,6 +162,9 @@ color: rgb(0, 0, 0);</string>
       <bold>true</bold>
      </font>
     </property>
+    <property name="styleSheet">
+     <string notr="true">color: rgb(255, 255, 255);</string>
+    </property>
     <property name="text">
      <string>Data de Nasc:</string>
     </property>
@@ -160,8 +172,8 @@ color: rgb(0, 0, 0);</string>
    <widget class="QPushButton" name="pushButton">
     <property name="geometry">
      <rect>
-      <x>200</x>
-      <y>310</y>
+      <x>250</x>
+      <y>360</y>
       <width>191</width>
       <height>31</height>
      </rect>
@@ -213,7 +225,7 @@ background-color: rgb(68, 68, 68);</string>
       <x>0</x>
       <y>20</y>
       <width>651</width>
-      <height>71</height>
+      <height>61</height>
      </rect>
     </property>
     <property name="styleSheet">
@@ -249,6 +261,82 @@ background-color: rgb(68, 68, 68);</string>
       <string>Cadastro Cliente</string>
      </property>
     </widget>
+   </widget>
+   <widget class="QLabel" name="label_3">
+    <property name="geometry">
+     <rect>
+      <x>130</x>
+      <y>260</y>
+      <width>61</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Agency FB</family>
+      <pointsize>12</pointsize>
+      <weight>75</weight>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">color: rgb(255, 255, 255);</string>
+    </property>
+    <property name="text">
+     <string>Login</string>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="lineEdit_5">
+    <property name="geometry">
+     <rect>
+      <x>260</x>
+      <y>260</y>
+      <width>211</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: rgb(255, 170, 0);
+color: rgb(0, 0, 0);</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_4">
+    <property name="geometry">
+     <rect>
+      <x>130</x>
+      <y>300</y>
+      <width>61</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Agency FB</family>
+      <pointsize>12</pointsize>
+      <weight>75</weight>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">color: rgb(255, 255, 255);</string>
+    </property>
+    <property name="text">
+     <string>Senha</string>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="lineEdit_6">
+    <property name="geometry">
+     <rect>
+      <x>260</x>
+      <y>300</y>
+      <width>211</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: rgb(255, 170, 0);
+color: rgb(0, 0, 0);</string>
+    </property>
    </widget>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
