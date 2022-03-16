@@ -9,4 +9,4 @@ class Historico:
         print("Data de abertura: {}".format(self.data_de_abertura))
         print("transações: ")
         for t in self.transacoes:
-              print("-",t)
+            print("-",t)
