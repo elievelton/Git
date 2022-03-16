@@ -1,4 +1,5 @@
 from classHisto import Historico
+
 class Conta:
     
     _contador_de_contas = 0
@@ -17,17 +18,14 @@ class Conta:
         return print("Total de contas criadas até agora é de: {} Contas".format(Conta._contador_de_contas))
     
     @property
-    
     def numero(self):
         return self._numero
         
     @property
-    
     def titular(self):
         return self._numero
     
     @property
-    
     def limite(self):
         return self._numero
     
@@ -40,8 +38,7 @@ class Conta:
     @limite.setter
     def limite(self, novo_valor):
         self._limite = novo_valor
-    
-    
+      
     def deposita(self, novo_valor):
         self.saldo += novo_valor
         self.historico.transacoes.append("Depositou o valor de: {}".format(novo_valor))

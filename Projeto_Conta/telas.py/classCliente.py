@@ -1,12 +1,14 @@
 class Cliente:
     
-    __slots__ = ['_nome', '_endereco','_cpf','_nascimento']
+    __slots__ = ['_nome', '_endereco','_cpf','_nascimento', '_usuario', '_senha']
     
-    def __init__(self,nome,endereco,cpf,nascimento):
+    def __init__(self, nome, endereco, cpf, nascimento, usuario, senha):
         self._nome = nome
         self._endereco = endereco
         self._cpf = cpf
         self._nascimento = nascimento
+        self._usuario = usuario
+        self._senha = senha
 
     @property
     def nome(self):
@@ -19,13 +21,23 @@ class Cliente:
     @property
     def cpf(self):
         return self._cpf
+
     @property
     def nascimento(self):
         return self._nascimento
 
+    @property
+    def usuario(self):
+        return self._usuario
+
+    @property
+    def senha(self):
+        return self._senha
+
     @nome.setter
     def nome(self,novo_valor):
         self._nome = novo_valor
+
     @endereco.setter
     def endereco(self,novo_valor):
         self._endereco = novo_valor
