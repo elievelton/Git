@@ -97,16 +97,16 @@ class Main(QMainWindow, Ui_Main):
         self.tela_CadastroCon.pushButton.clicked.connect(self.cadastrar_conta)
         self.tela_CadastroCon.pushButton_2.clicked.connect(self.abrirTelaLogin)
 
-        self.tela_depositar.pushButton.clicked.connect(self.depositar)
+        self.tela_depositar.pushButton.clicked.connect(self.botaoDepositar)
         self.tela_depositar.pushButton_2.clicked.connect(self.abrirTelaMenu)
 
-        self.tela_sacar.pushButton.clicked.connect(self.sacar)
+        self.tela_sacar.pushButton.clicked.connect(self.botaoSacar)
         self.tela_sacar.pushButton_2.clicked.connect(self.abrirTelaMenu)
 
-        self.tela_transferir.pushButton.clicked.connect(self.transferir)
+        self.tela_transferir.pushButton.clicked.connect(self.botaoTransferir)
         self.tela_transferir.pushButton_2.clicked.connect(self.abrirTelaMenu)
 
-        self.tela_extrato.pushButton.clicked.connect(self.extrato)
+        self.tela_extrato.pushButton.clicked.connect(self.botaoExtrato)
         self.tela_extrato.pushButton_2.clicked.connect(self.abrirTelaMenu)
 
 
@@ -138,8 +138,7 @@ class Main(QMainWindow, Ui_Main):
         self.QtStack.setCurrentIndex(8)
     
 
-
-    def login(self):
+    def botaoLogin(self):
         pass
 
     def cadastrar_cliente(self):
@@ -172,10 +171,11 @@ class Main(QMainWindow, Ui_Main):
         limite = self.tela_CadastroCon.lineEdit_3.text()
 
         existe = self.cad.buscarCli(cpf_titular)
-        if (existe == cpf_titular):
+        if (existe != None):
             if not(numero == '' or cpf_titular == '' or limite == ''):
                 co = Conta(numero, cpf_titular, saldo, limite)
                 if(self.cad.cadastrarCon(co)):
+                    QMessageBox.information(None, 'POO2', 'Cadastro Realizado com sucesso!')
                     self.tela_CadastroCon.lineEdit.setText('')
                     self.tela_CadastroCon.lineEdit_2.setText('')
                     self.tela_CadastroCon.lineEdit_3.setText('')
@@ -186,7 +186,7 @@ class Main(QMainWindow, Ui_Main):
         else:
             QMessageBox.information(None, 'POO2', 'Cliente não cadastrado!')
     
-    def depositar(self):
+    def botaoDepositar(self):
         conta_dep = self.tela_depositar.lineEdit.text()
         valor = self.tela_depositar.lineEdit_2.text()
 
@@ -198,7 +198,7 @@ class Main(QMainWindow, Ui_Main):
         else:
             QMessageBox.information(None, 'POO2', 'Todos os campos devem ser preenchidos!')
 
-    def sacar(self):
+    def botaoSacar(self):
         conta_saq = self.tela_sacar.lineEdit.text()
         valor = self.tela_sacar.lineEdit_2.text()
 
@@ -210,7 +210,7 @@ class Main(QMainWindow, Ui_Main):
         else:
             QMessageBox.information(None, 'POO2', 'Todos os campos devem ser preenchidos!')
         
-    def transferir(self):
+    def botaoTransferir(self):
         conta_saida = self.tela_transferir.lineEdit_3.text()
         conta_destino = self.tela_transferir.lineEdit.text()
         valor = self.tela_transferir.lineEdit_2.text()
@@ -226,12 +226,12 @@ class Main(QMainWindow, Ui_Main):
         else:
             QMessageBox.information(None, 'POO2', 'Todos os campos devem ser preenchidos!')
 
-    def extrato(self):
+    def botaoExtrato(self):
         conta = self.tela_extrato.lineEdit.text()
-
+        c = self.cad.buscarCon(conta)
         if not(conta== ''):
-            if (self.cad.buscarCon(conta)):
-                pass
+            if (c != None):
+                self.tela_extrato.textBrowser.setText(c.extrato)
             else:
                 QMessageBox.information(None, 'POO2', 'Essa conta não existe!')
         else:
