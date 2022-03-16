@@ -5,12 +5,22 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtWidgets import QMessageBox, QMainWindow, QApplication, QFileDialog
 from PyQt5.QtCore import QCoreApplication
 
-from tela_inicial import Tela_Inicial
-from tela_busca import Tela_Busca
-from tela_cadastro import Tela_Cadastro
+#importando as telas
+from tela_depositar import Tela_Depositar
+from tela_extrato import Tela_Extrato
+from tela_sacar import Tela_Sacar
+from tela_transferir import Tela_Transferir
+from tela_CadastroCli import Tela_CadastroCli
+from tela_CadastroCon import Tela_CadastroCon
+from tela_login import Tela_Login
+from tela_menu import Tela_Menu
+from tela_menuCadastrar import Tela_Menu_Cadastrar
+
+#import das classes
 from classCliente import Cliente
 from classConta import Conta
 from classHisto import Historico
+from classCadastro import Cadastro
 
 # Ainda precisa ajustar esse código, depois que todas as telas estiverem prontas
 class Ui_Main(QtWidgets.QWidget):
@@ -25,22 +35,39 @@ class Ui_Main(QtWidgets.QWidget):
         self.stack2 = QtWidgets.QMainWindow()
         self.stack3 = QtWidgets.QMainWindow()
         self.stack4 = QtWidgets.QMainWindow()
+        self.stack5 = QtWidgets.QMainWindow()
         self.stack6 = QtWidgets.QMainWindow()
         self.stack7 = QtWidgets.QMainWindow()
         self.stack8 = QtWidgets.QMainWindow()
 
-        self.tela_inicial = Tela_Inicial() 
-        self.tela_inicial.setupUi(self.stack0)
-
-        self.tela_cadastro = Tela_Cadastro()
-        self.tela_cadastro.setupUi(self.stack1)
-
-        self.tela_busca = Tela_Busca()
-        self.tela_busca.setupUi(self.stack2)
+        self.tela_login = Tela_Login() 
+        self.tela_login.setupUi(self.stack0)
+        self.tela_menu = Tela_Menu() 
+        self.tela_menu.setupUi(self.stack1)
+        self.tela_menuCadastrar = Tela_Menu_Cadastrar() 
+        self.tela_menuCadastrar.setupUi(self.stack2)
+        self.tela_CadastroCli = Tela_CadastroCli() 
+        self.tela_CadastroCli.setupUi(self.stack3)
+        self.tela_CadastroCon = Tela_CadastroCon() 
+        self.tela_CadastroCon.setupUi(self.stack4)
+        self.tela_depositar = Tela_Depositar()
+        self.tela_depositar.setupUi(self.stack5)
+        self.tela_sacar = Tela_Sacar()
+        self.tela_sacar.setupUi(self.stack6)
+        self.tela_transferir = Tela_Transferir()
+        self.tela_transferir.setupUi(self.stack7)
+        self.tela_extrato = Tela_Extrato()
+        self.tela_extrato.setupUi(self.stack8)
 
         self.QtStack.addWidget(self.stack0)
         self.QtStack.addWidget(self.stack1)
         self.QtStack.addWidget(self.stack2)
+        self.QtStack.addWidget(self.stack3)
+        self.QtStack.addWidget(self.stack4)
+        self.QtStack.addWidget(self.stack5)
+        self.QtStack.addWidget(self.stack6)
+        self.QtStack.addWidget(self.stack7)
+        self.QtStack.addWidget(self.stack8)
 
 
 class Main(QMainWindow, Ui_Main):
@@ -49,21 +76,39 @@ class Main(QMainWindow, Ui_Main):
         super(Main, self).__init__(parent)
         self.setupUi(self)
 
+        
+        
+        
         self.cad = Cadastro()
-        self.tela_inicial.pushButton.clicked.connect(self.abrirTelaCadastro)
-        self.tela_inicial.pushButton_2.clicked.connect(self.abrirTelaBuscar)
 
-        self.tela_busca.pushButton_2.clicked.connect(self.abrirTelaInicial)# tela de inicio
+        self.tela_login.pushButton.clicked.connect(self.login)
+        self.tela_login.pushButton_2.clicked.connect(self.menu_cadastro)
 
-        self.tela_cadastro.pushButton.clicked.connect(self.botaoCadastro)
-        self.tela_busca.pushButton.clicked.connect(self.botaoBusca)
+        self.tela_menu.pushButton.clicked.connect(self.depositar)
+        self.tela_menu.pushButton_2.clicked.connect(self.sacar)
+        self.tela_menu.pushButton_3.clicked.connect(self.transferir)
+        self.tela_menu.pushButton_4.clicked.connect(self.extrato)
+        self.tela_menu.pushButton_5.clicked.connect(self.login)
 
-    def botaoCadastro(self):
+        self.tela_menuCadastrar.pushButton.clicked.connect(self.cadastrar_cliente)
+        self.tela_menuCadastrar.pushButton.clicked.connect(self.cadastrar_conta)
+        self.tela_menuCadastrar.pushButton.clicked.connect(self.menu)
 
-        nome = self.tela_cadastro.lineEdit.text()
-        endereco = self.tela_cadastro.lineEdit_2.text()
-        cpf = self.tela_cadastro.lineEdit_3.text()
-        nascimento = self.tela_cadastro.lineEdit_4.text()
+
+    def login(self):
+        self.QtStack.setCurrentIndex(1)
+
+    def menu(self):
+        self.QtStack.setCurrentIndex(1)
+
+    def menu_cadastro(self):
+        self.QtStack.setCurrentIndex(2)
+
+    def cadastrar_cliente(self):
+        nome = self.tela_cadastroCli.lineEdit_2.text()
+        endereco = self.tela_cadastroCli.lineEdit_5.text()
+        cpf = self.tela_cadastroCli.lineEdit_6.text()
+        nascimento = self.tela_cadastroCli.lineEdit_7.text()
 
         if not (nome == '' or endereco == '' or cpf == '' or nascimento == ''):
             c = Cliente(nome, endereco, cpf, nascimento)
@@ -81,26 +126,23 @@ class Main(QMainWindow, Ui_Main):
             QMessageBox.information(
                 None, 'POO2', 'Todos os valores devem ser preenchidos')
         self.QtStack.setCurrentIndex(0)
+
+    def cadastrar_conta(self):
+        self.QtStack.setCurrentIndex(4)
+
+    def depositar(self):
+        self.QtStack.setCurrentIndex(5)
+
+    def sacar(self):
+        self.QtStack.setCurrentIndex(6)
+
+    def transferir(self):
+        self.QtStack.setCurrentIndex(7)
+
+    def extrato(self):
+        self.QtStack.setCurrentIndex(8)
+        
     
-    def botaoBusca(self,cpf):
-        cpf = self.tela_busca.lineEdit_3.text()
-        cliente = self.cad.buscar(cpf)
-        if(cliente != None):
-
-            self.tela_busca.lineEdit.setText(cliente.nome)
-            self.tela_busca.lineEdit_5.setText(cliente.endereco)
-            self.tela_busca.lineEdit_4.setText(cliente.nascimento)
-        else:
-            QMessageBox.information(None,'POO2', 'CPF não encontrado')
-    
-    def abrirTelaCadastro(self):
-        self.QtStack.setCurrentIndex(1)
-
-    def abrirTelaBuscar(self):
-        self.QtStack.setCurrentIndex(2)
-
-    def abrirTelaInicial(self):  #usado para botão voltar na tela de busca
-        self.QtStack.setCurrentIndex(0)
 
 if __name__ == "__main__":
 
