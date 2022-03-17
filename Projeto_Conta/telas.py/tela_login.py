@@ -89,12 +89,15 @@ class Tela_Login(object):
         self.label.setStyleSheet("\n"
 "color: rgb(255, 255, 255);")
         self.label.setObjectName("label")
-        self.lineEdit_3 = QtWidgets.QLineEdit(self.centralwidget)
-        self.lineEdit_3.setGeometry(QtCore.QRect(214, 239, 201, 31))
-        self.lineEdit_3.setStyleSheet("color: rgb(255, 255, 0);\n"
+        self.textBrowser = QtWidgets.QTextBrowser(self.centralwidget)
+        self.textBrowser.setGeometry(QtCore.QRect(187, 234, 256, 41))
+        self.textBrowser.setStyleSheet("color: rgb(255, 255, 127);\n"
+"border-color: rgb(0, 0, 127);\n"
 "background-color: rgb(0, 0, 127);")
-        self.lineEdit_3.setText("")
-        self.lineEdit_3.setObjectName("lineEdit_3")
+        self.textBrowser.setFrameShape(QtWidgets.QFrame.NoFrame)
+        self.textBrowser.setLineWidth(-1)
+        self.textBrowser.setMidLineWidth(-1)
+        self.textBrowser.setObjectName("textBrowser")
         MainWindow.setCentralWidget(self.centralwidget)
         self.statusbar = QtWidgets.QStatusBar(MainWindow)
         self.statusbar.setObjectName("statusbar")
