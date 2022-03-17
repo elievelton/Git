@@ -3,12 +3,12 @@ from classHisto import Historico
 class Conta:
     
     _contador_de_contas = 0
-    __slots__ = ['_numero', '_titular','_saldo', '_limite','historico']
+    __slots__ = ['_numero', '_titular','saldo', '_limite','historico']
     
     def __init__(self,numero,cliente,saldo,limite):
         self._numero = numero
         self._titular = cliente
-        self._saldo = saldo
+        self.saldo = saldo
         self._limite = limite
         self.historico = Historico()
         Conta._contador_de_contas += 1

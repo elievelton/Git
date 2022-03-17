@@ -77,8 +77,10 @@ class Main(QMainWindow, Ui_Main):
         self.setupUi(self)
 
         self.cad = Cadastro()
+        self.his = Historico()
+        self.con =Conta()
 
-        self.tela_login.pushButton.clicked.connect(self.abrirTelaMenu)
+        self.tela_login.pushButton.clicked.connect(self.botaoLogin)
         self.tela_login.pushButton_2.clicked.connect(self.abrirTelaMenu_Cadastro)
 
         self.tela_menu.pushButton.clicked.connect(self.abrirTelaDepositar)
@@ -89,7 +91,7 @@ class Main(QMainWindow, Ui_Main):
 
         self.tela_menuCadastrar.pushButton.clicked.connect(self.abrirTelaCadastroCliente)
         self.tela_menuCadastrar.pushButton_2.clicked.connect(self.abrirTelaCadastroConta)
-        self.tela_menuCadastrar.pushButton_3.clicked.connect(self.abrirTelaMenu)
+        self.tela_menuCadastrar.pushButton_3.clicked.connect(self.botaoLogin)
 
         self.tela_CadastroCli.pushButton.clicked.connect(self.cadastrar_cliente)
         self.tela_CadastroCli.pushButton_2.clicked.connect(self.abrirTelaLogin)
@@ -139,7 +141,17 @@ class Main(QMainWindow, Ui_Main):
     
 
     def botaoLogin(self):
-        pass
+        
+        login = self.tela_login.lineEdit.text()
+        senha = self.tela_login.lineEdit_2.text()
+        if(senha =='123' and login == 'eli'):
+            self.abrirTelaMenu()
+        else :
+            self.tela_login.lineEdit_3.setText("Dados de login incorretos!")
+            self.tela_login.lineEdit.setText('')
+            self.tela_login.lineEdit_2.setText('')
+
+
 
     def cadastrar_cliente(self):
         nome = self.tela_CadastroCli.lineEdit.text()
@@ -189,21 +201,24 @@ class Main(QMainWindow, Ui_Main):
     def botaoDepositar(self):
         conta_dep = self.tela_depositar.lineEdit.text()
         valor = self.tela_depositar.lineEdit_2.text()
-
-        if not(conta_dep == '' or valor == ''):
-            if (self.cad.buscarCon(conta_dep)):
-                pass
+        c=self.cad.buscarCon(conta_dep)
+        if(c!=None):
+            if not(conta_dep == '' or valor == ''):
+                
+                
+                    self.con.deposita(valor)
+                
+                    QMessageBox.information(None, 'POO2', 'Essa conta não existe!')
             else:
-                QMessageBox.information(None, 'POO2', 'Essa conta não existe!')
-        else:
-            QMessageBox.information(None, 'POO2', 'Todos os campos devem ser preenchidos!')
+                QMessageBox.information(None, 'POO2', 'Todos os campos devem ser preenchidos!')
 
     def botaoSacar(self):
         conta_saq = self.tela_sacar.lineEdit.text()
         valor = self.tela_sacar.lineEdit_2.text()
 
         if not(conta_saq == '' or valor == ''):
-            if (self.cad.buscarCon(conta_saq)):
+            c=Conta(conta_saq,None,None,None)
+            if (self.cad.buscarCon(c)):
                 pass
             else:
                 QMessageBox.information(None, 'POO2', 'Essa conta não existe!')
@@ -231,7 +246,7 @@ class Main(QMainWindow, Ui_Main):
         c = self.cad.buscarCon(conta)
         if not(conta== ''):
             if (c != None):
-                self.tela_extrato.textBrowser.setText(c.extrato)
+                self.tela_extrato.textBrowser.setText('c.historico.imprime() - Eles espera uma stringe nesse comando')
             else:
                 QMessageBox.information(None, 'POO2', 'Essa conta não existe!')
         else:

@@ -39,7 +39,7 @@ class Tela_Login(object):
         self.lineEdit_2.setEchoMode(QtWidgets.QLineEdit.Password)
         self.lineEdit_2.setObjectName("lineEdit_2")
         self.pushButton = QtWidgets.QPushButton(self.centralwidget)
-        self.pushButton.setGeometry(QtCore.QRect(240, 270, 101, 23))
+        self.pushButton.setGeometry(QtCore.QRect(260, 280, 101, 23))
         font = QtGui.QFont()
         font.setFamily("Agency FB")
         font.setPointSize(12)
@@ -89,6 +89,12 @@ class Tela_Login(object):
         self.label.setStyleSheet("\n"
 "color: rgb(255, 255, 255);")
         self.label.setObjectName("label")
+        self.lineEdit_3 = QtWidgets.QLineEdit(self.centralwidget)
+        self.lineEdit_3.setGeometry(QtCore.QRect(214, 239, 201, 31))
+        self.lineEdit_3.setStyleSheet("color: rgb(255, 255, 0);\n"
+"background-color: rgb(0, 0, 127);")
+        self.lineEdit_3.setText("")
+        self.lineEdit_3.setObjectName("lineEdit_3")
         MainWindow.setCentralWidget(self.centralwidget)
         self.statusbar = QtWidgets.QStatusBar(MainWindow)
         self.statusbar.setObjectName("statusbar")

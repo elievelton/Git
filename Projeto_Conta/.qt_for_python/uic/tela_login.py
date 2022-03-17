@@ -43,7 +43,7 @@ class Ui_MainWindow(object):
         self.lineEdit_2.setEchoMode(QLineEdit.Password)
         self.pushButton = QPushButton(self.centralwidget)
         self.pushButton.setObjectName(u"pushButton")
-        self.pushButton.setGeometry(QRect(240, 270, 101, 23))
+        self.pushButton.setGeometry(QRect(260, 280, 101, 23))
         font = QFont()
         font.setFamily(u"Agency FB")
         font.setPointSize(12)
@@ -87,6 +87,11 @@ class Ui_MainWindow(object):
         self.label.setFont(font2)
         self.label.setStyleSheet(u"\n"
 "color: rgb(255, 255, 255);")
+        self.lineEdit_3 = QLineEdit(self.centralwidget)
+        self.lineEdit_3.setObjectName(u"lineEdit_3")
+        self.lineEdit_3.setGeometry(QRect(214, 239, 201, 31))
+        self.lineEdit_3.setStyleSheet(u"color: rgb(255, 255, 0);\n"
+"background-color: rgb(0, 0, 127);")
         MainWindow.setCentralWidget(self.centralwidget)
         self.statusbar = QStatusBar(MainWindow)
         self.statusbar.setObjectName(u"statusbar")
@@ -107,5 +112,6 @@ class Ui_MainWindow(object):
         self.label_2.setText(QCoreApplication.translate("MainWindow", u"N\u00e3o \u00e9 cadastrado?", None))
         self.pushButton_2.setText(QCoreApplication.translate("MainWindow", u"Cadastrar", None))
         self.label.setText(QCoreApplication.translate("MainWindow", u"Fa\u00e7a seu login", None))
+        self.lineEdit_3.setText("")
     # retranslateUi
 
