@@ -207,28 +207,30 @@ class Main(QMainWindow, Ui_Main):
         conta_dep = self.tela_depositar.lineEdit.text()
         valor = self.tela_depositar.lineEdit_2.text()
         c=self.cad.buscarCon(conta_dep)
-        if(c!=None):
+       # self.tela_depositar.lineEdit_3.text(c.saldo)
+        if(c != None):
             if not(conta_dep == '' or valor == ''):                
                     
                 c.deposita(int(valor))
-                print(c.saldo)
                 
                 QMessageBox.information(None, 'POO2', 'deposito feito com sucesso!')   
                 self.tela_depositar.lineEdit.setText('')
                 self.tela_depositar.lineEdit_2.setText('')
+                self.tela_depositar.lineEdit_3.text(c.saldo)
             else:
                 QMessageBox.information(None, 'POO2', 'Todos os campos devem ser preenchidos!')
 
     def botaoSacar(self):
         conta_saq = self.tela_sacar.lineEdit.text()
         valor = self.tela_sacar.lineEdit_2.text()
-
+        cs=self.cad.buscarCon(conta_saq)
+        #self.tela_sacar.lineEdit_3.text(cs.saldo)
         if not(conta_saq == '' or valor == ''):
-            if (self.cad.buscarCon(conta_saq)):
-                cs=self.cad.buscarCon(conta_saq)
+            if (cs != None):
                 cs.sacar(int(valor))
                 QMessageBox.information(None, 'POO2', 'Saque feito com sucesso!')
                 print(cs.extrato())
+                self.tela_sacar.lineEdit_3.text(cs.saldo)
             else:
                 QMessageBox.information(None, 'POO2', 'Essa conta não existe!')
         else:
@@ -238,13 +240,15 @@ class Main(QMainWindow, Ui_Main):
         conta_saida = self.tela_transferir.lineEdit_3.text()
         conta_destino = self.tela_transferir.lineEdit.text()
         valor = self.tela_transferir.lineEdit_2.text()
-
+        cs = self.cad.buscarCon(conta_saida)
+        #self.tela_transferir.lineEdit_4(cs.saldo)
         if not(conta_saida == '' or conta_destino == '' or valor == ''):
-            if (self.cad.buscarCon(conta_saida)):
+            if (cs != None):
                 if(self.cad.buscarCon(conta_destino)):
                     d =self.cad.buscarCon(conta_destino)
                     d.transfere(int(valor))
                     QMessageBox.information(None, 'POO2', 'Transferencia feita com sucesso')
+                    self.tela_transferir.lineEdit_4(cs.saldo)
                 else:
                     QMessageBox.information(None, 'POO2', 'Conta de destino não existe!')
             else:
