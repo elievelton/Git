@@ -21,16 +21,17 @@
     <property name="geometry">
      <rect>
       <x>30</x>
-      <y>230</y>
-      <width>171</width>
+      <y>250</y>
+      <width>271</width>
       <height>20</height>
      </rect>
     </property>
     <property name="font">
      <font>
-      <family>Agency FB</family>
-      <pointsize>14</pointsize>
+      <family>Noto Sans</family>
+      <pointsize>10</pointsize>
       <weight>75</weight>
+      <italic>false</italic>
       <bold>true</bold>
      </font>
     </property>
@@ -38,23 +39,24 @@
      <string notr="true">color: rgb(255, 255, 255);</string>
     </property>
     <property name="text">
-     <string>Conta para Transferência</string>
+     <string>Conta para Transferência:</string>
     </property>
    </widget>
    <widget class="QLabel" name="label_3">
     <property name="geometry">
      <rect>
       <x>30</x>
-      <y>280</y>
-      <width>151</width>
+      <y>300</y>
+      <width>261</width>
       <height>20</height>
      </rect>
     </property>
     <property name="font">
      <font>
-      <family>Agency FB</family>
-      <pointsize>14</pointsize>
+      <family>Noto Sans</family>
+      <pointsize>10</pointsize>
       <weight>75</weight>
+      <italic>false</italic>
       <bold>true</bold>
      </font>
     </property>
@@ -62,7 +64,7 @@
      <string notr="true">color: rgb(255, 255, 255);</string>
     </property>
     <property name="text">
-     <string>Valor da Transferência</string>
+     <string>Valor da Transferência:</string>
     </property>
    </widget>
    <widget class="QPushButton" name="pushButton">
@@ -94,7 +96,7 @@ color: rgb(255, 255, 255);</string>
     <property name="geometry">
      <rect>
       <x>20</x>
-      <y>400</y>
+      <y>410</y>
       <width>106</width>
       <height>36</height>
      </rect>
@@ -118,8 +120,8 @@ color: rgb(255, 255, 255);</string>
    <widget class="QLineEdit" name="lineEdit">
     <property name="geometry">
      <rect>
-      <x>208</x>
-      <y>230</y>
+      <x>310</x>
+      <y>249</y>
       <width>113</width>
       <height>21</height>
      </rect>
@@ -132,8 +134,8 @@ color: rgb(0, 0, 0);</string>
    <widget class="QLineEdit" name="lineEdit_2">
     <property name="geometry">
      <rect>
-      <x>210</x>
-      <y>280</y>
+      <x>310</x>
+      <y>295</y>
       <width>113</width>
       <height>21</height>
      </rect>
@@ -147,9 +149,9 @@ color: rgb(0, 0, 0);</string>
     <property name="geometry">
      <rect>
       <x>0</x>
-      <y>30</y>
+      <y>20</y>
       <width>651</width>
-      <height>80</height>
+      <height>61</height>
      </rect>
     </property>
     <property name="styleSheet">
@@ -164,8 +166,8 @@ color: rgb(0, 0, 0);</string>
     <widget class="QLabel" name="label">
      <property name="geometry">
       <rect>
-       <x>270</x>
-       <y>20</y>
+       <x>259</x>
+       <y>11</y>
        <width>131</width>
        <height>31</height>
       </rect>
@@ -188,8 +190,8 @@ color: rgb(0, 0, 0);</string>
    <widget class="QLineEdit" name="lineEdit_3">
     <property name="geometry">
      <rect>
-      <x>210</x>
-      <y>180</y>
+      <x>310</x>
+      <y>200</y>
       <width>111</width>
       <height>21</height>
      </rect>
@@ -203,16 +205,17 @@ color: rgb(0, 0, 0);</string>
     <property name="geometry">
      <rect>
       <x>30</x>
-      <y>180</y>
-      <width>121</width>
+      <y>200</y>
+      <width>151</width>
       <height>20</height>
      </rect>
     </property>
     <property name="font">
      <font>
-      <family>Agency FB</family>
-      <pointsize>14</pointsize>
+      <family>Noto Sans</family>
+      <pointsize>10</pointsize>
       <weight>75</weight>
+      <italic>false</italic>
       <bold>true</bold>
      </font>
     </property>
@@ -220,36 +223,24 @@ color: rgb(0, 0, 0);</string>
      <string notr="true">color: rgb(255, 255, 255);</string>
     </property>
     <property name="text">
-     <string>Conta de Saída</string>
-    </property>
-   </widget>
-   <widget class="QLineEdit" name="lineEdit_4">
-    <property name="geometry">
-     <rect>
-      <x>480</x>
-      <y>120</y>
-      <width>141</width>
-      <height>21</height>
-     </rect>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">background-color: rgb(255, 255, 255);</string>
+     <string>Conta de Saída:</string>
     </property>
    </widget>
    <widget class="QLabel" name="label_5">
     <property name="geometry">
      <rect>
-      <x>360</x>
-      <y>120</y>
-      <width>101</width>
+      <x>290</x>
+      <y>98</y>
+      <width>191</width>
       <height>21</height>
      </rect>
     </property>
     <property name="font">
      <font>
-      <family>Agency FB</family>
-      <pointsize>14</pointsize>
+      <family>Noto Sans</family>
+      <pointsize>10</pointsize>
       <weight>75</weight>
+      <italic>false</italic>
       <bold>true</bold>
      </font>
     </property>
@@ -258,6 +249,132 @@ color: rgb(0, 0, 0);</string>
     </property>
     <property name="text">
      <string>Saldo Disponível:</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_6">
+    <property name="geometry">
+     <rect>
+      <x>24</x>
+      <y>141</y>
+      <width>71</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Noto Sans</family>
+      <pointsize>10</pointsize>
+      <weight>75</weight>
+      <italic>false</italic>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">color: rgb(255, 255, 255);</string>
+    </property>
+    <property name="text">
+     <string>Conta:</string>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="lineEdit_4">
+    <property name="enabled">
+     <bool>false</bool>
+    </property>
+    <property name="geometry">
+     <rect>
+      <x>470</x>
+      <y>95</y>
+      <width>140</width>
+      <height>30</height>
+     </rect>
+    </property>
+    <property name="cursor">
+     <cursorShape>SizeHorCursor</cursorShape>
+    </property>
+    <property name="focusPolicy">
+     <enum>Qt::NoFocus</enum>
+    </property>
+    <property name="contextMenuPolicy">
+     <enum>Qt::NoContextMenu</enum>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">color: rgb(0, 0, 255);
+font: 75 14pt &quot;Noto Sans&quot;;
+background-color: rgb(255, 255, 255);</string>
+    </property>
+    <property name="inputMethodHints">
+     <set>Qt::ImhNone</set>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="frame">
+     <bool>true</bool>
+    </property>
+    <property name="echoMode">
+     <enum>QLineEdit::Normal</enum>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_7">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>98</y>
+      <width>71</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Noto Sans</family>
+      <pointsize>10</pointsize>
+      <weight>75</weight>
+      <italic>false</italic>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">color: rgb(255, 255, 255);</string>
+    </property>
+    <property name="text">
+     <string>Cliente:</string>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="lineEdit_5">
+    <property name="geometry">
+     <rect>
+      <x>90</x>
+      <y>138</y>
+      <width>111</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: rgb(255, 170, 0);
+color: rgb(0, 0, 0);</string>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="lineEdit_6">
+    <property name="geometry">
+     <rect>
+      <x>90</x>
+      <y>98</y>
+      <width>111</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="focusPolicy">
+     <enum>Qt::NoFocus</enum>
+    </property>
+    <property name="contextMenuPolicy">
+     <enum>Qt::NoContextMenu</enum>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: rgb(255, 170, 0);
+color: rgb(0, 0, 0);</string>
+    </property>
+    <property name="text">
+     <string/>
     </property>
    </widget>
   </widget>
