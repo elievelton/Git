@@ -78,7 +78,6 @@ class Main(QMainWindow, Ui_Main):
 
         self.cad = Cadastro()
         self.his = Historico()
-        self.con =Conta()
 
         self.tela_login.pushButton.clicked.connect(self.botaoLogin)
         self.tela_login.pushButton_2.clicked.connect(self.abrirTelaMenu_Cadastro)
@@ -203,10 +202,9 @@ class Main(QMainWindow, Ui_Main):
         valor = self.tela_depositar.lineEdit_2.text()
         c=self.cad.buscarCon(conta_dep)
         if(c!=None):
-            if not(conta_dep == '' or valor == ''):
+            if not(conta_dep == '' or valor == ''):                
                 
-                
-                    self.con.deposita(valor)
+                    pass
                 
                     QMessageBox.information(None, 'POO2', 'Essa conta não existe!')
             else:
