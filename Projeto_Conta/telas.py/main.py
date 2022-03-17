@@ -143,13 +143,16 @@ class Main(QMainWindow, Ui_Main):
         
         login = self.tela_login.lineEdit.text()
         senha = self.tela_login.lineEdit_2.text()
-        if(senha =='123' and login == 'eli'):
-            self.abrirTelaMenu()
-        else :
-            self.tela_login.lineEdit_3.setText("Dados de login incorretos!")
-            self.tela_login.lineEdit.setText('')
-            self.tela_login.lineEdit_2.setText('')
-
+        existe = self.cad.buscarUsuario(login)
+        if(existe!=None):
+            if((existe.usuario and existe.senha) == (login and senha)):
+                self.abrirTelaMenu()
+            else :
+                self.tela_login.textBrowser.setText("Dados de login incorretos!")
+                self.tela_login.lineEdit.setText('')
+                self.tela_login.lineEdit_2.setText('')
+        else:
+            QMessageBox.information(None, 'POO2', 'Cliente não existe! Clicque no botão Cadastrar e faça seu cadastro')
 
 
     def cadastrar_cliente(self):
