@@ -1,3 +1,5 @@
+from classCliente import Cliente
+
 class Cadastro:
     __slots__ = ['_lista_de_pessoas', '_lista_de_contas']
 
@@ -24,6 +26,12 @@ class Cadastro:
     def buscarCli(self,cpf):
         for lp in self._lista_de_pessoas:
             if (lp.cpf == cpf):
+                return lp
+        return None
+        
+    def buscarUsuario(self,usuario):
+        for lp in self._lista_de_pessoas:
+            if (lp.usuario == usuario):
                 return lp
         return None
 
