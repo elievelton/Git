@@ -138,7 +138,9 @@ class Main(QMainWindow, Ui_Main):
 
     def abrirTelaExtrato(self):
         self.QtStack.setCurrentIndex(8)
-    
+
+
+
 
     def botaoLogin(self):
         
@@ -156,6 +158,7 @@ class Main(QMainWindow, Ui_Main):
             QMessageBox.information(None, 'POO2', 'Cliente não existe! Clique no botão Cadastrar e faça seu cadastro')
             self.tela_login.lineEdit.setText('')
             self.tela_login.lineEdit_2.setText('')
+        return existe
 
 
     def cadastrar_cliente(self):
@@ -207,7 +210,8 @@ class Main(QMainWindow, Ui_Main):
         conta_dep = self.tela_depositar.lineEdit.text()
         valor = self.tela_depositar.lineEdit_2.text()
         c=self.cad.buscarCon(conta_dep)
-       # self.tela_depositar.lineEdit_3.text(c.saldo)
+        self.tela_depositar.lineEdit_4.setText(str(c.titular))
+        self.tela_depositar.lineEdit_5.setText(str(c.numero))
         if(c != None):
             if not(conta_dep == '' or valor == ''):                
                     
@@ -216,7 +220,7 @@ class Main(QMainWindow, Ui_Main):
                 QMessageBox.information(None, 'POO2', 'deposito feito com sucesso!')   
                 self.tela_depositar.lineEdit.setText('')
                 self.tela_depositar.lineEdit_2.setText('')
-                self.tela_depositar.lineEdit_3.text(c.saldo)
+                self.tela_depositar.lineEdit_3.setText('R$ ' + str(c.saldo))
             else:
                 QMessageBox.information(None, 'POO2', 'Todos os campos devem ser preenchidos!')
 
@@ -224,13 +228,16 @@ class Main(QMainWindow, Ui_Main):
         conta_saq = self.tela_sacar.lineEdit.text()
         valor = self.tela_sacar.lineEdit_2.text()
         cs=self.cad.buscarCon(conta_saq)
-        #self.tela_sacar.lineEdit_3.text(cs.saldo)
+        self.tela_sacar.lineEdit_4.setText(str(cs.titular))
+        self.tela_sacar.lineEdit_5.setText(str(cs.numero))
+        
         if not(conta_saq == '' or valor == ''):
             if (cs != None):
                 cs.sacar(int(valor))
                 QMessageBox.information(None, 'POO2', 'Saque feito com sucesso!')
                 print(cs.extrato())
-                self.tela_sacar.lineEdit_3.text(cs.saldo)
+                self.tela_sacar.lineEdit_3.setText('R$ ' + str(cs.saldo))
+                
             else:
                 QMessageBox.information(None, 'POO2', 'Essa conta não existe!')
         else:
@@ -241,14 +248,15 @@ class Main(QMainWindow, Ui_Main):
         conta_destino = self.tela_transferir.lineEdit.text()
         valor = self.tela_transferir.lineEdit_2.text()
         cs = self.cad.buscarCon(conta_saida)
-        #self.tela_transferir.lineEdit_4(cs.saldo)
+        self.tela_transferir.lineEdit_6.setText(str(cs.titular))
+        self.tela_transferir.lineEdit_5.setText(str(cs.numero))
         if not(conta_saida == '' or conta_destino == '' or valor == ''):
             if (cs != None):
                 if(self.cad.buscarCon(conta_destino)):
                     d =self.cad.buscarCon(conta_destino)
                     d.transfere(int(valor))
                     QMessageBox.information(None, 'POO2', 'Transferencia feita com sucesso')
-                    self.tela_transferir.lineEdit_4(cs.saldo)
+                    self.botaoTransferir.lineEdit_3.setText('R$ ' + str(cs.saldo))
                 else:
                     QMessageBox.information(None, 'POO2', 'Conta de destino não existe!')
             else:
@@ -261,7 +269,7 @@ class Main(QMainWindow, Ui_Main):
         c = self.cad.buscarCon(conta)
         if not(conta== ''):
             if (c != None):
-                self.tela_extrato.textBrowser.setText('c.historico.imprime() - Ele espera uma stringe nesse comando')
+                self.tela_extrato.textBrowser.setText(str(c.historico.imprime()))
             else:
                 QMessageBox.information(None, 'POO2', 'Essa conta não existe!')
         else:
