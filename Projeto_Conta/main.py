@@ -153,7 +153,9 @@ class Main(QMainWindow, Ui_Main):
                 self.tela_login.lineEdit.setText('')
                 self.tela_login.lineEdit_2.setText('')
         else:
-            QMessageBox.information(None, 'POO2', 'Cliente não existe! Clicque no botão Cadastrar e faça seu cadastro')
+            QMessageBox.information(None, 'POO2', 'Cliente não existe! Clique no botão Cadastrar e faça seu cadastro')
+            self.tela_login.lineEdit.setText('')
+            self.tela_login.lineEdit_2.setText('')
 
 
     def cadastrar_cliente(self):
