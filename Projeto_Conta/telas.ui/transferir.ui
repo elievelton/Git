@@ -21,10 +21,18 @@
     <property name="geometry">
      <rect>
       <x>30</x>
-      <y>180</y>
+      <y>230</y>
       <width>171</width>
       <height>20</height>
      </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Agency FB</family>
+      <pointsize>14</pointsize>
+      <weight>75</weight>
+      <bold>true</bold>
+     </font>
     </property>
     <property name="styleSheet">
      <string notr="true">color: rgb(255, 255, 255);</string>
@@ -37,10 +45,18 @@
     <property name="geometry">
      <rect>
       <x>30</x>
-      <y>230</y>
+      <y>280</y>
       <width>151</width>
       <height>20</height>
      </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Agency FB</family>
+      <pointsize>14</pointsize>
+      <weight>75</weight>
+      <bold>true</bold>
+     </font>
     </property>
     <property name="styleSheet">
      <string notr="true">color: rgb(255, 255, 255);</string>
@@ -53,13 +69,14 @@
     <property name="geometry">
      <rect>
       <x>240</x>
-      <y>310</y>
+      <y>350</y>
       <width>131</width>
       <height>36</height>
      </rect>
     </property>
     <property name="font">
      <font>
+      <family>Agency FB</family>
       <pointsize>14</pointsize>
       <weight>75</weight>
       <bold>true</bold>
@@ -82,6 +99,14 @@ color: rgb(255, 255, 255);</string>
       <height>36</height>
      </rect>
     </property>
+    <property name="font">
+     <font>
+      <family>Agency FB</family>
+      <pointsize>14</pointsize>
+      <weight>75</weight>
+      <bold>true</bold>
+     </font>
+    </property>
     <property name="styleSheet">
      <string notr="true">background-color: rgb(67, 67, 67);
 color: rgb(255, 255, 255);</string>
@@ -94,7 +119,7 @@ color: rgb(255, 255, 255);</string>
     <property name="geometry">
      <rect>
       <x>208</x>
-      <y>180</y>
+      <y>230</y>
       <width>113</width>
       <height>21</height>
      </rect>
@@ -108,7 +133,7 @@ color: rgb(0, 0, 0);</string>
     <property name="geometry">
      <rect>
       <x>210</x>
-      <y>230</y>
+      <y>280</y>
       <width>113</width>
       <height>21</height>
      </rect>
@@ -139,7 +164,7 @@ color: rgb(0, 0, 0);</string>
     <widget class="QLabel" name="label">
      <property name="geometry">
       <rect>
-       <x>240</x>
+       <x>270</x>
        <y>20</y>
        <width>131</width>
        <height>31</height>
@@ -164,7 +189,7 @@ color: rgb(0, 0, 0);</string>
     <property name="geometry">
      <rect>
       <x>210</x>
-      <y>140</y>
+      <y>180</y>
       <width>111</width>
       <height>21</height>
      </rect>
@@ -178,16 +203,61 @@ color: rgb(0, 0, 0);</string>
     <property name="geometry">
      <rect>
       <x>30</x>
-      <y>140</y>
+      <y>180</y>
       <width>121</width>
       <height>20</height>
      </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Agency FB</family>
+      <pointsize>14</pointsize>
+      <weight>75</weight>
+      <bold>true</bold>
+     </font>
     </property>
     <property name="styleSheet">
      <string notr="true">color: rgb(255, 255, 255);</string>
     </property>
     <property name="text">
      <string>Conta de Saída</string>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="lineEdit_4">
+    <property name="geometry">
+     <rect>
+      <x>480</x>
+      <y>120</y>
+      <width>141</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: rgb(255, 255, 255);</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_5">
+    <property name="geometry">
+     <rect>
+      <x>360</x>
+      <y>120</y>
+      <width>101</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Agency FB</family>
+      <pointsize>14</pointsize>
+      <weight>75</weight>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">color: rgb(255, 255, 255);</string>
+    </property>
+    <property name="text">
+     <string>Saldo Disponível:</string>
     </property>
    </widget>
   </widget>

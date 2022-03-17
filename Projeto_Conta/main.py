@@ -261,7 +261,6 @@ class Main(QMainWindow, Ui_Main):
         else:
             QMessageBox.information(None, 'POO2', 'Todos os campos devem ser preenchidos!')
         
-
     
 if __name__ == "__main__":
 
