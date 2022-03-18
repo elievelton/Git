@@ -3,9 +3,9 @@ from classHisto import Historico
 class Conta:
     
     _contador_de_contas = 0
-    __slots__ = ['_numero', '_titular','_saldo', '_limite','historico']
+    __slots__ = ['_numero', '_titular', '_saldo', '_limite','historico']
     
-    def __init__(self,numero,cliente,saldo,limite):
+    def __init__(self, numero, cliente, saldo ,limite):
         self._numero = numero
         self._titular = cliente
         self._saldo = saldo
@@ -46,14 +46,14 @@ class Conta:
         self._limite = limite
       
     def deposita(self, novo_valor):
-        self.saldo += novo_valor
+        self._saldo += novo_valor
         self.historico.transacoes.append("Depositou o valor de: {}".format(novo_valor))
 
     def sacar(self, novo_valor):
-        if (self.saldo < novo_valor):
+        if (self._saldo < novo_valor):
             return False
         else:
-            self.saldo -= novo_valor
+            self._saldo -= novo_valor
             self.historico.transacoes.append("Sacou o valor de: {}".format(novo_valor))
             return False
     
@@ -67,5 +67,5 @@ class Conta:
             return True
     
     def extrato(self):
-        print("Numero: {} \nsaldo: {}".format(self.numero, self.saldo))
         self.historico.transacoes.append("Tirou extrato - Saldo de: {}".format(self.saldo))
+        return("Numero: {} \nsaldo: {}".format(self.numero, self.saldo))

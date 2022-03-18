@@ -154,7 +154,7 @@ class Main(QMainWindow, Ui_Main):
                     self.abrirTelaMenu()
                     self.tela_menu.lineEdit_2.setText(existe.nome)
                     self.tela_menu.lineEdit_3.setText(y.numero)
-                    self.tela_menu.lineEdit.setText(str(y.saldo))
+                    self.tela_menu.lineEdit.setText('R$ ' + str(y.saldo))
                 else :
                     self.tela_login.textBrowser.setText("Dados de login incorretos!")
                     self.tela_login.lineEdit.setText('')
@@ -276,7 +276,8 @@ class Main(QMainWindow, Ui_Main):
         c = self.cad.buscarCon(conta)
         if not(conta== ''):
             if (c != None):
-                self.tela_extrato.textBrowser.setText(str(c.historico.imprime()))
+                x = c.extrato()
+                self.tela_extrato.textBrowser.setText(x)
             else:
                 QMessageBox.information(None, 'POO2', 'Essa conta não existe!')
         else:
