@@ -9,6 +9,7 @@ from PyQt5.QtCore import QCoreApplication
 #importando as telas
 from telas.tela_depositar import Tela_Depositar
 from telas.tela_extrato import Tela_Extrato
+from telas.tela_historico import Tela_Historico
 from telas.tela_sacar import Tela_Sacar
 from telas.tela_transferir import Tela_Transferir
 from telas.tela_CadastroCli import Tela_CadastroCli
@@ -40,6 +41,7 @@ class Ui_Main(QtWidgets.QWidget):
         self.stack6 = QtWidgets.QMainWindow()
         self.stack7 = QtWidgets.QMainWindow()
         self.stack8 = QtWidgets.QMainWindow()
+        self.stack9 = QtWidgets.QMainWindow()
 
         self.tela_login = Tela_Login() 
         self.tela_login.setupUi(self.stack0)
@@ -59,6 +61,8 @@ class Ui_Main(QtWidgets.QWidget):
         self.tela_transferir.setupUi(self.stack7)
         self.tela_extrato = Tela_Extrato()
         self.tela_extrato.setupUi(self.stack8)
+        self.tela_historico = Tela_Historico()
+        self.tela_historico.setupUi(self.stack9)
 
         self.QtStack.addWidget(self.stack0)
         self.QtStack.addWidget(self.stack1)
@@ -69,6 +73,7 @@ class Ui_Main(QtWidgets.QWidget):
         self.QtStack.addWidget(self.stack6)
         self.QtStack.addWidget(self.stack7)
         self.QtStack.addWidget(self.stack8)
+        self.QtStack.addWidget(self.stack9)
 
 
 class Main(QMainWindow, Ui_Main):
@@ -91,13 +96,13 @@ class Main(QMainWindow, Ui_Main):
 
         self.tela_menuCadastrar.pushButton.clicked.connect(self.abrirTelaCadastroCliente)
         self.tela_menuCadastrar.pushButton_2.clicked.connect(self.abrirTelaCadastroConta)
-        self.tela_menuCadastrar.pushButton_3.clicked.connect(self.botaoLogin)
+        self.tela_menuCadastrar.pushButton_3.clicked.connect(self.abrirTelaLogin)
 
         self.tela_CadastroCli.pushButton.clicked.connect(self.cadastrar_cliente)
-        self.tela_CadastroCli.pushButton_2.clicked.connect(self.abrirTelaLogin)
+        self.tela_CadastroCli.pushButton_2.clicked.connect(self.abrirTelaMenu_Cadastro)
 
         self.tela_CadastroCon.pushButton.clicked.connect(self.cadastrar_conta)
-        self.tela_CadastroCon.pushButton_2.clicked.connect(self.abrirTelaLogin)
+        self.tela_CadastroCon.pushButton_2.clicked.connect(self.abrirTelaMenu_Cadastro)
 
         self.tela_depositar.pushButton.clicked.connect(self.botaoDepositar)
         self.tela_depositar.pushButton_2.clicked.connect(self.abrirTelaMenu)
@@ -110,6 +115,10 @@ class Main(QMainWindow, Ui_Main):
 
         self.tela_extrato.pushButton.clicked.connect(self.botaoExtrato)
         self.tela_extrato.pushButton_2.clicked.connect(self.abrirTelaMenu)
+        self.tela_extrato.pushButton_3.clicked.connect(self.abriTelaHistorico)
+
+        self.tela_historico.pushButton.clicked.connect(self.botaoHistorico)
+        self.tela_historico.pushButton_2.clicked.connect(self.abrirTelaExtrato)
 
 
     def abrirTelaLogin(self):
@@ -139,7 +148,8 @@ class Main(QMainWindow, Ui_Main):
     def abrirTelaExtrato(self):
         self.QtStack.setCurrentIndex(8)
 
-
+    def abriTelaHistorico(self):
+        self.QtStack.setCurrentIndex(9)
 
     def botaoLogin(self):
         login = self.tela_login.lineEdit.text()
@@ -213,11 +223,16 @@ class Main(QMainWindow, Ui_Main):
             QMessageBox.information(None, 'POO2', 'Cliente não cadastrado!')
     
     def botaoDepositar(self):
+        login = self.tela_login.lineEdit.text()
+        x = self.cad.buscarConCli(login)
+        y = self.cad.buscarCliCon(login)
+        self.tela_depositar.lineEdit_4.setText(x.nome)
+        self.tela_depositar.lineEdit_5.setText(str(y.numero))
+        self.tela_depositar.lineEdit_3.setText('R$ ' + str(y.saldo))
+
         conta_dep = self.tela_depositar.lineEdit.text()
         valor = self.tela_depositar.lineEdit_2.text()
         c=self.cad.buscarCon(conta_dep)
-        self.tela_depositar.lineEdit_4.setText(str(c.titular))
-        self.tela_depositar.lineEdit_5.setText(str(c.numero))
         if(c != None):
             if not(conta_dep == '' or valor == ''):                
                     
@@ -278,6 +293,18 @@ class Main(QMainWindow, Ui_Main):
         if not(conta== ''):
             if (c != None):
                 x = c.extrato()
+                self.tela_extrato.textBrowser.setText(x)
+            else:
+                QMessageBox.information(None, 'POO2', 'Essa conta não existe!')
+        else:
+            QMessageBox.information(None, 'POO2', 'Todos os campos devem ser preenchidos!')
+
+    def botaoHistorico(self):
+        conta = self.tela_extrato.lineEdit.text()
+        c = self.cad.buscarCon(conta)
+        if not(conta== ''):
+            if (c != None):
+                x = c.historico.imprime()
                 self.tela_extrato.textBrowser.setText(x)
             else:
                 QMessageBox.information(None, 'POO2', 'Essa conta não existe!')

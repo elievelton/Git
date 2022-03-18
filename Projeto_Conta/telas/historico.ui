@@ -17,58 +17,28 @@
    <string notr="true">background-color: rgb(0, 0, 127);</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <widget class="QPushButton" name="pushButton_2">
+   <widget class="QPushButton" name="pushButton">
     <property name="geometry">
      <rect>
-      <x>20</x>
-      <y>410</y>
+      <x>340</x>
+      <y>104</y>
       <width>106</width>
-      <height>36</height>
+      <height>31</height>
      </rect>
     </property>
     <property name="styleSheet">
-     <string notr="true">background-color: rgb(65, 65, 65);
+     <string notr="true">background-color: rgb(0, 170, 0);
 color: rgb(255, 255, 255);</string>
     </property>
     <property name="text">
-     <string>Voltar</string>
-    </property>
-   </widget>
-   <widget class="QTextBrowser" name="textBrowser">
-    <property name="geometry">
-     <rect>
-      <x>150</x>
-      <y>180</y>
-      <width>311</width>
-      <height>221</height>
-     </rect>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">background-color: rgb(255, 255, 127);
-color: rgb(0, 0, 0);</string>
-    </property>
-   </widget>
-   <widget class="QLabel" name="label_3">
-    <property name="geometry">
-     <rect>
-      <x>280</x>
-      <y>160</y>
-      <width>63</width>
-      <height>20</height>
-     </rect>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">color: rgb(255, 255, 255);</string>
-    </property>
-    <property name="text">
-     <string>Extrato</string>
+     <string>Consultar</string>
     </property>
    </widget>
    <widget class="QFrame" name="frame">
     <property name="geometry">
      <rect>
       <x>0</x>
-      <y>20</y>
+      <y>10</y>
       <width>651</width>
       <height>61</height>
      </rect>
@@ -85,9 +55,9 @@ color: rgb(0, 0, 0);</string>
     <widget class="QLabel" name="label">
      <property name="geometry">
       <rect>
-       <x>220</x>
+       <x>280</x>
        <y>10</y>
-       <width>221</width>
+       <width>101</width>
        <height>31</height>
       </rect>
      </property>
@@ -102,7 +72,7 @@ color: rgb(0, 0, 0);</string>
       <string notr="true">color: rgb(255, 255, 255);</string>
      </property>
      <property name="text">
-      <string>Extrato da Conta</string>
+      <string>Histórico</string>
      </property>
     </widget>
    </widget>
@@ -110,7 +80,7 @@ color: rgb(0, 0, 0);</string>
     <property name="geometry">
      <rect>
       <x>150</x>
-      <y>120</y>
+      <y>110</y>
       <width>63</width>
       <height>20</height>
      </rect>
@@ -122,59 +92,13 @@ color: rgb(0, 0, 0);</string>
      <string>Conta</string>
     </property>
    </widget>
-   <widget class="QLineEdit" name="lineEdit">
+   <widget class="QPushButton" name="pushButton_2">
     <property name="geometry">
      <rect>
-      <x>210</x>
-      <y>120</y>
-      <width>113</width>
-      <height>21</height>
-     </rect>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">background-color: rgb(255, 170, 0);</string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="pushButton">
-    <property name="geometry">
-     <rect>
-      <x>340</x>
-      <y>114</y>
+      <x>20</x>
+      <y>400</y>
       <width>106</width>
-      <height>31</height>
-     </rect>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">background-color: rgb(0, 170, 0);
-color: rgb(255, 255, 255);</string>
-    </property>
-    <property name="text">
-     <string>Consultar</string>
-    </property>
-   </widget>
-   <widget class="QLabel" name="label_4">
-    <property name="geometry">
-     <rect>
-      <x>370</x>
-      <y>410</y>
-      <width>161</width>
-      <height>20</height>
-     </rect>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">color: rgb(255, 255, 255);</string>
-    </property>
-    <property name="text">
-     <string>Consulte o histórico completo:</string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="pushButton_3">
-    <property name="geometry">
-     <rect>
-      <x>530</x>
-      <y>410</y>
-      <width>71</width>
-      <height>21</height>
+      <height>36</height>
      </rect>
     </property>
     <property name="styleSheet">
@@ -182,7 +106,34 @@ color: rgb(255, 255, 255);</string>
 color: rgb(255, 255, 255);</string>
     </property>
     <property name="text">
-     <string>Continuar</string>
+     <string>Voltar</string>
+    </property>
+   </widget>
+   <widget class="QTextBrowser" name="textBrowser">
+    <property name="geometry">
+     <rect>
+      <x>150</x>
+      <y>170</y>
+      <width>311</width>
+      <height>221</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: rgb(255, 255, 127);
+color: rgb(0, 0, 0);</string>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="lineEdit">
+    <property name="geometry">
+     <rect>
+      <x>210</x>
+      <y>110</y>
+      <width>113</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: rgb(255, 170, 0);</string>
     </property>
    </widget>
   </widget>
