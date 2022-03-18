@@ -143,17 +143,24 @@ class Main(QMainWindow, Ui_Main):
 
 
     def botaoLogin(self):
-        
         login = self.tela_login.lineEdit.text()
         senha = self.tela_login.lineEdit_2.text()
         existe = self.cad.buscarUsuario(login)
+        x = self.cad.buscarConCli(login)
+        y = self.cad.buscarCliCon(login)
         if(existe!=None):
-            if((existe.usuario and existe.senha) == (login and senha)):
-                self.abrirTelaMenu()
-            else :
-                self.tela_login.textBrowser.setText("Dados de login incorretos!")
-                self.tela_login.lineEdit.setText('')
-                self.tela_login.lineEdit_2.setText('')
+            if (x != None):
+                if((existe.usuario and existe.senha) == (login and senha)):
+                    self.abrirTelaMenu()
+                    self.tela_menu.lineEdit_2.setText(existe.nome)
+                    self.tela_menu.lineEdit_3.setText(y.numero)
+                    self.tela_menu.lineEdit.setText(str(y.saldo))
+                else :
+                    self.tela_login.textBrowser.setText("Dados de login incorretos!")
+                    self.tela_login.lineEdit.setText('')
+                    self.tela_login.lineEdit_2.setText('')
+            else:
+                QMessageBox.information(None, 'POO2', 'Esse cliente não possue uma conta! Realize um cadastro primeiro')
         else:
             QMessageBox.information(None, 'POO2', 'Cliente não existe! Clique no botão Cadastrar e faça seu cadastro')
             self.tela_login.lineEdit.setText('')

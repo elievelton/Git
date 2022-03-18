@@ -29,7 +29,7 @@ class Cadastro:
                 return lp
         return None
         
-    def buscarUsuario(self,usuario):
+    def buscarUsuario(self, usuario):
         for lp in self._lista_de_pessoas:
             if (lp.usuario == usuario):
                 return lp
@@ -40,3 +40,22 @@ class Cadastro:
             if (x.numero == numero):
                 return x
         return None
+
+    def buscarConCli(self, usuario):
+        x = self.buscarUsuario(usuario)
+        if (x != None):
+            for y in self._lista_de_contas:
+                if (x.cpf == y.titular):
+                    return x
+                else:
+                    return None
+
+    def buscarCliCon(self, usuario):
+        x = self.buscarUsuario(usuario)
+        if (x != None):
+            for y in self._lista_de_contas:
+                if (x.cpf == y.titular):
+                    return y
+                else:
+                    return None
+
