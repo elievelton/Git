@@ -141,7 +141,6 @@ class Main(QMainWindow, Ui_Main):
 
 
 
-
     def botaoLogin(self):
         login = self.tela_login.lineEdit.text()
         senha = self.tela_login.lineEdit_2.text()
@@ -228,6 +227,7 @@ class Main(QMainWindow, Ui_Main):
                 self.tela_depositar.lineEdit.setText('')
                 self.tela_depositar.lineEdit_2.setText('')
                 self.tela_depositar.lineEdit_3.setText('R$ ' + str(c.saldo))
+                self.tela_menu.lineEdit.setText('R$ ' + str(c.saldo))
             else:
                 QMessageBox.information(None, 'POO2', 'Todos os campos devem ser preenchidos!')
 
@@ -244,7 +244,7 @@ class Main(QMainWindow, Ui_Main):
                 QMessageBox.information(None, 'POO2', 'Saque feito com sucesso!')
                 print(cs.extrato())
                 self.tela_sacar.lineEdit_3.setText('R$ ' + str(cs.saldo))
-                
+                self.tela_menu.lineEdit.setText('R$ ' + str(cs.saldo)) 
             else:
                 QMessageBox.information(None, 'POO2', 'Essa conta não existe!')
         else:
@@ -264,6 +264,7 @@ class Main(QMainWindow, Ui_Main):
                     d.transfere(int(valor))
                     QMessageBox.information(None, 'POO2', 'Transferencia feita com sucesso')
                     self.botaoTransferir.lineEdit_3.setText('R$ ' + str(cs.saldo))
+                    self.tela_menu.lineEdit.setText('R$ ' + str(cs.saldo))
                 else:
                     QMessageBox.information(None, 'POO2', 'Conta de destino não existe!')
             else:
