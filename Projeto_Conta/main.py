@@ -304,8 +304,9 @@ class Main(QMainWindow, Ui_Main):
         c = self.cad.buscarCon(conta)
         if not(conta== ''):
             if (c != None):
-                x = c.historico.imprime()
-                self.tela_extrato.textBrowser.setText(x)
+                y = c.historico.imprime()
+                for x in y:
+                    self.tela_extrato.textBrowser.setText(x)
             else:
                 QMessageBox.information(None, 'POO2', 'Essa conta não existe!')
         else:
