@@ -138,12 +138,30 @@ class Main(QMainWindow, Ui_Main):
 
     def abrirTelaDepositar(self):
         self.QtStack.setCurrentIndex(5)
+        login = self.tela_login.lineEdit.text()
+        x = self.cad.buscarConCli(login)
+        y = self.cad.buscarCliCon(login)
+        self.tela_depositar.lineEdit_4.setText(x.nome)
+        self.tela_depositar.lineEdit_5.setText(str(y.numero))
+        self.tela_depositar.lineEdit_3.setText('R$ ' + str(y.saldo))
 
     def abrirTelaSacar(self):
         self.QtStack.setCurrentIndex(6)
+        login = self.tela_login.lineEdit.text()
+        x = self.cad.buscarConCli(login)
+        y = self.cad.buscarCliCon(login)
+        self.tela_sacar.lineEdit_4.setText(x.nome)
+        self.tela_sacar.lineEdit_5.setText(str(y.numero))
+        self.tela_sacar.lineEdit_3.setText('R$ ' + str(y.saldo))
 
     def abrirTelaTransferir(self):
         self.QtStack.setCurrentIndex(7)
+        login = self.tela_login.lineEdit.text()
+        x = self.cad.buscarConCli(login)
+        y = self.cad.buscarCliCon(login)
+        self.tela_transferir.lineEdit_6.setText(x.nome)
+        self.tela_transferir.lineEdit_5.setText(str(y.numero))
+        self.tela_transferir.lineEdit_4.setText('R$ ' + str(y.saldo))
 
     def abrirTelaExtrato(self):
         self.QtStack.setCurrentIndex(8)
@@ -223,13 +241,6 @@ class Main(QMainWindow, Ui_Main):
             QMessageBox.information(None, 'POO2', 'Cliente não cadastrado!')
     
     def botaoDepositar(self):
-        login = self.tela_login.lineEdit.text()
-        x = self.cad.buscarConCli(login)
-        y = self.cad.buscarCliCon(login)
-        self.tela_depositar.lineEdit_4.setText(x.nome)
-        self.tela_depositar.lineEdit_5.setText(str(y.numero))
-        self.tela_depositar.lineEdit_3.setText('R$ ' + str(y.saldo))
-
         conta_dep = self.tela_depositar.lineEdit.text()
         valor = self.tela_depositar.lineEdit_2.text()
         c=self.cad.buscarCon(conta_dep)
@@ -250,8 +261,6 @@ class Main(QMainWindow, Ui_Main):
         conta_saq = self.tela_sacar.lineEdit.text()
         valor = self.tela_sacar.lineEdit_2.text()
         cs=self.cad.buscarCon(conta_saq)
-        self.tela_sacar.lineEdit_4.setText(str(cs.titular))
-        self.tela_sacar.lineEdit_5.setText(str(cs.numero))
         
         if not(conta_saq == '' or valor == ''):
             if (cs != None):
@@ -270,8 +279,6 @@ class Main(QMainWindow, Ui_Main):
         conta_destino = self.tela_transferir.lineEdit.text()
         valor = self.tela_transferir.lineEdit_2.text()
         cs = self.cad.buscarCon(conta_saida)
-        self.tela_transferir.lineEdit_6.setText(str(cs.titular))
-        self.tela_transferir.lineEdit_5.setText(str(cs.numero))
         if not(conta_saida == '' or conta_destino == '' or valor == ''):
             if (cs != None):
                 if(self.cad.buscarCon(conta_destino)):
