@@ -46,8 +46,12 @@ class Conta:
         self._limite = limite
       
     def deposita(self, novo_valor):
-        self._saldo += novo_valor
-        self.historico.transacoes.append("Depositou o valor de: {}".format(novo_valor))
+        if(novo_valor!=None):
+            self._saldo += novo_valor
+            self.historico.transacoes.append("Depositou o valor de: {}".format(novo_valor))
+        else:
+            return False
+
 
     def sacar(self, novo_valor):
         if (self._saldo < novo_valor):
@@ -58,12 +62,12 @@ class Conta:
             return False
     
     def transfere(self, saida,destino, valor):
-        retirou = self.sacar(valor)
-        if (retirou != False):
+        retirou = self.deposita(valor)
+        saida.sacar(valor)
+        if (retirou == False):
             return False
         else:
-            destino.deposita(valor)
-            saida.sacar(valor)
+            
             self.historico.transacoes.append("Transferiu o valor de: {} para a conta {}".format(valor, destino.numero))
             return True
     

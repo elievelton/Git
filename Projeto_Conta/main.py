@@ -289,7 +289,7 @@ class Main(QMainWindow, Ui_Main):
             if (cs != None):
                 if(self.cad.buscarCon(conta_destino)):
                     d =self.cad.buscarCon(conta_destino)
-                    d.transfere(d,cs,int(valor))
+                    d.transfere(cs,d,int(valor))
                     QMessageBox.information(None, 'POO2', 'Transferencia feita com sucesso')
                     #self.botaoTransferir.lineEdit_3.setText('R$ ' + str(cs.saldo))
                     self.tela_menu.lineEdit.setText('R$ ' + str(cs.saldo))
@@ -313,13 +313,13 @@ class Main(QMainWindow, Ui_Main):
             QMessageBox.information(None, 'POO2', 'Todos os campos devem ser preenchidos!')
 
     def botaoHistorico(self):
-        conta = self.tela_extrato.lineEdit.text()
+        conta = self.tela_historico.lineEdit.text()
         c = self.cad.buscarCon(conta)
         if not(conta== ''):
             if (c != None):
-                y = c.historico.imprime()
-                for x in y:
-                    self.tela_extrato.textBrowser.setText(x)
+                #y = c.historico.imprime()
+                #for x in y:
+                    self.tela_historico.textBrowser.setText(str(c.historico.imprime()))
             else:
                 QMessageBox.information(None, 'POO2', 'Essa conta não existe!')
         else:
