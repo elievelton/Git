@@ -123,6 +123,7 @@ class Main(QMainWindow, Ui_Main):
 
     def abrirTelaLogin(self):
         self.QtStack.setCurrentIndex(0)
+        
 
     def abrirTelaMenu(self):
         self.QtStack.setCurrentIndex(1)
@@ -172,10 +173,12 @@ class Main(QMainWindow, Ui_Main):
     def botaoLogin(self):
         login = self.tela_login.lineEdit.text()
         senha = self.tela_login.lineEdit_2.text()
+
         existe = self.cad.buscarUsuario(login)
         x = self.cad.buscarConCli(login)
         y = self.cad.buscarCliCon(login)
         if(existe!=None):
+            
             if (x != None):
                 if((existe.usuario and existe.senha) == (login and senha)):
                     self.abrirTelaMenu()
@@ -192,7 +195,7 @@ class Main(QMainWindow, Ui_Main):
             QMessageBox.information(None, 'POO2', 'Cliente não existe! Clique no botão Cadastrar e faça seu cadastro')
             self.tela_login.lineEdit.setText('')
             self.tela_login.lineEdit_2.setText('')
-        return existe
+        #return existe
 
 
     def cadastrar_cliente(self):
@@ -207,6 +210,8 @@ class Main(QMainWindow, Ui_Main):
             c = Cliente(nome, endereco, cpf, nascimento, usuario, senha)
             if(self.cad.cadastrarCli(c)):
                 QMessageBox.information(None, 'POO2', 'Cadastro Realizado com sucesso!')
+                
+                print(c.nome)
                 self.tela_CadastroCli.lineEdit.setText('')
                 self.tela_CadastroCli.lineEdit_2.setText('')
                 self.tela_CadastroCli.lineEdit_3.setText('')
@@ -233,6 +238,7 @@ class Main(QMainWindow, Ui_Main):
                     self.tela_CadastroCon.lineEdit.setText('')
                     self.tela_CadastroCon.lineEdit_2.setText('')
                     self.tela_CadastroCon.lineEdit_3.setText('')
+                    print(co.numero)
                 else:
                     QMessageBox.information(None, 'POO2', 'Essa conta já existe!') 
             else:
@@ -283,9 +289,9 @@ class Main(QMainWindow, Ui_Main):
             if (cs != None):
                 if(self.cad.buscarCon(conta_destino)):
                     d =self.cad.buscarCon(conta_destino)
-                    d.transfere(int(valor))
+                    d.transfere(d,cs,int(valor))
                     QMessageBox.information(None, 'POO2', 'Transferencia feita com sucesso')
-                    self.botaoTransferir.lineEdit_3.setText('R$ ' + str(cs.saldo))
+                    #self.botaoTransferir.lineEdit_3.setText('R$ ' + str(cs.saldo))
                     self.tela_menu.lineEdit.setText('R$ ' + str(cs.saldo))
                 else:
                     QMessageBox.information(None, 'POO2', 'Conta de destino não existe!')

@@ -57,12 +57,13 @@ class Conta:
             self.historico.transacoes.append("Sacou o valor de: {}".format(novo_valor))
             return False
     
-    def transfere(self, destino, valor):
+    def transfere(self, saida,destino, valor):
         retirou = self.sacar(valor)
-        if (retirou == False):
+        if (retirou != False):
             return False
         else:
             destino.deposita(valor)
+            saida.sacar(valor)
             self.historico.transacoes.append("Transferiu o valor de: {} para a conta {}".format(valor, destino.numero))
             return True
     

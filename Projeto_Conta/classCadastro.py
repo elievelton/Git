@@ -45,7 +45,7 @@ class Cadastro:
         x = self.buscarUsuario(usuario)
         if (x != None):
             for y in self._lista_de_contas:
-                if (x.cpf == y.titular):
+                if (x.cpf == usuario):
                     return x
                 else:
                     return None
@@ -54,7 +54,7 @@ class Cadastro:
         x = self.buscarUsuario(usuario)
         if (x != None):
             for y in self._lista_de_contas:
-                if (x.cpf == y.titular):
+                if (x.cpf == usuario):
                     return y
                 else:
                     return None
