@@ -18,6 +18,7 @@ class Ui_MainWindow(object):
         if not MainWindow.objectName():
             MainWindow.setObjectName(u"MainWindow")
         MainWindow.resize(640, 480)
+        MainWindow.setCursor(QCursor(Qt.PointingHandCursor))
         MainWindow.setStyleSheet(u"background-color: rgb(0, 0, 127);")
         self.centralwidget = QWidget(MainWindow)
         self.centralwidget.setObjectName(u"centralwidget")
@@ -63,6 +64,16 @@ class Ui_MainWindow(object):
         self.pushButton.setGeometry(QRect(340, 114, 106, 31))
         self.pushButton.setStyleSheet(u"background-color: rgb(0, 170, 0);\n"
 "color: rgb(255, 255, 255);")
+        self.label_4 = QLabel(self.centralwidget)
+        self.label_4.setObjectName(u"label_4")
+        self.label_4.setGeometry(QRect(280, 420, 211, 21))
+        self.label_4.setStyleSheet(u"color: rgb(255, 255, 255);")
+        self.pushButton_3 = QPushButton(self.centralwidget)
+        self.pushButton_3.setObjectName(u"pushButton_3")
+        self.pushButton_3.setGeometry(QRect(500, 420, 91, 21))
+        self.pushButton_3.setCursor(QCursor(Qt.PointingHandCursor))
+        self.pushButton_3.setStyleSheet(u"background-color: rgb(170, 85, 0);\n"
+"color: rgb(255, 255, 255);")
         MainWindow.setCentralWidget(self.centralwidget)
         self.statusbar = QStatusBar(MainWindow)
         self.statusbar.setObjectName(u"statusbar")
@@ -80,5 +91,7 @@ class Ui_MainWindow(object):
         self.label.setText(QCoreApplication.translate("MainWindow", u"Extrato da Conta", None))
         self.label_2.setText(QCoreApplication.translate("MainWindow", u"Conta", None))
         self.pushButton.setText(QCoreApplication.translate("MainWindow", u"Consultar", None))
+        self.label_4.setText(QCoreApplication.translate("MainWindow", u"Consulte o hist\u00f3rico completo:", None))
+        self.pushButton_3.setText(QCoreApplication.translate("MainWindow", u"Continuar", None))
     # retranslateUi
 

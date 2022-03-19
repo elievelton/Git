@@ -1,5 +1,5 @@
 from classCliente import Cliente
-
+#funções de cadasttrar e buscar os clientes
 class Cadastro:
     __slots__ = ['_lista_de_pessoas', '_lista_de_contas']
 
@@ -28,7 +28,7 @@ class Cadastro:
             if (lp.cpf == cpf):
                 return lp
         return None
-        
+#busca o usuario de login 
     def buscarUsuario(self, usuario):
         for lp in self._lista_de_pessoas:
             if (lp.usuario == usuario):
@@ -40,7 +40,7 @@ class Cadastro:
             if (x.numero == numero):
                 return x
         return None
-
+#Busca a conta de um cliente cadastrado
     def buscarConCli(self, usuario):
         x = self.buscarUsuario(usuario)
         if (x != None):
@@ -49,7 +49,7 @@ class Cadastro:
                     return x
                 else:
                     return None
-
+#Busca o cliente de uma conta
     def buscarCliCon(self, usuario):
         x = self.buscarUsuario(usuario)
         if (x != None):

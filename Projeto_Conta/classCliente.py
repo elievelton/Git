@@ -7,8 +7,8 @@ class Cliente:
         self._endereco = endereco
         self._cpf = cpf
         self._nascimento = nascimento
-        self._usuario = usuario
-        self._senha = senha
+        self._usuario = usuario #adicionado
+        self._senha = senha #adicionado
 
     @property
     def nome(self):

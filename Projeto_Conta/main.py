@@ -195,9 +195,9 @@ class Main(QMainWindow, Ui_Main):
             QMessageBox.information(None, 'POO2', 'Cliente não existe! Clique no botão Cadastrar e faça seu cadastro')
             self.tela_login.lineEdit.setText('')
             self.tela_login.lineEdit_2.setText('')
-        #return existe
+        
 
-
+# Função para cadastrar o cliente
     def cadastrar_cliente(self):
         nome = self.tela_CadastroCli.lineEdit.text()
         endereco = self.tela_CadastroCli.lineEdit_2.text()
@@ -211,7 +211,7 @@ class Main(QMainWindow, Ui_Main):
             if(self.cad.cadastrarCli(c)):
                 QMessageBox.information(None, 'POO2', 'Cadastro Realizado com sucesso!')
                 
-                print(c.nome)
+                
                 self.tela_CadastroCli.lineEdit.setText('')
                 self.tela_CadastroCli.lineEdit_2.setText('')
                 self.tela_CadastroCli.lineEdit_3.setText('')
@@ -222,7 +222,7 @@ class Main(QMainWindow, Ui_Main):
                 QMessageBox.information(None, 'POO2', 'O Cpf já foi cadastrado!')
         else:
             QMessageBox.information(None, 'POO2', 'Todos os valores devem ser preenchidos')
-
+#função para cadastrar conta
     def cadastrar_conta(self):
         numero = self.tela_CadastroCon.lineEdit.text()
         cpf_titular = self.tela_CadastroCon.lineEdit_2.text()
@@ -238,14 +238,13 @@ class Main(QMainWindow, Ui_Main):
                     self.tela_CadastroCon.lineEdit.setText('')
                     self.tela_CadastroCon.lineEdit_2.setText('')
                     self.tela_CadastroCon.lineEdit_3.setText('')
-                    print(co.numero)
                 else:
                     QMessageBox.information(None, 'POO2', 'Essa conta já existe!') 
             else:
                 QMessageBox.information(None, 'POO2', 'Todos os campos devem ser preenchidos') 
         else:
             QMessageBox.information(None, 'POO2', 'Cliente não cadastrado!')
-    
+    #chamada para a tela de depositar
     def botaoDepositar(self):
         conta_dep = self.tela_depositar.lineEdit.text()
         valor = self.tela_depositar.lineEdit_2.text()
@@ -262,7 +261,7 @@ class Main(QMainWindow, Ui_Main):
                 self.tela_menu.lineEdit.setText('R$ ' + str(c.saldo))
             else:
                 QMessageBox.information(None, 'POO2', 'Todos os campos devem ser preenchidos!')
-
+#chamada para tela de sacar
     def botaoSacar(self):
         conta_saq = self.tela_sacar.lineEdit.text()
         valor = self.tela_sacar.lineEdit_2.text()
@@ -272,14 +271,13 @@ class Main(QMainWindow, Ui_Main):
             if (cs != None):
                 cs.sacar(int(valor))
                 QMessageBox.information(None, 'POO2', 'Saque feito com sucesso!')
-                print(cs.extrato())
                 self.tela_sacar.lineEdit_3.setText('R$ ' + str(cs.saldo))
                 self.tela_menu.lineEdit.setText('R$ ' + str(cs.saldo)) 
             else:
                 QMessageBox.information(None, 'POO2', 'Essa conta não existe!')
         else:
             QMessageBox.information(None, 'POO2', 'Todos os campos devem ser preenchidos!')
-        
+    #chamada para a tela de transferencia    
     def botaoTransferir(self):
         conta_saida = self.tela_transferir.lineEdit_3.text()
         conta_destino = self.tela_transferir.lineEdit.text()
@@ -291,7 +289,7 @@ class Main(QMainWindow, Ui_Main):
                     d =self.cad.buscarCon(conta_destino)
                     d.transfere(cs,d,int(valor))
                     QMessageBox.information(None, 'POO2', 'Transferencia feita com sucesso')
-                    #self.botaoTransferir.lineEdit_3.setText('R$ ' + str(cs.saldo))
+                    self.botaoTransferir.lineEdit_3.setText('R$ ' + str(cs.saldo))
                     self.tela_menu.lineEdit.setText('R$ ' + str(cs.saldo))
                 else:
                     QMessageBox.information(None, 'POO2', 'Conta de destino não existe!')
@@ -299,7 +297,7 @@ class Main(QMainWindow, Ui_Main):
                 QMessageBox.information(None, 'POO2', 'Conta de saída não existe!')
         else:
             QMessageBox.information(None, 'POO2', 'Todos os campos devem ser preenchidos!')
-
+#chamada para tela de extrato
     def botaoExtrato(self):
         conta = self.tela_extrato.lineEdit.text()
         c = self.cad.buscarCon(conta)
@@ -311,15 +309,16 @@ class Main(QMainWindow, Ui_Main):
                 QMessageBox.information(None, 'POO2', 'Essa conta não existe!')
         else:
             QMessageBox.information(None, 'POO2', 'Todos os campos devem ser preenchidos!')
-
+#chamada para a tela historico
     def botaoHistorico(self):
         conta = self.tela_historico.lineEdit.text()
         c = self.cad.buscarCon(conta)
         if not(conta== ''):
             if (c != None):
-                #y = c.historico.imprime()
+                
                 #for x in y:
-                    self.tela_historico.textBrowser.setText(str(c.historico.imprime()))
+                    self.tela_historico.textBrowser.append(str(c.historico.imprime()))
+                    print(c.historico.imprime)
             else:
                 QMessageBox.information(None, 'POO2', 'Essa conta não existe!')
         else:
