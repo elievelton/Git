@@ -178,7 +178,7 @@ class Main(QMainWindow, Ui_Main):
         x = self.cad.buscarConCli(login)
         y = self.cad.buscarCliCon(login)
         if(existe!=None):
-            
+        
             if (x != None):
                 if((existe.usuario and existe.senha) == (login and senha)):
                     self.abrirTelaMenu()
