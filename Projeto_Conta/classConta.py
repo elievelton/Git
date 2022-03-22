@@ -47,7 +47,7 @@ class Conta:
       
     def deposita(self, novo_valor):
         if(novo_valor!=None):
-            self._saldo += novo_valor
+            self._saldo += novo_valor            
             self.historico.transacoes.append("Depositou o valor de: {}".format(novo_valor))
         else:
             return False
@@ -66,8 +66,7 @@ class Conta:
         saida.sacar(valor)
         if (retirou == False):
             return False
-        else:
-            
+        else:            
             self.historico.transacoes.append("Transferiu o valor de: {} para a conta {}".format(valor, destino.numero))
             return True
     

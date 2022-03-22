@@ -18,11 +18,13 @@ from telas.tela_login import Tela_Login
 from telas.tela_menu import Tela_Menu
 from telas.tela_menuCadastrar import Tela_Menu_Cadastrar
 
+
 #import das classes
 from classCliente import Cliente
 from classConta import Conta
 from classHisto import Historico
 from classCadastro import Cadastro
+
 
 # Ainda precisa ajustar esse código, depois que todas as telas estiverem prontas
 class Ui_Main(QtWidgets.QWidget):
@@ -84,6 +86,7 @@ class Main(QMainWindow, Ui_Main):
 
         self.cad = Cadastro()
         self.his = Historico()
+        
 
         self.tela_login.pushButton.clicked.connect(self.botaoLogin)
         self.tela_login.pushButton_2.clicked.connect(self.abrirTelaMenu_Cadastro)
@@ -123,7 +126,6 @@ class Main(QMainWindow, Ui_Main):
 
     def abrirTelaLogin(self):
         self.QtStack.setCurrentIndex(0)
-        
 
     def abrirTelaMenu(self):
         self.QtStack.setCurrentIndex(1)
@@ -271,12 +273,15 @@ class Main(QMainWindow, Ui_Main):
             if (cs != None):
                 cs.sacar(int(valor))
                 QMessageBox.information(None, 'POO2', 'Saque feito com sucesso!')
+                self.tela_sacar.lineEdit.setText('')
+                self.tela_sacar.lineEdit_2.setText('')
                 self.tela_sacar.lineEdit_3.setText('R$ ' + str(cs.saldo))
                 self.tela_menu.lineEdit.setText('R$ ' + str(cs.saldo)) 
             else:
                 QMessageBox.information(None, 'POO2', 'Essa conta não existe!')
         else:
             QMessageBox.information(None, 'POO2', 'Todos os campos devem ser preenchidos!')
+
     #chamada para a tela de transferencia    
     def botaoTransferir(self):
         conta_saida = self.tela_transferir.lineEdit_3.text()
@@ -315,10 +320,11 @@ class Main(QMainWindow, Ui_Main):
         c = self.cad.buscarCon(conta)
         if not(conta== ''):
             if (c != None):
-                
-                #for x in y:
-                    self.tela_historico.textBrowser.append(str(c.historico.imprime()))
-                    print(c.historico.imprime)
+                #para conseguir imprimir no TextBrowser
+                msg = ""
+                for x in c.historico.transacoes:
+                    msg+=str(x)+"\n"
+                self.tela_historico.textBrowser.setText(msg)
             else:
                 QMessageBox.information(None, 'POO2', 'Essa conta não existe!')
         else:
