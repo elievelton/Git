@@ -294,7 +294,7 @@ class Main(QMainWindow, Ui_Main):
                     d =self.cad.buscarCon(conta_destino)
                     d.transfere(cs,d,int(valor))
                     QMessageBox.information(None, 'POO2', 'Transferencia feita com sucesso')
-                    self.botaoTransferir.lineEdit_3.setText('R$ ' + str(cs.saldo))
+                    self.tela_transferir.lineEdit_3.setText('R$ ' + str(cs.saldo))
                     self.tela_menu.lineEdit.setText('R$ ' + str(cs.saldo))
                 else:
                     QMessageBox.information(None, 'POO2', 'Conta de destino não existe!')
@@ -320,17 +320,20 @@ class Main(QMainWindow, Ui_Main):
         c = self.cad.buscarCon(conta)
         if not(conta== ''):
             if (c != None):
+                self.tela_historico.textBrowser.setText(self.his.data_de_abertura.strftime("%Y-%m-%d %H:%M:%S"))
                 #para conseguir imprimir no TextBrowser
                 msg = ""
                 for x in c.historico.transacoes:
                     msg+=str(x)+"\n"
                 self.tela_historico.textBrowser.setText(msg)
+                
+                
             else:
                 QMessageBox.information(None, 'POO2', 'Essa conta não existe!')
         else:
             QMessageBox.information(None, 'POO2', 'Todos os campos devem ser preenchidos!')
         
-    
+ 
 if __name__ == "__main__":
 
     app = QApplication(sys.argv)
