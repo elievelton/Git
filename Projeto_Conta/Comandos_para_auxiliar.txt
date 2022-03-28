@@ -1,3 +1,0 @@
-Comando para criar tela .py do pyQt5
-
-pyuic5 -x Cadastro.ui -o tela_cadastro.py

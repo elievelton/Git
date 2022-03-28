@@ -1,3 +1,12 @@
+__author__ = "Elievelto $ Bruna"
+__copyright__ = "Copyright 2022, Por mim"
+__credits__ = ["Elievelto"]
+__license__ = "GPL"
+__version__ = "1.0"
+__maintainer__ = "eu também"
+__email__ = "suporte@gamesbruna.com"
+__status__ = "Production"
+
 import sys
 import os
 
@@ -6,7 +15,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtWidgets import QMessageBox, QMainWindow, QApplication, QFileDialog
 from PyQt5.QtCore import QCoreApplication
 
-#importando as telas
+"""importando as telas"""
 from telas.tela_depositar import Tela_Depositar
 from telas.tela_extrato import Tela_Extrato
 from telas.tela_historico import Tela_Historico
@@ -19,14 +28,14 @@ from telas.tela_menu import Tela_Menu
 from telas.tela_menuCadastrar import Tela_Menu_Cadastrar
 
 
-#import das classes
+"""import das classes"""
 from classCliente import Cliente
 from classConta import Conta
 from classHisto import Historico
 from classCadastro import Cadastro
 
 
-# Ainda precisa ajustar esse código, depois que todas as telas estiverem prontas
+"""Ainda precisa ajustar esse código, depois que todas as telas estiverem prontas"""
 class Ui_Main(QtWidgets.QWidget):
     def setupUi(self, Main):
         Main.setObjectName('Main')
@@ -77,7 +86,7 @@ class Ui_Main(QtWidgets.QWidget):
         self.QtStack.addWidget(self.stack8)
         self.QtStack.addWidget(self.stack9)
 
-
+"""Classe principal"""
 class Main(QMainWindow, Ui_Main):
 
     def __init__(self, parent=None):
@@ -125,6 +134,7 @@ class Main(QMainWindow, Ui_Main):
 
 
     def abrirTelaLogin(self):
+        """Carrega tela inicial"""
         self.QtStack.setCurrentIndex(0)
 
     def abrirTelaMenu(self):
@@ -199,8 +209,9 @@ class Main(QMainWindow, Ui_Main):
             self.tela_login.lineEdit_2.setText('')
         
 
-# Função para cadastrar o cliente
+
     def cadastrar_cliente(self):
+        """ Função para cadastrar o cliente"""
         nome = self.tela_CadastroCli.lineEdit.text()
         endereco = self.tela_CadastroCli.lineEdit_2.text()
         cpf = self.tela_CadastroCli.lineEdit_3.text()
@@ -224,8 +235,9 @@ class Main(QMainWindow, Ui_Main):
                 QMessageBox.information(None, 'POO2', 'O Cpf já foi cadastrado!')
         else:
             QMessageBox.information(None, 'POO2', 'Todos os valores devem ser preenchidos')
-#função para cadastrar conta
+
     def cadastrar_conta(self):
+        """função para cadastrar conta"""
         numero = self.tela_CadastroCon.lineEdit.text()
         cpf_titular = self.tela_CadastroCon.lineEdit_2.text()
         saldo = 0

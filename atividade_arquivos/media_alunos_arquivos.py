@@ -1,12 +1,12 @@
 # -*- coding: utf-8 -*-
 
-__author__ = "Elievelto"
+__author__ = "Elievelto $ Bruna"
 __copyright__ = "Copyright 2022, Por mim"
 __credits__ = ["Elievelto"]
 __license__ = "GPL"
 __version__ = "1.0"
 __maintainer__ = "eu também"
-__email__ = "xyz@zkls.com"
+__email__ = "suporte@gamesbruna.com"
 __status__ = "Production"
 
 import json

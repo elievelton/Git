@@ -1,3 +1,5 @@
+'''Classe Historico'''
+
 import datetime
 class Historico:
     def __init__(self):

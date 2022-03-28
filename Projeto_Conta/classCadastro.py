@@ -1,5 +1,5 @@
 from classCliente import Cliente
-#funções de cadasttrar e buscar os clientes
+'''Classe cadastro'''
 class Cadastro:
     __slots__ = ['_lista_de_pessoas', '_lista_de_contas']
 

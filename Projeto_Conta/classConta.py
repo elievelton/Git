@@ -1,3 +1,4 @@
+'''Classe Conta'''
 from classHisto import Historico
 
 class Conta:

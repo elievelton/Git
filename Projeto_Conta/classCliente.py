@@ -1,3 +1,5 @@
+'''Classe CLiente'''
+
 class Cliente:
     
     __slots__ = ['_nome', '_endereco','_cpf','_nascimento', '_usuario', '_senha']
