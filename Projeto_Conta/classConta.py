@@ -7,6 +7,7 @@ class Conta:
     __slots__ = ['_numero', '_titular', '_saldo', '_limite','historico']
     
     def __init__(self, numero, cliente, saldo ,limite):
+        """ Função inicializadora com os atributos necessários"""
         self._numero = numero
         self._titular = cliente
         self._saldo = saldo
@@ -47,14 +48,15 @@ class Conta:
         self._limite = limite
       
     def deposita(self, novo_valor):
+        """ Função para realizar a operação de depósito em uma conta"""
         if(novo_valor!=None):
             self._saldo += novo_valor            
             self.historico.transacoes.append("Depositou o valor de: {}".format(novo_valor))
         else:
             return False
 
-
     def sacar(self, novo_valor):
+        """ Função para realizar a operação de saque em uma conta"""
         if (self._saldo < novo_valor):
             return False
         else:
@@ -63,6 +65,7 @@ class Conta:
             return True
     
     def transfere(self, saida,destino, valor):
+        """ Função para realizar a operação de transferência entre contas"""
         retirou = self.deposita(valor)
         saida.sacar(valor)
         if (retirou == False):
@@ -72,5 +75,6 @@ class Conta:
             return True
     
     def extrato(self):
+        """ Função para realizar a operação de imprimir o extrato em uma conta"""
         self.historico.transacoes.append("Tirou extrato - Saldo de: {}".format(self.saldo))
         return("Numero: {} \nsaldo: {}".format(self.numero, self.saldo))

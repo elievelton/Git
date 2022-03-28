@@ -38,6 +38,7 @@ from classCadastro import Cadastro
 """Ainda precisa ajustar esse código, depois que todas as telas estiverem prontas"""
 class Ui_Main(QtWidgets.QWidget):
     def setupUi(self, Main):
+        """ Função que realiza as configurações das telas"""
         Main.setObjectName('Main')
         Main.resize(640, 480)
 
@@ -90,6 +91,7 @@ class Ui_Main(QtWidgets.QWidget):
 class Main(QMainWindow, Ui_Main):
 
     def __init__(self, parent=None):
+        """ Função que realiza as configurações do que está presente nas telas"""
         super(Main, self).__init__(parent)
         self.setupUi(self)
 
@@ -138,18 +140,23 @@ class Main(QMainWindow, Ui_Main):
         self.QtStack.setCurrentIndex(0)
 
     def abrirTelaMenu(self):
+        """Carrega tela menu"""
         self.QtStack.setCurrentIndex(1)
 
     def abrirTelaMenu_Cadastro(self):
+        """Carrega tela menu cadastro"""
         self.QtStack.setCurrentIndex(2)
 
     def abrirTelaCadastroCliente(self):
+        """Carrega tela para cadastrar clientes"""
         self.QtStack.setCurrentIndex(3)
 
     def abrirTelaCadastroConta(self):
+        """Carrega tela para cadastrar contas"""
         self.QtStack.setCurrentIndex(4)
 
     def abrirTelaDepositar(self):
+        """Carrega tela para realizar depósito e informa os atributos do cliente"""
         self.QtStack.setCurrentIndex(5)
         login = self.tela_login.lineEdit.text()
         x = self.cad.buscarConCli(login)
@@ -159,6 +166,7 @@ class Main(QMainWindow, Ui_Main):
         self.tela_depositar.lineEdit_3.setText('R$ ' + str(y.saldo))
 
     def abrirTelaSacar(self):
+        """Carrega tela para realizar saque e informa os atributos do cliente"""
         self.QtStack.setCurrentIndex(6)
         login = self.tela_login.lineEdit.text()
         x = self.cad.buscarConCli(login)
@@ -168,6 +176,7 @@ class Main(QMainWindow, Ui_Main):
         self.tela_sacar.lineEdit_3.setText('R$ ' + str(y.saldo))
 
     def abrirTelaTransferir(self):
+        """Carrega tela para realizar transferência e informa os atributos do cliente"""
         self.QtStack.setCurrentIndex(7)
         login = self.tela_login.lineEdit.text()
         x = self.cad.buscarConCli(login)
@@ -177,9 +186,11 @@ class Main(QMainWindow, Ui_Main):
         self.tela_transferir.lineEdit_4.setText('R$ ' + str(y.saldo))
 
     def abrirTelaExtrato(self):
+        """Carrega tela para mostrar o extrato do cliente"""
         self.QtStack.setCurrentIndex(8)
 
     def abriTelaHistorico(self):
+        """Carrega tela para mostrar o histórico do cliente"""
         self.QtStack.setCurrentIndex(9)
 
     def botaoLogin(self):
@@ -260,6 +271,7 @@ class Main(QMainWindow, Ui_Main):
             QMessageBox.information(None, 'POO2', 'Cliente não cadastrado!')
     #chamada para a tela de depositar
     def botaoDepositar(self):
+        """ Função para realizar depoósito"""
         conta_dep = self.tela_depositar.lineEdit.text()
         valor = self.tela_depositar.lineEdit_2.text()
         c=self.cad.buscarCon(conta_dep)
@@ -277,6 +289,7 @@ class Main(QMainWindow, Ui_Main):
                 QMessageBox.information(None, 'POO2', 'Todos os campos devem ser preenchidos!')
 #chamada para tela de sacar
     def botaoSacar(self):
+        """ Função para realizar saque"""
         conta_saq = self.tela_sacar.lineEdit.text()
         valor = self.tela_sacar.lineEdit_2.text()
         cs=self.cad.buscarCon(conta_saq)
@@ -296,6 +309,7 @@ class Main(QMainWindow, Ui_Main):
 
     #chamada para a tela de transferencia    
     def botaoTransferir(self):
+        """ Função para realizar transferência"""
         conta_saida = self.tela_transferir.lineEdit_3.text()
         conta_destino = self.tela_transferir.lineEdit.text()
         valor = self.tela_transferir.lineEdit_2.text()
@@ -316,6 +330,7 @@ class Main(QMainWindow, Ui_Main):
             QMessageBox.information(None, 'POO2', 'Todos os campos devem ser preenchidos!')
 #chamada para tela de extrato
     def botaoExtrato(self):
+        """ Função para informar o extrato"""
         conta = self.tela_extrato.lineEdit.text()
         c = self.cad.buscarCon(conta)
         if not(conta== ''):
@@ -328,6 +343,7 @@ class Main(QMainWindow, Ui_Main):
             QMessageBox.information(None, 'POO2', 'Todos os campos devem ser preenchidos!')
 #chamada para a tela historico
     def botaoHistorico(self):
+        """ Função para informar o histórico"""
         conta = self.tela_historico.lineEdit.text()
         c = self.cad.buscarCon(conta)
         if not(conta== ''):
