@@ -6,6 +6,7 @@ class Cliente:
     __slots__ = ['_nome', '_endereco','_cpf','_nascimento', '_usuario', '_senha']
     
     def __init__(self, nome, endereco, cpf, nascimento, usuario, senha):
+        """ Função inicializadora com os atributos necessários"""
         self._nome = nome
         self._endereco = endereco
         self._cpf = cpf
