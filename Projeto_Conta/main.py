@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 __author__ = "Elievelto $ Bruna"
 __copyright__ = "Copyright 2022, Por mim"
 __credits__ = ["Elievelto"]

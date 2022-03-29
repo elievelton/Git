@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from classCliente import Cliente
 '''Classe cadastro'''
 class Cadastro:
