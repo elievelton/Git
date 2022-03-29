@@ -1,12 +1,13 @@
 # -*- coding: utf-8 -*-
-__author__ = "Elievelto $ Bruna"
+__author__ = "Elievelto & Bruna"
 __copyright__ = "Copyright 2022, Por mim"
-__credits__ = ["Elievelto"]
+__credits__ = ["Elievelto & Bruna"]
 __license__ = "GPL"
 __version__ = "1.0"
 __maintainer__ = "eu também"
 __email__ = "suporte@gamesbruna.com"
 __status__ = "Production"
+'''Sistema que simula um aplicativo bancario'''
 
 import sys
 import os
@@ -195,6 +196,7 @@ class Main(QMainWindow, Ui_Main):
         self.QtStack.setCurrentIndex(9)
 
     def botaoLogin(self):
+        """Faz o login e verifica se existe usuário"""
         login = self.tela_login.lineEdit.text()
         senha = self.tela_login.lineEdit_2.text()
 
@@ -350,7 +352,7 @@ class Main(QMainWindow, Ui_Main):
         if not(conta== ''):
             if (c != None):
                 self.tela_historico.textBrowser.setText(self.his.data_de_abertura.strftime("%Y-%m-%d %H:%M:%S"))
-                #para conseguir imprimir no TextBrowser
+                #para conseguir imprimir no TextBrowser, ainda falta ajustes para imprimir data na tela
                 msg = ""
                 for x in c.historico.transacoes:
                     msg+=str(x)+"\n"

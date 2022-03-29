@@ -3,18 +3,13 @@ from classHisto import Historico
 
 
 class Conta:
-    '''Classe Conta'''
+    '''Classe Conta com todos os atributos que uma conta deve possuir neste programa'''
     _contador_de_contas = 0
-<<<<<<< HEAD
+
     __slots__ = ['_numero', '_titular', '_saldo', '_limite', 'historico']
 
     def __init__(self, numero, cliente, saldo, limite):
-=======
-    __slots__ = ['_numero', '_titular', '_saldo', '_limite','historico']
-    
-    def __init__(self, numero, cliente, saldo ,limite):
-        """ Função inicializadora com os atributos necessários"""
->>>>>>> 3318f7d5c721aa3cf38b2409f10d175ef4320c52
+
         self._numero = numero
         self._titular = cliente
         self._saldo = saldo
@@ -55,17 +50,13 @@ class Conta:
         self._limite = limite
 
     def deposita(self, novo_valor):
-<<<<<<< HEAD
+
         if(novo_valor != None):
             self._saldo += novo_valor
             self.historico.transacoes.append(
                 "Depositou o valor de: {}".format(novo_valor))
-=======
-        """ Função para realizar a operação de depósito em uma conta"""
-        if(novo_valor!=None):
-            self._saldo += novo_valor            
-            self.historico.transacoes.append("Depositou o valor de: {}".format(novo_valor))
->>>>>>> 3318f7d5c721aa3cf38b2409f10d175ef4320c52
+
+
         else:
             return False
 
@@ -78,14 +69,12 @@ class Conta:
             self.historico.transacoes.append(
                 "Sacou o valor de: {}".format(novo_valor))
             return True
-<<<<<<< HEAD
+
 
     def transfere(self, saida, destino, valor):
-=======
-    
-    def transfere(self, saida,destino, valor):
-        """ Função para realizar a operação de transferência entre contas"""
->>>>>>> 3318f7d5c721aa3cf38b2409f10d175ef4320c52
+        '''Função para relaizar a tranferencia par aum usuario
+           Foi preciso chamar  função deposita
+        '''
         retirou = self.deposita(valor)
         saida.sacar(valor)
         if (retirou == False):
@@ -96,12 +85,9 @@ class Conta:
             return True
 
     def extrato(self):
-<<<<<<< HEAD
+        '''Exibe o extrato da conta'''
         self.historico.transacoes.append(
             "Tirou extrato - Saldo de: {}".format(self.saldo))
         return("Numero: {} \nsaldo: {}".format(self.numero, self.saldo))
-=======
-        """ Função para realizar a operação de imprimir o extrato em uma conta"""
-        self.historico.transacoes.append("Tirou extrato - Saldo de: {}".format(self.saldo))
-        return("Numero: {} \nsaldo: {}".format(self.numero, self.saldo))
->>>>>>> 3318f7d5c721aa3cf38b2409f10d175ef4320c52
+
+
