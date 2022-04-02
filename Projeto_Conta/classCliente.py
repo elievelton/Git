@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 '''Classe CLiente'''
 
 class Cliente:
