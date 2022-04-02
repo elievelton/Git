@@ -35,6 +35,7 @@ from classCliente import Cliente
 from classConta import Conta
 from classHisto import Historico
 from classCadastro import Cadastro
+from classBanco import Banco
 
 
 """Ainda precisa ajustar esse código, depois que todas as telas estiverem prontas"""
@@ -99,8 +100,15 @@ class Main(QMainWindow, Ui_Main):
 
         self.cad = Cadastro()
         self.his = Historico()
-        
+        """CRIANDO O BANCO DE DADOS E AS TABELAS"""
+        self.ban = Banco()
+        database_query = "CREATE DATABASE IF NOT EXISTS banco"
+        conexao = self.ban.criando_conexao('localhost', 'root', 'mikasa', 'banco')
+        self.ban.criando_bancodedados(conexao, database_query)
 
+        tabela_clientes = """CREATE TABLE IF NOT EXISTS clientes(cpf integer AUTO_INCREMENT PRIMARY KEY, nome text NOT NULL, endereco text NOT NULL, nascimento text NOT NULL, usuario text NOT NULL, senha VARCHAR(32) NOT NULL);"""
+        self.ban.executando_query(conexao, tabela_clientes)
+        
         self.tela_login.pushButton.clicked.connect(self.botaoLogin)
         self.tela_login.pushButton_2.clicked.connect(self.abrirTelaMenu_Cadastro)
 
@@ -237,8 +245,10 @@ class Main(QMainWindow, Ui_Main):
             c = Cliente(nome, endereco, cpf, nascimento, usuario, senha)
             if(self.cad.cadastrarCli(c)):
                 QMessageBox.information(None, 'POO2', 'Cadastro Realizado com sucesso!')
-                
-                
+                conexao = self.ban.criando_conexao('localhost', 'root', 'mikasa', 'banco')
+                inserindo_clientes = (f'INSERT INTO usuarios (cpf, nome, endereco, nascimento, usuario, senha) VALUES ("{cpf}", "{nome}", "{endereco}", "{nascimento}", "{usuario}", "{senha}")')
+                self.ban.executando_query(conexao, inserindo_clientes)
+
                 self.tela_CadastroCli.lineEdit.setText('')
                 self.tela_CadastroCli.lineEdit_2.setText('')
                 self.tela_CadastroCli.lineEdit_3.setText('')
