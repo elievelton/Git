@@ -20,8 +20,8 @@
    <widget class="QLabel" name="label_2">
     <property name="geometry">
      <rect>
-      <x>30</x>
-      <y>250</y>
+      <x>108</x>
+      <y>217</y>
       <width>271</width>
       <height>20</height>
      </rect>
@@ -45,8 +45,8 @@
    <widget class="QLabel" name="label_3">
     <property name="geometry">
      <rect>
-      <x>30</x>
-      <y>300</y>
+      <x>108</x>
+      <y>267</y>
       <width>261</width>
       <height>20</height>
      </rect>
@@ -120,8 +120,8 @@ color: rgb(255, 255, 255);</string>
    <widget class="QLineEdit" name="lineEdit">
     <property name="geometry">
      <rect>
-      <x>310</x>
-      <y>249</y>
+      <x>388</x>
+      <y>216</y>
       <width>113</width>
       <height>21</height>
      </rect>
@@ -134,8 +134,8 @@ color: rgb(0, 0, 0);</string>
    <widget class="QLineEdit" name="lineEdit_2">
     <property name="geometry">
      <rect>
-      <x>310</x>
-      <y>295</y>
+      <x>388</x>
+      <y>262</y>
       <width>113</width>
       <height>21</height>
      </rect>
@@ -186,45 +186,6 @@ color: rgb(0, 0, 0);</string>
       <string>Transferir</string>
      </property>
     </widget>
-   </widget>
-   <widget class="QLineEdit" name="lineEdit_3">
-    <property name="geometry">
-     <rect>
-      <x>310</x>
-      <y>200</y>
-      <width>111</width>
-      <height>21</height>
-     </rect>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">background-color: rgb(255, 170, 0);
-color: rgb(0, 0, 0);</string>
-    </property>
-   </widget>
-   <widget class="QLabel" name="label_4">
-    <property name="geometry">
-     <rect>
-      <x>30</x>
-      <y>200</y>
-      <width>151</width>
-      <height>20</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <family>Noto Sans</family>
-      <pointsize>10</pointsize>
-      <weight>75</weight>
-      <italic>false</italic>
-      <bold>true</bold>
-     </font>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">color: rgb(255, 255, 255);</string>
-    </property>
-    <property name="text">
-     <string>Conta de Saída:</string>
-    </property>
    </widget>
    <widget class="QLabel" name="label_5">
     <property name="geometry">

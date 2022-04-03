@@ -21,7 +21,6 @@ class Banco:
     def criando_bancodedados(self,conexao, query):
         self.cursor = conexao.cursor()
         try:
-            
             self.cursor.execute(query)
             print("Banco de dados criado com sucesso!")
         except Error as err:

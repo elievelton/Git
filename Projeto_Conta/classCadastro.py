@@ -1,13 +1,15 @@
 # -*- coding: utf-8 -*-
-from classCliente import Cliente
+import mysql.connector as mysql
+from classBanco import Banco
 '''Classe cadastro'''
 class Cadastro:
-    __slots__ = ['_lista_de_pessoas', '_lista_de_contas']
+    __slots__ = ['_lista_de_pessoas', '_lista_de_contas', '_db']
 
     def __init__(self):
         """ Função inicializadora com os atributos necessários"""
         self._lista_de_pessoas = []
         self._lista_de_contas = []
+        self._db = Banco()
     
     def cadastrarCli(self,cliente):
         """ Função que cadastra os clientes no banco"""

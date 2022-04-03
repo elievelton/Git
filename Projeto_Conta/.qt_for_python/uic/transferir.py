@@ -3,15 +3,21 @@
 ################################################################################
 ## Form generated from reading UI file 'transferir.ui'
 ##
-## Created by: Qt User Interface Compiler version 5.15.2
+## Created by: Qt User Interface Compiler version 6.2.3
 ##
 ## WARNING! All changes made in this file will be lost when recompiling UI file!
 ################################################################################
 
-from PySide2.QtCore import *
-from PySide2.QtGui import *
-from PySide2.QtWidgets import *
-
+from PySide6.QtCore import (QCoreApplication, QDate, QDateTime, QLocale,
+    QMetaObject, QObject, QPoint, QRect,
+    QSize, QTime, QUrl, Qt)
+from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
+    QFont, QFontDatabase, QGradient, QIcon,
+    QImage, QKeySequence, QLinearGradient, QPainter,
+    QPalette, QPixmap, QRadialGradient, QTransform)
+from PySide6.QtWidgets import (QApplication, QFrame, QLabel, QLineEdit,
+    QMainWindow, QPushButton, QSizePolicy, QStatusBar,
+    QWidget)
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
@@ -23,28 +29,26 @@ class Ui_MainWindow(object):
         self.centralwidget.setObjectName(u"centralwidget")
         self.label_2 = QLabel(self.centralwidget)
         self.label_2.setObjectName(u"label_2")
-        self.label_2.setGeometry(QRect(30, 250, 271, 20))
+        self.label_2.setGeometry(QRect(108, 217, 271, 20))
         font = QFont()
-        font.setFamily(u"Noto Sans")
+        font.setFamilies([u"Noto Sans"])
         font.setPointSize(10)
         font.setBold(True)
         font.setItalic(False)
-        font.setWeight(75)
         self.label_2.setFont(font)
         self.label_2.setStyleSheet(u"color: rgb(255, 255, 255);")
         self.label_3 = QLabel(self.centralwidget)
         self.label_3.setObjectName(u"label_3")
-        self.label_3.setGeometry(QRect(30, 300, 261, 20))
+        self.label_3.setGeometry(QRect(108, 267, 261, 20))
         self.label_3.setFont(font)
         self.label_3.setStyleSheet(u"color: rgb(255, 255, 255);")
         self.pushButton = QPushButton(self.centralwidget)
         self.pushButton.setObjectName(u"pushButton")
         self.pushButton.setGeometry(QRect(240, 350, 131, 36))
         font1 = QFont()
-        font1.setFamily(u"Agency FB")
+        font1.setFamilies([u"Agency FB"])
         font1.setPointSize(14)
         font1.setBold(True)
-        font1.setWeight(75)
         self.pushButton.setFont(font1)
         self.pushButton.setStyleSheet(u"background-color: rgb(0, 170, 0);\n"
 "color: rgb(255, 255, 255);")
@@ -56,12 +60,12 @@ class Ui_MainWindow(object):
 "color: rgb(255, 255, 255);")
         self.lineEdit = QLineEdit(self.centralwidget)
         self.lineEdit.setObjectName(u"lineEdit")
-        self.lineEdit.setGeometry(QRect(310, 249, 113, 21))
+        self.lineEdit.setGeometry(QRect(388, 216, 113, 21))
         self.lineEdit.setStyleSheet(u"background-color: rgb(255, 170, 0);\n"
 "color: rgb(0, 0, 0);")
         self.lineEdit_2 = QLineEdit(self.centralwidget)
         self.lineEdit_2.setObjectName(u"lineEdit_2")
-        self.lineEdit_2.setGeometry(QRect(310, 295, 113, 21))
+        self.lineEdit_2.setGeometry(QRect(388, 262, 113, 21))
         self.lineEdit_2.setStyleSheet(u"background-color: rgb(255, 170, 0);\n"
 "color: rgb(0, 0, 0);")
         self.frame = QFrame(self.centralwidget)
@@ -76,19 +80,8 @@ class Ui_MainWindow(object):
         font2 = QFont()
         font2.setPointSize(14)
         font2.setBold(True)
-        font2.setWeight(75)
         self.label.setFont(font2)
         self.label.setStyleSheet(u"color: rgb(255, 255, 255);")
-        self.lineEdit_3 = QLineEdit(self.centralwidget)
-        self.lineEdit_3.setObjectName(u"lineEdit_3")
-        self.lineEdit_3.setGeometry(QRect(310, 200, 111, 21))
-        self.lineEdit_3.setStyleSheet(u"background-color: rgb(255, 170, 0);\n"
-"color: rgb(0, 0, 0);")
-        self.label_4 = QLabel(self.centralwidget)
-        self.label_4.setObjectName(u"label_4")
-        self.label_4.setGeometry(QRect(30, 200, 151, 20))
-        self.label_4.setFont(font)
-        self.label_4.setStyleSheet(u"color: rgb(255, 255, 255);")
         self.label_5 = QLabel(self.centralwidget)
         self.label_5.setObjectName(u"label_5")
         self.label_5.setGeometry(QRect(290, 98, 191, 21))
@@ -146,7 +139,6 @@ class Ui_MainWindow(object):
         self.pushButton.setText(QCoreApplication.translate("MainWindow", u"Transferir", None))
         self.pushButton_2.setText(QCoreApplication.translate("MainWindow", u"Voltar", None))
         self.label.setText(QCoreApplication.translate("MainWindow", u"Transferir", None))
-        self.label_4.setText(QCoreApplication.translate("MainWindow", u"Conta de Sa\u00edda:", None))
         self.label_5.setText(QCoreApplication.translate("MainWindow", u"Saldo Dispon\u00edvel:", None))
         self.label_6.setText(QCoreApplication.translate("MainWindow", u"Conta:", None))
         self.lineEdit_4.setText("")
