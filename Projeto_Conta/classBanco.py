@@ -45,3 +45,18 @@ class Banco:
             return self.result
         except Error as err:
             print(f"Error: '{err}'")
+
+    def buscaConCli(self, conexao, conta):
+        self.cursor = conexao.cursor()
+        self.linhas = []
+        query = 'SELECT cpf_titular FROM contas'
+        try:
+            self.cursor.execute(query)
+            self.linhas = self.cursor.fetchall()
+            for linha in self.linhas:
+                if conta.cpf_titular == self.linhas[linha]:
+                    return self.linhas[linha]
+        except Error as err:
+            print(f"Error: '{err}'")
+            
+
