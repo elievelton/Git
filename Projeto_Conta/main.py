@@ -110,12 +110,6 @@ class Main(QMainWindow, Ui_Main):
         database_query = "CREATE DATABASE IF NOT EXISTS banco"
 
 
-        conexao = self.ban.criando_conexao('localhost', 'root', '12345', 'banco')
-
-        self.ban.criando_bancodedados(conexao, database_query)
-
-        tabela_clientes = "CREATE TABLE IF NOT EXISTS clientes(cpf text PRIMARY KEY, nome text NOT NULL, endereco text NOT NULL, nascimento text NOT NULL, usuario text NOT NULL, senha VARCHAR(32) NOT NULL);"
-
         conexao = self.ban.criando_conexao(
             'localhost', 'root', '12345', 'banco')
 
