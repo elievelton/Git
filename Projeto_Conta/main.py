@@ -339,10 +339,9 @@ class Main(QMainWindow, Ui_Main):
         login = self.tela_login.lineEdit.text()
         conta_saq = self.cad.buscarCliCon(login)
         valor = self.tela_sacar.lineEdit_2.text()
-        cs = self.cad.buscarCon(conta_saq)
-
+        cs = self.cad.buscarCon(conta_saq.numero)
         if not(valor == ''):
-            cs.sacar(int(valor))
+            conta_saq.sacar(int(valor))
             QMessageBox.information(
                 None, 'POO2', 'Saque feito com sucesso!')
             self.tela_sacar.lineEdit.setText('')
