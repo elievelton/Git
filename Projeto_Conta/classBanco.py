@@ -2,6 +2,7 @@ import mysql.connector
 from mysql.connector import Error
 
 
+
 class Banco:
 
     def criando_conexao(self,host_name, user_name, user_passwd, db_name):

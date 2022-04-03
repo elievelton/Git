@@ -105,6 +105,7 @@ class Main(QMainWindow, Ui_Main):
 
         self.cad = Cadastro()
         self.his = Historico()
+
         """CRIANDO O BANCO DE DADOS E AS TABELAS"""
         self.ban = Banco()
         database_query = "CREATE DATABASE IF NOT EXISTS banco"
@@ -118,7 +119,9 @@ class Main(QMainWindow, Ui_Main):
         tabela_clientes = "CREATE TABLE IF NOT EXISTS clientes( cpf bigint(11) NOT NULL, nome text NOT NULL PRIMARY KEY, endereco text NOT NULL, nascimento text NOT NULL, usuario text NOT NULL, senha VARCHAR(32) NOT NULL);"
         self.ban.executando_query(conexao, tabela_clientes)
 
-        print("teste")
+        tabela_contas = "CREATE TABLE IF NOT EXISTS contas( numero int(5) NOT NULL , cpf bigint(11) NOT NULL PRIMARY KEY, saldo FLOAT(5,2) NOT NULL, limite text NOT NULL, historico text DEFAULT NULL);"
+        self.ban.executando_query(conexao, tabela_contas)
+
 
         self.tela_login.pushButton.clicked.connect(self.botaoLogin)
         self.tela_login.pushButton_2.clicked.connect(
@@ -224,31 +227,52 @@ class Main(QMainWindow, Ui_Main):
         """Faz o login e verifica se existe usuário"""
         login = self.tela_login.lineEdit.text()
         senha = self.tela_login.lineEdit_2.text()
+        conexao = self.ban.criando_conexao(
+                    'localhost',
+                    'root',
+                    '12345',
+                    'banco',
+                )
+        cursor= conexao.cursor()
 
-        existe = self.cad.buscarUsuario(login)
-        x = self.cad.buscarConCli(login)
-        y = self.cad.buscarCliCon(login)
-        if(existe != None):
 
-            if (x != None):
-                if((existe.usuario and existe.senha) == (login and senha)):
-                    self.abrirTelaMenu()
-                    self.tela_menu.lineEdit_2.setText(existe.nome)
-                    self.tela_menu.lineEdit_3.setText(y.numero)
-                    self.tela_menu.lineEdit.setText('R$ ' + str(y.saldo))
+        try:
+            cursor.execute("SELECT senha FROM clientes WHERE usuario = '{}'".format(login))
+            bd_busca = cursor.fetchall()
+            conexao.close()
+        except:
+            self.tela_login.textBrowser.setText("Dados de login incorretos!")
+
+        if(senha == bd_busca[0][0]):
+            self.abrirTelaMenu()
+
+        else:
+
+
+            existe = self.cad.buscarUsuario(login)
+            x = self.cad.buscarConCli(login)
+            y = self.cad.buscarCliCon(login)
+            if(existe != None):
+
+                if (x != None):
+                    if((existe.usuario and existe.senha) == (login and senha)):
+                        self.abrirTelaMenu()
+                        self.tela_menu.lineEdit_2.setText(existe.nome)
+                        self.tela_menu.lineEdit_3.setText(y.numero)
+                        self.tela_menu.lineEdit.setText('R$ ' + str(y.saldo))
+                    else:
+                        self.tela_login.textBrowser.setText(
+                            "Dados de login incorretos!")
+                        self.tela_login.lineEdit.setText('')
+                        self.tela_login.lineEdit_2.setText('')
                 else:
-                    self.tela_login.textBrowser.setText(
-                        "Dados de login incorretos!")
-                    self.tela_login.lineEdit.setText('')
-                    self.tela_login.lineEdit_2.setText('')
+                    QMessageBox.information(
+                        None, 'POO2', 'Esse cliente não possue uma conta! Realize um cadastro primeiro')
             else:
                 QMessageBox.information(
-                    None, 'POO2', 'Esse cliente não possue uma conta! Realize um cadastro primeiro')
-        else:
-            QMessageBox.information(
-                None, 'POO2', 'Cliente não existe! Clique no botão Cadastrar e faça seu cadastro')
-            self.tela_login.lineEdit.setText('')
-            self.tela_login.lineEdit_2.setText('')
+                    None, 'POO2', 'Cliente não existe! Clique no botão Cadastrar e faça seu cadastro')
+                self.tela_login.lineEdit.setText('')
+                self.tela_login.lineEdit_2.setText('')
 
     def cadastrar_cliente(self):
         """ Função para cadastrar o cliente"""
@@ -300,6 +324,14 @@ class Main(QMainWindow, Ui_Main):
                 if(self.cad.cadastrarCon(co)):
                     QMessageBox.information(
                         None, 'POO2', 'Cadastro Realizado com sucesso!')
+                    conexao = self.ban.criando_conexao(
+                    'localhost',
+                    'root',
+                    '12345',
+                    'banco',
+                )
+                    inserindo_contas = f"INSERT INTO contas (numero, cpf, saldo, limite) VALUES ({numero}, {cpf_titular}, {saldo}, {limite})"
+                    self.ban.executando_query(conexao, inserindo_contas)
                     self.tela_CadastroCon.lineEdit.setText('')
                     self.tela_CadastroCon.lineEdit_2.setText('')
                     self.tela_CadastroCon.lineEdit_3.setText('')
@@ -397,8 +429,7 @@ class Main(QMainWindow, Ui_Main):
         y = self.cad.buscarCliCon(login)
         c = self.cad.buscarCon(y.numero)
         if (c != None):
-            self.tela_historico.textBrowser.setText(
-                self.his.data_de_abertura.strftime("%Y-%m-%d %H:%M:%S"))
+            self.tela_historico.textBrowser.setText(self.his.data_de_abertura.strftime("%Y-%m-%d %H:%M:%S"))
             # para conseguir imprimir no TextBrowser, ainda falta ajustes para imprimir data na tela
             msg = ""
             for x in c.historico.transacoes:
