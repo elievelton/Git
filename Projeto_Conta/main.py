@@ -116,11 +116,19 @@ class Main(QMainWindow, Ui_Main):
 
         self.ban.criando_bancodedados(conexao, database_query)
 
-        tabela_clientes = "CREATE TABLE IF NOT EXISTS clientes( cpf bigint(11) NOT NULL PRIMARY KEY, nome text NOT NULL , endereco text NOT NULL, nascimento text NOT NULL, usuario text NOT NULL, senha VARCHAR(32) NOT NULL);"
+        tabela_clientes = "CREATE TABLE IF NOT EXISTS clientes( cpf bigint(11)  PRIMARY KEY, nome text NOT NULL , endereco text NOT NULL, nascimento text NOT NULL, usuario text NOT NULL, senha VARCHAR(32) NOT NULL, conta bigint(11));"
         self.ban.executando_query(conexao, tabela_clientes)
 
-        tabela_contas = "CREATE TABLE IF NOT EXISTS contas( numero int(5) NOT NULL , cpf bigint(11) NOT NULL PRIMARY KEY, saldo FLOAT(5,2) NOT NULL, limite text NOT NULL, historico text DEFAULT NULL);"
+        tabela_contas = "CREATE TABLE IF NOT EXISTS contas( numero int(5) NOT NULL , cpf_titular bigint(11)  PRIMARY KEY, saldo FLOAT(5,2) NOT NULL, limite text NOT NULL, historico text DEFAULT NULL);"
         self.ban.executando_query(conexao, tabela_contas)
+
+        alter_cli_con = """
+        ALTER TABLE clientes
+        ADD FOREIGN KEY(conta)
+        REFERENCES contas(cpf_titular);
+           """
+        self.ban.executando_query(conexao, alter_cli_con)
+
 
 
         self.tela_login.pushButton.clicked.connect(self.botaoLogin)
@@ -172,6 +180,8 @@ class Main(QMainWindow, Ui_Main):
     def abrirTelaMenu(self):
         """Carrega tela menu"""
         self.QtStack.setCurrentIndex(1)
+
+        
 
     def abrirTelaMenu_Cadastro(self):
         """Carrega tela menu cadastro"""
@@ -227,7 +237,7 @@ class Main(QMainWindow, Ui_Main):
         """Faz o login e verifica se existe usuário"""
         login = self.tela_login.lineEdit.text()
         senha = self.tela_login.lineEdit_2.text()
-        conexao = self.ban.criando_conexao(
+        """        conexao = self.ban.criando_conexao(
                     'localhost',
                     'root',
                     '12345',
@@ -240,39 +250,38 @@ class Main(QMainWindow, Ui_Main):
             cursor.execute("SELECT senha FROM clientes WHERE usuario = '{}'".format(login))
             bd_busca = cursor.fetchall()
             conexao.close()
+            
         except:
-            self.tela_login.textBrowser.setText("Dados de login incorretos!")
+            self.tela_login.textBrowser.setText("Dados de login incorretos try!")
 
         if(senha == bd_busca[0][0]):
-            self.abrirTelaMenu()
+        self.abrirTelaMenu(login)
+            
+            """
 
-        else:
+        """Faz o login e verifica se existe usuário"""
 
-
-            existe = self.cad.buscarUsuario(login)
-            x = self.cad.buscarConCli(login)
-            y = self.cad.buscarCliCon(login)
-            if(existe != None):
-
-                if (x != None):
-                    if((existe.usuario and existe.senha) == (login and senha)):
-                        self.abrirTelaMenu()
-                        self.tela_menu.lineEdit_2.setText(existe.nome)
-                        self.tela_menu.lineEdit_3.setText(y.numero)
-                        self.tela_menu.lineEdit.setText('R$ ' + str(y.saldo))
-                    else:
-                        self.tela_login.textBrowser.setText(
-                            "Dados de login incorretos!")
-                        self.tela_login.lineEdit.setText('')
-                        self.tela_login.lineEdit_2.setText('')
-                else:
-                    QMessageBox.information(
-                        None, 'POO2', 'Esse cliente não possue uma conta! Realize um cadastro primeiro')
+        existe = self.cad.buscarUsuario(login)
+        x = self.cad.buscarConCli(login)
+        y = self.cad.buscarCliCon(login)
+        if(existe!=None):
+        
+            if (x != None):
+                if((existe.usuario and existe.senha) == (login and senha)):
+                    self.abrirTelaMenu()
+                    self.tela_menu.lineEdit_2.setText(existe.nome)
+                    self.tela_menu.lineEdit_3.setText(y.numero)
+                    self.tela_menu.lineEdit.setText('R$ ' + str(y.saldo))
+                else :
+                    self.tela_login.textBrowser.setText("Dados de login incorretos!")
+                    self.tela_login.lineEdit.setText('')
+                    self.tela_login.lineEdit_2.setText('')
             else:
-                QMessageBox.information(
-                    None, 'POO2', 'Cliente não existe! Clique no botão Cadastrar e faça seu cadastro')
-                self.tela_login.lineEdit.setText('')
-                self.tela_login.lineEdit_2.setText('')
+                QMessageBox.information(None, 'POO2', 'Esse cliente não possue uma conta! Realize um cadastro primeiro')
+        else:
+            QMessageBox.information(None, 'POO2', 'Cliente não existe! Clique no botão Cadastrar e faça seu cadastro')
+            self.tela_login.lineEdit.setText('')
+            self.tela_login.lineEdit_2.setText('')
 
     def cadastrar_cliente(self):
         """ Função para cadastrar o cliente"""
@@ -330,8 +339,9 @@ class Main(QMainWindow, Ui_Main):
                     '12345',
                     'banco',
                 )
-                    inserindo_contas = f"INSERT INTO contas (numero, cpf, saldo, limite) VALUES ({numero}, {cpf_titular}, {saldo}, {limite})"
+                    inserindo_contas = f"INSERT INTO contas (numero, cpf_titular, saldo, limite) VALUES ({numero}, {cpf_titular}, {saldo}, {limite})"
                     self.ban.executando_query(conexao, inserindo_contas)
+                    
                     self.tela_CadastroCon.lineEdit.setText('')
                     self.tela_CadastroCon.lineEdit_2.setText('')
                     self.tela_CadastroCon.lineEdit_3.setText('')
@@ -376,7 +386,7 @@ class Main(QMainWindow, Ui_Main):
             conta_saq.sacar(int(valor))
             QMessageBox.information(
                 None, 'POO2', 'Saque feito com sucesso!')
-            self.tela_sacar.lineEdit.setText('')
+            #self.tela_sacar.lineEdit.setText('')
             self.tela_sacar.lineEdit_2.setText('')
             self.tela_sacar.lineEdit_3.setText('R$ ' + str(cs.saldo))
             self.tela_menu.lineEdit.setText('R$ ' + str(cs.saldo))
@@ -387,26 +397,26 @@ class Main(QMainWindow, Ui_Main):
     # chamada para a tela de transferencia
     def botaoTransferir(self):
         """ Função para realizar transferência"""
-        login = self.tela_login.lineEdit.text()
-        conta_saida = self.cad.buscarCliCon(login)
+
+
+        conta_saida = self.tela_transferir.lineEdit_3.text()
         conta_destino = self.tela_transferir.lineEdit.text()
         valor = self.tela_transferir.lineEdit_2.text()
         cs = self.cad.buscarCon(conta_saida)
-        if not(conta_destino == '' or valor == ''):
-            if(self.cad.buscarCon(conta_destino)):
-                d = self.cad.buscarCon(conta_destino)
-                d.transfere(cs, d, int(valor))
-                QMessageBox.information(
-                    None, 'POO2', 'Transferencia feita com sucesso')
-                self.tela_transferir.lineEdit_3.setText(
-                    'R$ ' + str(cs.saldo))
-                self.tela_menu.lineEdit.setText('R$ ' + str(cs.saldo))
+        if not(conta_saida == '' or conta_destino == '' or valor == ''):
+            if (cs != None):
+                if(self.cad.buscarCon(conta_destino)):
+                    d =self.cad.buscarCon(conta_destino)
+                    d.transfere(cs,d,int(valor))
+                    QMessageBox.information(None, 'POO2', 'Transferencia feita com sucesso')
+                    self.tela_transferir.lineEdit_4.setText('R$ ' + str(cs.saldo))
+                    self.tela_menu.lineEdit.setText('R$ ' + str(cs.saldo))
+                else:
+                    QMessageBox.information(None, 'POO2', 'Conta de destino não existe!')
             else:
-                QMessageBox.information(
-                    None, 'POO2', 'Conta de destino não existe!')
+                QMessageBox.information(None, 'POO2', 'Conta de saída não existe!')
         else:
-            QMessageBox.information(
-                None, 'POO2', 'Todos os campos devem ser preenchidos!')
+            QMessageBox.information(None, 'POO2', 'Todos os campos devem ser preenchidos!')
 # chamada para tela de extrato
 
     def botaoExtrato(self):
@@ -428,11 +438,13 @@ class Main(QMainWindow, Ui_Main):
         y = self.cad.buscarCliCon(login)
         c = self.cad.buscarCon(y.numero)
         if (c != None):
-            self.tela_historico.textBrowser.setText(self.his.data_de_abertura.strftime("%Y-%m-%d %H:%M:%S"))
+            
             # para conseguir imprimir no TextBrowser, ainda falta ajustes para imprimir data na tela
+            msg2 = self.tela_historico.textBrowser.setText(self.his.data_de_abertura.strftime("%Y-%m-%d %H:%M:%S\n"))
             msg = ""
             for x in c.historico.transacoes:
                 msg += str(x)+"\n"
+            self.tela_historico.textBrowser.setText(msg2)
             self.tela_historico.textBrowser.setText(msg)
         else:
             QMessageBox.information(None, 'POO2', 'Essa conta não existe!')
