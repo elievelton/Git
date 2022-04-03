@@ -116,7 +116,7 @@ class Main(QMainWindow, Ui_Main):
 
         self.ban.criando_bancodedados(conexao, database_query)
 
-        tabela_clientes = "CREATE TABLE IF NOT EXISTS clientes( cpf bigint(11) NOT NULL, nome text NOT NULL PRIMARY KEY, endereco text NOT NULL, nascimento text NOT NULL, usuario text NOT NULL, senha VARCHAR(32) NOT NULL);"
+        tabela_clientes = "CREATE TABLE IF NOT EXISTS clientes( cpf bigint(11) NOT NULL PRIMARY KEY, nome text NOT NULL , endereco text NOT NULL, nascimento text NOT NULL, usuario text NOT NULL, senha VARCHAR(32) NOT NULL);"
         self.ban.executando_query(conexao, tabela_clientes)
 
         tabela_contas = "CREATE TABLE IF NOT EXISTS contas( numero int(5) NOT NULL , cpf bigint(11) NOT NULL PRIMARY KEY, saldo FLOAT(5,2) NOT NULL, limite text NOT NULL, historico text DEFAULT NULL);"
