@@ -109,10 +109,11 @@ class Main(QMainWindow, Ui_Main):
         self.ban = Banco()
         database_query = "CREATE DATABASE IF NOT EXISTS banco"
 
-        conexao = self.ban.criando_conexao('localhost', 'root', '12345', 'banco')
+        conexao = self.ban.criando_conexao(
+            'localhost', 'root', '12345', 'banco')
         self.ban.criando_bancodedados(conexao, database_query)
 
-        tabela_clientes = "CREATE TABLE IF NOT EXISTS clientes(cpf integer AUTO_INCREMENT PRIMARY KEY, nome text NOT NULL, endereco text NOT NULL, nascimento text NOT NULL, usuario text NOT NULL, senha VARCHAR(32) NOT NULL);"
+        tabela_clientes = "CREATE TABLE IF NOT EXISTS clientes(cpf int(11) NOT NULL , nome text NOT NULL PRIMARY KEY, endereco text NOT NULL, nascimento text NOT NULL, usuario text NOT NULL, senha VARCHAR(32) NOT NULL);"
         self.ban.executando_query(conexao, tabela_clientes)
 
         print("teste")
@@ -264,11 +265,11 @@ class Main(QMainWindow, Ui_Main):
                 conexao = self.ban.criando_conexao(
                     'localhost',
                     'root',
-                    'mikasa',
+                    '12345',
                     'banco',
                 )
                 inserindo_clientes = (
-                    'INSERT INTO usuarios (cpf, nome, endereco, nascimento, usuario, senha) VALUES ("{cpf}", "{nome}", "{endereco}", "{nascimento}", "{usuario}", "{senha}")')
+                    'INSERT INTO clientes (cpf, nome, endereco, nascimento, usuario, senha) VALUES ("{cpf}", "{nome}", "{endereco}", "{nascimento}", "{usuario}", "{senha}")')
                 self.ban.executando_query(conexao, inserindo_clientes)
 
                 self.tela_CadastroCli.lineEdit.setText('')
