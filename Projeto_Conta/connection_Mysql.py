@@ -12,7 +12,7 @@ cursor = conexao.cursor()
 
 #criando uma base de caddados chamada cadastro
 def criarBd():
-    cursor.execute("CREATE DATABASE cadastro")
+    cursor.execute("CREATE DATABASE banco")
 
 #criando Tabelas no banco de dados Cadastro para
 def criarTabelas():
@@ -29,4 +29,4 @@ def inserirDados():
 
 
 
-inserirDados()
+criarBd()
