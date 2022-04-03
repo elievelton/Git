@@ -19,7 +19,7 @@ class Tela_Historico(object):
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
         self.pushButton = QtWidgets.QPushButton(self.centralwidget)
-        self.pushButton.setGeometry(QtCore.QRect(340, 104, 106, 31))
+        self.pushButton.setGeometry(QtCore.QRect(270, 104, 106, 31))
         self.pushButton.setStyleSheet("background-color: rgb(0, 170, 0);\n"
 "color: rgb(255, 255, 255);")
         self.pushButton.setObjectName("pushButton")
@@ -38,24 +38,16 @@ class Tela_Historico(object):
         self.label.setFont(font)
         self.label.setStyleSheet("color: rgb(255, 255, 255);")
         self.label.setObjectName("label")
-        self.label_2 = QtWidgets.QLabel(self.centralwidget)
-        self.label_2.setGeometry(QtCore.QRect(150, 110, 63, 20))
-        self.label_2.setStyleSheet("color: rgb(255, 255, 255);")
-        self.label_2.setObjectName("label_2")
         self.pushButton_2 = QtWidgets.QPushButton(self.centralwidget)
         self.pushButton_2.setGeometry(QtCore.QRect(20, 400, 106, 36))
         self.pushButton_2.setStyleSheet("background-color: rgb(65, 65, 65);\n"
 "color: rgb(255, 255, 255);")
         self.pushButton_2.setObjectName("pushButton_2")
         self.textBrowser = QtWidgets.QTextBrowser(self.centralwidget)
-        self.textBrowser.setGeometry(QtCore.QRect(150, 170, 311, 221))
+        self.textBrowser.setGeometry(QtCore.QRect(170, 170, 311, 221))
         self.textBrowser.setStyleSheet("background-color: rgb(255, 255, 127);\n"
 "color: rgb(0, 0, 0);")
         self.textBrowser.setObjectName("textBrowser")
-        self.lineEdit = QtWidgets.QLineEdit(self.centralwidget)
-        self.lineEdit.setGeometry(QtCore.QRect(210, 110, 113, 21))
-        self.lineEdit.setStyleSheet("background-color: rgb(255, 170, 0);")
-        self.lineEdit.setObjectName("lineEdit")
         MainWindow.setCentralWidget(self.centralwidget)
         self.statusbar = QtWidgets.QStatusBar(MainWindow)
         self.statusbar.setObjectName("statusbar")
@@ -69,7 +61,6 @@ class Tela_Historico(object):
         MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
         self.pushButton.setText(_translate("MainWindow", "Consultar"))
         self.label.setText(_translate("MainWindow", "Histórico"))
-        self.label_2.setText(_translate("MainWindow", "Conta"))
         self.pushButton_2.setText(_translate("MainWindow", "Voltar"))
 
 

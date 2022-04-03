@@ -1,19 +1,4 @@
 # -*- coding: utf-8 -*-
-from classBanco import Banco
-from classCadastro import Cadastro
-from classHisto import Historico
-from classConta import Conta
-from classCliente import Cliente
-from telas.tela_menuCadastrar import Tela_Menu_Cadastrar
-from telas.tela_menu import Tela_Menu
-from telas.tela_login import Tela_Login
-from telas.tela_CadastroCon import Tela_CadastroCon
-from telas.tela_CadastroCli import Tela_CadastroCli
-from telas.tela_transferir import Tela_Transferir
-from telas.tela_sacar import Tela_Sacar
-from telas.tela_historico import Tela_Historico
-from telas.tela_extrato import Tela_Extrato
-from telas.tela_depositar import Tela_Depositar
 __author__ = "Elievelto & Bruna"
 __copyright__ = "Copyright 2022, Por mim"
 __credits__ = ["Elievelto & Bruna"]
@@ -33,9 +18,24 @@ from PyQt5.QtWidgets import QMessageBox, QMainWindow, QApplication, QFileDialog
 from PyQt5.QtCore import QCoreApplication
 
 """importando as telas"""
+from telas.tela_menuCadastrar import Tela_Menu_Cadastrar
+from telas.tela_menu import Tela_Menu
+from telas.tela_login import Tela_Login
+from telas.tela_CadastroCon import Tela_CadastroCon
+from telas.tela_CadastroCli import Tela_CadastroCli
+from telas.tela_transferir import Tela_Transferir
+from telas.tela_sacar import Tela_Sacar
+from telas.tela_historico import Tela_Historico
+from telas.tela_extrato import Tela_Extrato
+from telas.tela_depositar import Tela_Depositar
 
 
 """import das classes"""
+from classBanco import Banco
+from classCadastro import Cadastro
+from classHisto import Historico
+from classConta import Conta
+from classCliente import Cliente
 
 
 """Ainda precisa ajustar esse código, depois que todas as telas estiverem prontas"""
@@ -109,10 +109,10 @@ class Main(QMainWindow, Ui_Main):
         self.ban = Banco()
         database_query = "CREATE DATABASE IF NOT EXISTS banco"
 
-        conexao = self.ban.criando_conexao('localhost', 'root', '12345', 'banco')
+        conexao = self.ban.criando_conexao('localhost', 'root', 'mikasa', 'banco')
         self.ban.criando_bancodedados(conexao, database_query)
 
-        tabela_clientes = "CREATE TABLE IF NOT EXISTS clientes(cpf integer AUTO_INCREMENT PRIMARY KEY, nome text NOT NULL, endereco text NOT NULL, nascimento text NOT NULL, usuario text NOT NULL, senha VARCHAR(32) NOT NULL);"
+        tabela_clientes = "CREATE TABLE IF NOT EXISTS clientes(cpf text PRIMARY KEY, nome text NOT NULL, endereco text NOT NULL, nascimento text NOT NULL, usuario text NOT NULL, senha VARCHAR(32) NOT NULL);"
         self.ban.executando_query(conexao, tabela_clientes)
 
         print("teste")
@@ -268,7 +268,7 @@ class Main(QMainWindow, Ui_Main):
                     'banco',
                 )
                 inserindo_clientes = (
-                    'INSERT INTO usuarios (cpf, nome, endereco, nascimento, usuario, senha) VALUES ("{cpf}", "{nome}", "{endereco}", "{nascimento}", "{usuario}", "{senha}")')
+                    'INSERT INTO clientes (cpf, nome, endereco, nascimento, usuario, senha) VALUES ("{cpf}", "{nome}", "{endereco}", "{nascimento}", "{usuario}", "{senha}")')
                 self.ban.executando_query(conexao, inserindo_clientes)
 
                 self.tela_CadastroCli.lineEdit.setText('')
@@ -334,21 +334,19 @@ class Main(QMainWindow, Ui_Main):
 
     def botaoSacar(self):
         """ Função para realizar saque"""
-        conta_saq = self.tela_sacar.lineEdit.text()
+        login = self.tela_login.lineEdit.text()
+        conta_saq = self.cad.buscarCliCon(login)
         valor = self.tela_sacar.lineEdit_2.text()
         cs = self.cad.buscarCon(conta_saq)
 
-        if not(conta_saq == '' or valor == ''):
-            if (cs != None):
-                cs.sacar(int(valor))
-                QMessageBox.information(
-                    None, 'POO2', 'Saque feito com sucesso!')
-                self.tela_sacar.lineEdit.setText('')
-                self.tela_sacar.lineEdit_2.setText('')
-                self.tela_sacar.lineEdit_3.setText('R$ ' + str(cs.saldo))
-                self.tela_menu.lineEdit.setText('R$ ' + str(cs.saldo))
-            else:
-                QMessageBox.information(None, 'POO2', 'Essa conta não existe!')
+        if not(valor == ''):
+            cs.sacar(int(valor))
+            QMessageBox.information(
+                None, 'POO2', 'Saque feito com sucesso!')
+            self.tela_sacar.lineEdit.setText('')
+            self.tela_sacar.lineEdit_2.setText('')
+            self.tela_sacar.lineEdit_3.setText('R$ ' + str(cs.saldo))
+            self.tela_menu.lineEdit.setText('R$ ' + str(cs.saldo))
         else:
             QMessageBox.information(
                 None, 'POO2', 'Todos os campos devem ser preenchidos!')
@@ -356,26 +354,23 @@ class Main(QMainWindow, Ui_Main):
     # chamada para a tela de transferencia
     def botaoTransferir(self):
         """ Função para realizar transferência"""
-        conta_saida = self.tela_transferir.lineEdit_3.text()
+        login = self.tela_login.lineEdit.text()
+        conta_saida = self.cad.buscarCliCon(login)
         conta_destino = self.tela_transferir.lineEdit.text()
         valor = self.tela_transferir.lineEdit_2.text()
         cs = self.cad.buscarCon(conta_saida)
-        if not(conta_saida == '' or conta_destino == '' or valor == ''):
-            if (cs != None):
-                if(self.cad.buscarCon(conta_destino)):
-                    d = self.cad.buscarCon(conta_destino)
-                    d.transfere(cs, d, int(valor))
-                    QMessageBox.information(
-                        None, 'POO2', 'Transferencia feita com sucesso')
-                    self.tela_transferir.lineEdit_3.setText(
-                        'R$ ' + str(cs.saldo))
-                    self.tela_menu.lineEdit.setText('R$ ' + str(cs.saldo))
-                else:
-                    QMessageBox.information(
-                        None, 'POO2', 'Conta de destino não existe!')
+        if not(conta_destino == '' or valor == ''):
+            if(self.cad.buscarCon(conta_destino)):
+                d = self.cad.buscarCon(conta_destino)
+                d.transfere(cs, d, int(valor))
+                QMessageBox.information(
+                    None, 'POO2', 'Transferencia feita com sucesso')
+                self.tela_transferir.lineEdit_3.setText(
+                    'R$ ' + str(cs.saldo))
+                self.tela_menu.lineEdit.setText('R$ ' + str(cs.saldo))
             else:
                 QMessageBox.information(
-                    None, 'POO2', 'Conta de saída não existe!')
+                    None, 'POO2', 'Conta de destino não existe!')
         else:
             QMessageBox.information(
                 None, 'POO2', 'Todos os campos devem ser preenchidos!')
@@ -383,39 +378,32 @@ class Main(QMainWindow, Ui_Main):
 
     def botaoExtrato(self):
         """ Função para informar o extrato"""
-        conta = self.tela_extrato.lineEdit.text()
-        c = self.cad.buscarCon(conta)
-        if not(conta == ''):
-            if (c != None):
-                x = c.extrato()
-                self.tela_extrato.textBrowser.setText(x)
-            else:
-                QMessageBox.information(None, 'POO2', 'Essa conta não existe!')
+        login = self.tela_login.lineEdit.text()
+        y = self.cad.buscarCliCon(login)
+        c = self.cad.buscarCon(y.numero)
+        if (c != None):
+            x = c.extrato()
+            self.tela_extrato.textBrowser.setText(x)
         else:
-            QMessageBox.information(
-                None, 'POO2', 'Todos os campos devem ser preenchidos!')
+            QMessageBox.information(None, 'POO2', 'Essa conta não existe!')
+    
 # chamada para a tela historico
 
     def botaoHistorico(self):
         """ Função para informar o histórico"""
-        conta = self.tela_historico.lineEdit.text()
-        c = self.cad.buscarCon(conta)
-        if not(conta == ''):
-            if (c != None):
-                self.tela_historico.textBrowser.setText(
-                    self.his.data_de_abertura.strftime("%Y-%m-%d %H:%M:%S"))
-                # para conseguir imprimir no TextBrowser, ainda falta ajustes para imprimir data na tela
-                msg = ""
-                for x in c.historico.transacoes:
-                    msg += str(x)+"\n"
-                self.tela_historico.textBrowser.setText(msg)
-
-            else:
-                QMessageBox.information(None, 'POO2', 'Essa conta não existe!')
+        login = self.tela_login.lineEdit.text()
+        y = self.cad.buscarCliCon(login)
+        c = self.cad.buscarCon(y.numero)
+        if (c != None):
+            self.tela_historico.textBrowser.setText(
+                self.his.data_de_abertura.strftime("%Y-%m-%d %H:%M:%S"))
+            # para conseguir imprimir no TextBrowser, ainda falta ajustes para imprimir data na tela
+            msg = ""
+            for x in c.historico.transacoes:
+                msg += str(x)+"\n"
+            self.tela_historico.textBrowser.setText(msg)
         else:
-            QMessageBox.information(
-                None, 'POO2', 'Todos os campos devem ser preenchidos!')
-
+            QMessageBox.information(None, 'POO2', 'Essa conta não existe!')
 
 if __name__ == "__main__":
 
