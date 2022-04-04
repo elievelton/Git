@@ -9,8 +9,9 @@ class Historico:
 
     def imprime(self):
         """ Função para imprimir as transacões presente na lista criada"""
-        print("Data de abertura: {}".format(self.data_de_abertura))
-        print("transações: ")
+        print("Data de abertura: {}\n".format(self.data_de_abertura.strftime("%Y-%m-%d %H:%")))
+        print("transações: \n")
         for t in self.transacoes:
-            print("-",t)
+            print("-\n",t)
+        
         

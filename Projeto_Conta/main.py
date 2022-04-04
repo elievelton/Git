@@ -102,9 +102,10 @@ class Main(QMainWindow, Ui_Main):
         """ Função que realiza as configurações do que está presente nas telas"""
         super(Main, self).__init__(parent)
         self.setupUi(self)
-
+        
         self.cad = Cadastro()
         self.his = Historico()
+        self.his.transacoes.append("Abertura de Conta:{}\n".format(self.his.data_de_abertura.strftime("%Y-%m-%d %H:%M:%S")))
 
         """CRIANDO O BANCO DE DADOS E AS TABELAS"""
         self.ban = Banco()
@@ -116,7 +117,7 @@ class Main(QMainWindow, Ui_Main):
 
         self.ban.criando_bancodedados(conexao, database_query)
 
-        tabela_clientes = "CREATE TABLE IF NOT EXISTS clientes( cpf bigint(11)  PRIMARY KEY, nome text NOT NULL , endereco text NOT NULL, nascimento text NOT NULL, usuario text NOT NULL, senha VARCHAR(32) NOT NULL, conta bigint(11));"
+        tabela_clientes = "CREATE TABLE IF NOT EXISTS clientes( cpf bigint(11)  PRIMARY KEY, nome text NOT NULL , endereco text NOT NULL, nascimento text NOT NULL, usuario text NOT NULL, senha VARCHAR(32) NOT NULL, conta bigint(11), historico TEXT);"
         self.ban.executando_query(conexao, tabela_clientes)
 
         tabela_contas = "CREATE TABLE IF NOT EXISTS contas( numero int(5) NOT NULL , cpf_titular bigint(11)  PRIMARY KEY, saldo FLOAT(5,2) NOT NULL, limite text NOT NULL, historico text DEFAULT NULL);"
@@ -292,17 +293,21 @@ class Main(QMainWindow, Ui_Main):
         usuario = self.tela_CadastroCli.lineEdit_5.text()
         senha = self.tela_CadastroCli.lineEdit_6.text()
 
+        conexao = self.ban.criando_conexao(
+                            'localhost',
+                            'root',
+                            '12345',
+                            'banco',
+                        )
         if not (nome == '' or endereco == '' or cpf == '' or nascimento == '' or usuario == ' ' or senha == ''):
-            c = Cliente(nome, endereco, cpf, nascimento, usuario, senha)
-            if(self.cad.cadastrarCli(c)):
+            
+            #c = Cliente(nome, endereco, cpf, nascimento, usuario, senha)
+            buscar = self.ban.Bucar_cliente_bd(conexao,cpf)
+            print(buscar)
+            if(buscar ==None):
                 QMessageBox.information(
                     None, 'POO2', 'Cadastro Realizado com sucesso!')
-                conexao = self.ban.criando_conexao(
-                    'localhost',
-                    'root',
-                    '12345',
-                    'banco',
-                )
+                
                 inserindo_clientes = f"INSERT INTO clientes (cpf, nome, endereco, nascimento, usuario, senha) VALUES ({cpf}, {nome}, {endereco}, {nascimento},{usuario}, {senha})"
                 self.ban.executando_query(conexao, inserindo_clientes)
 
@@ -325,6 +330,7 @@ class Main(QMainWindow, Ui_Main):
         cpf_titular = self.tela_CadastroCon.lineEdit_2.text()
         saldo = 0
         limite = self.tela_CadastroCon.lineEdit_3.text()
+        
 
         existe = self.cad.buscarCli(cpf_titular)
         if (existe != None):
@@ -359,12 +365,14 @@ class Main(QMainWindow, Ui_Main):
         """ Função para realizar depoósito"""
         conta_dep = self.tela_depositar.lineEdit.text()
         valor = self.tela_depositar.lineEdit_2.text()
+
+        
         c = self.cad.buscarCon(conta_dep)
         if(c != None):
             if not(conta_dep == '' or valor == ''):
 
                 c.deposita(int(valor))
-
+                
                 QMessageBox.information(
                     None, 'POO2', 'deposito feito com sucesso!')
                 self.tela_depositar.lineEdit.setText('')
@@ -439,12 +447,12 @@ class Main(QMainWindow, Ui_Main):
         c = self.cad.buscarCon(y.numero)
         if (c != None):
             
-            # para conseguir imprimir no TextBrowser, ainda falta ajustes para imprimir data na tela
-            msg2 = self.tela_historico.textBrowser.setText(self.his.data_de_abertura.strftime("%Y-%m-%d %H:%M:%S\n"))
-            msg = ""
+            # para conseguir imprimir no TextBrowser
+            
+            msg = self.his.data_de_abertura.strftime("Data de abertura: %m/%d/%Y, %H:%M:%S\n")
             for x in c.historico.transacoes:
-                msg += str(x)+"\n"
-            self.tela_historico.textBrowser.setText(msg2)
+                msg += str(x)+"\n"    
+            
             self.tela_historico.textBrowser.setText(msg)
         else:
             QMessageBox.information(None, 'POO2', 'Essa conta não existe!')

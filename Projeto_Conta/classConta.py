@@ -16,6 +16,7 @@ class Conta:
         self._limite = limite
         self.historico = Historico()
         Conta._contador_de_contas += 1
+        
 
     @staticmethod
     def get_contador_de_contas():
@@ -40,6 +41,7 @@ class Conta:
     @numero.setter
     def numero(self, numero):
         self._numero = numero
+        
 
     @titular.setter
     def titular(self, titular):
@@ -54,7 +56,11 @@ class Conta:
         if(novo_valor != None):
             self._saldo += novo_valor
             self.historico.transacoes.append(
-                "Depositou o valor de: {}".format(novo_valor))
+                " Depositou o valor de: {}".format(novo_valor))
+            
+            
+            
+                
 
 
         else:
@@ -80,8 +86,7 @@ class Conta:
         if (retirou == False):
             return False
         else:
-            self.historico.transacoes.append(
-                "Transferiu o valor de: {} para a conta {}".format(valor, destino.numero))
+            self.historico.transacoes.append("Transferiu o valor de: {} para a conta {}".format(valor, destino.numero))
             return True
 
     def extrato(self):

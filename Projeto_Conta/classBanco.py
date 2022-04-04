@@ -1,9 +1,12 @@
 import mysql.connector
 from mysql.connector import Error
-
+from classHisto import Historico
+from classConta import Conta
+from classCliente import Cliente
 
 
 class Banco:
+
 
     def criando_conexao(self,host_name, user_name, user_passwd, db_name):
         self.conexao = None
@@ -45,3 +48,30 @@ class Banco:
             return self.result
         except Error as err:
             print(f"Error: '{err}'")
+
+    def Buscar_cliente_bd(self,conexao,cpf):
+        self.cursor = conexao.cursor()
+
+        self.cursor.execute(f'SELECT * FROM clientes WHERE clientes.cpf = {cpf}')
+        resultado = self.cursor.fetchall()
+
+        if resultado:
+            return resultado
+        else:
+            None
+
+
+    def Buscar_conta_bd(self,conexao,cpf):
+        self.cursor = conexao.cursor()
+
+        self.cursor.execute(f'SELECT * FROM contas WHERE contas.cpf_titular = {cpf}')
+        resultado = self.cursor.fetchall()
+
+        if resultado:
+            return resultado
+        else:
+            None
+
+
+
+
