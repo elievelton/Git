@@ -49,6 +49,7 @@ class Banco:
         except Error as err:
             print(f"Error: '{err}'")
 
+
     def Buscar_cliente_bd(self,conexao,cpf):
         self.cursor = conexao.cursor()
 
@@ -71,7 +72,3 @@ class Banco:
             return resultado
         else:
             None
-
-
-
-
