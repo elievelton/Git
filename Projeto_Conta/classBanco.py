@@ -87,6 +87,22 @@ class Banco:
         valor = self._cursor.fetchall()
         print(valor)
 
-    def altera_saldo(self,conexao,valor):
+    def altera_saldo(self,conexao, query):
         self.cursor = conexao.cursor()
-        
+        altera_saldo = query
+        try:
+            self.cursor.execute(altera_saldo)
+            conexao.commit()
+            print("Saldo alterado com sucesso")
+        except Error as err:
+            print(f"Error: '{err}'")
+    
+    def retorna_dado_conta(self, conexao, dado, atributo, parametro):
+        self.cursor = conexao.cursor()
+        self.cursor.execute(f'SELECT {dado} FROM contas WHERE contas.{atributo} = {parametro}') #filtra pelo atributo que o usuario quer
+        valor = self.cursor.fetchall()
+        if valor == []:
+            return None
+        else:
+            return valor
+
