@@ -53,7 +53,7 @@ class Banco:
     def Buscar_cliente_bd(self,conexao,cpf):
         self.cursor = conexao.cursor()
 
-        self.cursor.execute(f'SELECT * FROM clientes WHERE clientes.cpf = {cpf}')
+        self.cursor.execute(f'SELECT * FROM clientes WHERE clientes.cpf = {cpf}') #filtra pelo cpf
         resultado = self.cursor.fetchall()
 
         if resultado:
@@ -65,10 +65,28 @@ class Banco:
     def Buscar_conta_bd(self,conexao,cpf):
         self.cursor = conexao.cursor()
 
-        self.cursor.execute(f'SELECT * FROM contas WHERE contas.cpf_titular = {cpf}')
+        self.cursor.execute(f'SELECT * FROM contas WHERE contas.cpf_titular = {cpf}') #filtra pelo cpf
         resultado = self.cursor.fetchall()
 
         if resultado:
             return resultado
         else:
             None
+
+    def InserirConta_cliente(self,conexao,cpf_titular):
+        self.cursor = conexao.cursor()
+
+        self.cursor.execute(f'UPDATE `banco`.`clientes` SET conta = {cpf_titular} WHERE (cpf = {cpf_titular});')
+        self.conexao.commit()
+        #cliente = self.Buscar_cliente_bd(conexao,cpf_titular)
+        #return cliente
+    
+    def logar_na_conta(self,conexao,login,senha):
+        self.cursor = conexao.cursor()
+        self.cursor.execute(f"select * from clientes where usuario = '{login}' and senha = MD5('{senha}')")
+        valor = self._cursor.fetchall()
+        print(valor)
+
+    def altera_saldo(self,conexao,valor):
+        self.cursor = conexao.cursor()
+        

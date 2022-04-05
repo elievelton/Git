@@ -238,41 +238,33 @@ class Main(QMainWindow, Ui_Main):
         """Faz o login e verifica se existe usuário"""
         login = self.tela_login.lineEdit.text()
         senha = self.tela_login.lineEdit_2.text()
-        """        conexao = self.ban.criando_conexao(
+        conexao = self.ban.criando_conexao(
                     'localhost',
                     'root',
                     '12345',
                     'banco',
                 )
+                 
         cursor= conexao.cursor()
 
 
-        try:
-            cursor.execute("SELECT senha FROM clientes WHERE usuario = '{}'".format(login))
-            bd_busca = cursor.fetchall()
-            conexao.close()
+        cursor.execute(f"select * from clientes where usuario = '{login}' and senha = '{senha}'")
+        valor = cursor.fetchall()
+        convert_lista= list(valor)
+        print(convert_lista)
+
+        if(convert_lista!=None):
+
             
-        except:
-            self.tela_login.textBrowser.setText("Dados de login incorretos try!")
-
-        if(senha == bd_busca[0][0]):
-        self.abrirTelaMenu(login)
-            
-            """
-
-        """Faz o login e verifica se existe usuário"""
-
-        existe = self.cad.buscarUsuario(login)
-        x = self.cad.buscarConCli(login)
-        y = self.cad.buscarCliCon(login)
-        if(existe!=None):
-        
-            if (x != None):
-                if((existe.usuario and existe.senha) == (login and senha)):
+            if (convert_lista):
+                
+                if((convert_lista[0][4] and convert_lista[0][5]) == (login and senha)):
+                    conta =self.ban.Buscar_conta_bd(conexao,convert_lista[0][6])
+                    convert_conta = list(conta)
                     self.abrirTelaMenu()
-                    self.tela_menu.lineEdit_2.setText(existe.nome)
-                    self.tela_menu.lineEdit_3.setText(y.numero)
-                    self.tela_menu.lineEdit.setText('R$ ' + str(y.saldo))
+                    self.tela_menu.lineEdit_2.setText(convert_lista[0][1])
+                    self.tela_menu.lineEdit_3.setText(str(convert_conta[0][0]))
+                    self.tela_menu.lineEdit.setText('R$ ' + str(convert_conta[0][2]))
                 else :
                     self.tela_login.textBrowser.setText("Dados de login incorretos!")
                     self.tela_login.lineEdit.setText('')
@@ -283,6 +275,18 @@ class Main(QMainWindow, Ui_Main):
             QMessageBox.information(None, 'POO2', 'Cliente não existe! Clique no botão Cadastrar e faça seu cadastro')
             self.tela_login.lineEdit.setText('')
             self.tela_login.lineEdit_2.setText('')
+        conexao.close()    
+            
+
+
+
+           
+            
+          
+
+        """Faz o login e verifica se existe usuário"""
+
+
 
     def cadastrar_cliente(self):
         """ Função para cadastrar o cliente"""
@@ -302,8 +306,8 @@ class Main(QMainWindow, Ui_Main):
         if not (nome == '' or endereco == '' or cpf == '' or nascimento == '' or usuario == ' ' or senha == ''):
             
             #c = Cliente(nome, endereco, cpf, nascimento, usuario, senha)
-            buscar = self.ban.Bucar_cliente_bd(conexao,cpf)
-            print(buscar)
+            buscar = self.ban.Buscar_cliente_bd(conexao,cpf)
+            
             if(buscar ==None):
                 QMessageBox.information(
                     None, 'POO2', 'Cadastro Realizado com sucesso!')
@@ -331,22 +335,27 @@ class Main(QMainWindow, Ui_Main):
         saldo = 0
         limite = self.tela_CadastroCon.lineEdit_3.text()
         
-
-        existe = self.cad.buscarCli(cpf_titular)
-        if (existe != None):
-            if not(numero == '' or cpf_titular == '' or limite == ''):
-                co = Conta(numero, cpf_titular, saldo, limite)
-                if(self.cad.cadastrarCon(co)):
-                    QMessageBox.information(
-                        None, 'POO2', 'Cadastro Realizado com sucesso!')
-                    conexao = self.ban.criando_conexao(
+        conexao = self.ban.criando_conexao(
                     'localhost',
                     'root',
                     '12345',
                     'banco',
                 )
+        
+
+        cliente = self.ban.Buscar_cliente_bd(conexao,cpf_titular)
+        conta =self.ban.Buscar_conta_bd(conexao,cpf_titular)
+
+        if (cliente != None):
+            if not(numero == '' or cpf_titular == '' or limite == ''):
+    
+                if(conta==None):
+                    QMessageBox.information(
+                        None, 'POO2', 'Cadastro Realizado com sucesso!')
+                    
                     inserindo_contas = f"INSERT INTO contas (numero, cpf_titular, saldo, limite) VALUES ({numero}, {cpf_titular}, {saldo}, {limite})"
                     self.ban.executando_query(conexao, inserindo_contas)
+                    self.ban.InserirConta_cliente(conexao,cpf_titular)
                     
                     self.tela_CadastroCon.lineEdit.setText('')
                     self.tela_CadastroCon.lineEdit_2.setText('')
