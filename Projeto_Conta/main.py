@@ -9,8 +9,11 @@ __email__ = "suporte@gamesbruna.com"
 __status__ = "Production"
 '''Sistema que simula um aplicativo bancario'''
 
+from datetime import datetime
+import string
 import sys
 import os
+from turtle import update
 
 
 from PyQt5 import QtCore, QtGui, QtWidgets
@@ -113,7 +116,7 @@ class Main(QMainWindow, Ui_Main):
 
 
         conexao = self.ban.criando_conexao(
-            'localhost', 'root', '12345', 'banco')
+            'localhost', 'root', 'mikasa', 'banco')
 
         self.ban.criando_bancodedados(conexao, database_query)
 
@@ -216,11 +219,21 @@ class Main(QMainWindow, Ui_Main):
         """Carrega tela para realizar saque e informa os atributos do cliente"""
         self.QtStack.setCurrentIndex(6)
         login = self.tela_login.lineEdit.text()
-        x = self.cad.buscarConCli(login)
-        y = self.cad.buscarCliCon(login)
-        self.tela_sacar.lineEdit_4.setText(x.nome)
-        self.tela_sacar.lineEdit_5.setText(str(y.numero))
-        self.tela_sacar.lineEdit_3.setText('R$ ' + str(y.saldo))
+        conexao = self.ban.criando_conexao(
+                            'localhost',
+                            'root',
+                            'mikasa',
+                            'banco',
+                        )
+        q1 = (f"select * from clientes where usuario = '{login}'")
+        dados = self.ban.lendo_dados(conexao, q1)
+        lista = list(dados)
+        conta = self.ban.Buscar_conta_bd(conexao,lista[0][6])
+        convert_conta = list(conta)
+        self.tela_sacar.lineEdit_4.setText(lista[0][1])
+        self.tela_sacar.lineEdit_5.setText(str(convert_conta[0][0]))
+        self.tela_sacar.lineEdit_3.setText('R$ ' + str(convert_conta[0][2]))
+
 
     def abrirTelaTransferir(self):
         """Carrega tela para realizar transferência e informa os atributos do cliente"""
@@ -253,7 +266,7 @@ class Main(QMainWindow, Ui_Main):
         conexao = self.ban.criando_conexao(
                     'localhost',
                     'root',
-                    '12345',
+                    'mikasa',
                     'banco',
                 )
                  
@@ -312,7 +325,7 @@ class Main(QMainWindow, Ui_Main):
         conexao = self.ban.criando_conexao(
                             'localhost',
                             'root',
-                            '12345',
+                            'mikasa',
                             'banco',
                         )
         if not (nome == '' or endereco == '' or cpf == '' or nascimento == '' or usuario == ' ' or senha == ''):
@@ -344,13 +357,13 @@ class Main(QMainWindow, Ui_Main):
         """função para cadastrar conta"""
         numero = self.tela_CadastroCon.lineEdit.text()
         cpf_titular = self.tela_CadastroCon.lineEdit_2.text()
-        saldo = 0
+        saldo = 10
         limite = self.tela_CadastroCon.lineEdit_3.text()
         
         conexao = self.ban.criando_conexao(
                     'localhost',
                     'root',
-                    '12345',
+                    'mikasa',
                     'banco',
                 )
         
@@ -418,20 +431,40 @@ class Main(QMainWindow, Ui_Main):
     def botaoSacar(self):
         """ Função para realizar saque"""
         login = self.tela_login.lineEdit.text()
-        conta_saq = self.cad.buscarCliCon(login)
-        valor = self.tela_sacar.lineEdit_2.text()
-        cs = self.cad.buscarCon(conta_saq.numero)
-        if not(valor == ''):
-            conta_saq.sacar(int(valor))
-            QMessageBox.information(
-                None, 'POO2', 'Saque feito com sucesso!')
-            #self.tela_sacar.lineEdit.setText('')
-            self.tela_sacar.lineEdit_2.setText('')
-            self.tela_sacar.lineEdit_3.setText('R$ ' + str(cs.saldo))
-            self.tela_menu.lineEdit.setText('R$ ' + str(cs.saldo))
-        else:
-            QMessageBox.information(
-                None, 'POO2', 'Todos os campos devem ser preenchidos!')
+        valor_saq = float(self.tela_sacar.lineEdit_2.text())
+        conexao = self.ban.criando_conexao(
+                            'localhost',
+                            'root',
+                            'mikasa',
+                            'banco',
+                        )
+        cursor= conexao.cursor()
+        cursor.execute(f"select * from clientes where usuario = '{login}'")
+        valor = cursor.fetchall()
+        convert_lista= list(valor)
+        print(convert_lista)
+        if (convert_lista):
+            if not(valor_saq == ''):
+                if((convert_lista[0][4]) == (login)):
+                    conta =self.ban.Buscar_conta_bd(conexao,convert_lista[0][6])
+                    s = conta[0][2]
+                    if (s >= valor_saq):
+                        QMessageBox.information(None, 'POO2', 'Saque feito com sucesso!')
+                        convert_conta = list(map(list, conta))
+                        convert_conta[0][2] = (s - valor_saq)
+                        self.tela_sacar.lineEdit_4.setText(convert_lista[0][1])
+                        self.tela_sacar.lineEdit_5.setText(str(convert_conta[0][0]))
+                        self.tela_sacar.lineEdit_3.setText('R$ ' + str(convert_conta[0][2]))
+                        self.tela_menu.lineEdit.setText('R$ ' + str(convert_conta[0][2]))
+
+                        alterar_saldo = (f'UPDATE `banco`.`contas` SET saldo = {convert_conta[0][2]} WHERE (numero = {conta[0][0]});')
+                        self.ban.executando_query(conexao, alterar_saldo)
+                        print(convert_conta)
+                    else:
+                        QMessageBox.information(None, 'POO2', 'Saldo insuficiente!')
+            else:
+                QMessageBox.information(
+                    None, 'POO2', 'Todos os campos devem ser preenchidos!')
 
     # chamada para a tela de transferencia
     def botaoTransferir(self):
@@ -469,32 +502,43 @@ class Main(QMainWindow, Ui_Main):
     def botaoExtrato(self):
         """ Função para informar o extrato"""
         login = self.tela_login.lineEdit.text()
-        y = self.cad.buscarCliCon(login)
-        c = self.cad.buscarCon(y.numero)
-        if (c != None):
-            x = c.extrato()
-            self.tela_extrato.textBrowser.setText(x)
-        else:
-            QMessageBox.information(None, 'POO2', 'Essa conta não existe!')
+        conexao = self.ban.criando_conexao(
+                            'localhost',
+                            'root',
+                            'mikasa',
+                            'banco',
+                        )
+        q1 = (f"select * from clientes where usuario = '{login}'")
+        dados = self.ban.lendo_dados(conexao, q1)
+        lista = list(dados)
+        conta = self.ban.Buscar_conta_bd(conexao,lista[0][6])
+        convert_conta = list(conta)
+        self.tela_extrato.textBrowser.setText("Numero Conta: {} \nSaldo Disponível: {}".format(convert_conta[0][0], convert_conta[0][2]))
     
 # chamada para a tela historico
 
     def botaoHistorico(self):
         """ Função para informar o histórico"""
         login = self.tela_login.lineEdit.text()
-        y = self.cad.buscarCliCon(login)
-        c = self.cad.buscarCon(y.numero)
-        if (c != None):
-            
-            # para conseguir imprimir no TextBrowser
-            
-            msg = self.his.data_de_abertura.strftime("Data de abertura: %m/%d/%Y, %H:%M:%S\n")
-            for x in c.historico.transacoes:
-                msg += str(x)+"\n"    
-            
-            self.tela_historico.textBrowser.setText(msg)
-        else:
-            QMessageBox.information(None, 'POO2', 'Essa conta não existe!')
+        conexao = self.ban.criando_conexao(
+                            'localhost',
+                            'root',
+                            'mikasa',
+                            'banco',
+                        )
+        q1 = (f"select * from clientes where usuario = '{login}'")
+        '''dados = self.ban.lendo_dados(conexao, q1)
+        lista = list(dados)
+        conta = self.ban.Buscar_conta_bd(conexao,lista[0][6])
+        convert_conta = list(conta)
+        msg = """SELECT historico FROM contas"""
+        result = self.ban.lendo_dados(conexao, msg)
+        msg = self.his.data_de_abertura.strftime("Data de abertura: %m/%d/%Y, %H:%M:%S\n")
+        for x in c.historico.transacoes:
+        msg += str(x)+"\n"   
+        for x in result:
+            str(x)+"\n"
+            self.tela_historico.textBrowser.setText(result)'''
 
 if __name__ == "__main__":
 

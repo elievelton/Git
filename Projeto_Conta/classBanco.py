@@ -169,3 +169,12 @@ class Banco:
         self.conexao.commit()
 
 
+    def altera_saldo(self,conexao, query):
+        self.cursor = conexao.cursor()
+        altera_saldo = query
+        try:
+            self.cursor.execute(altera_saldo)
+            conexao.commit()
+            print("Saldo alterado com sucesso")
+        except Error as err:
+            print(f"Error: '{err}'")
