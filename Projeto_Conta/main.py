@@ -200,11 +200,17 @@ class Main(QMainWindow, Ui_Main):
         """Carrega tela para realizar depósito e informa os atributos do cliente"""
         self.QtStack.setCurrentIndex(5)
         login = self.tela_login.lineEdit.text()
-        x = self.cad.buscarConCli(login)
-        y = self.cad.buscarCliCon(login)
-        self.tela_depositar.lineEdit_4.setText(x.nome)
-        self.tela_depositar.lineEdit_5.setText(str(y.numero))
-        self.tela_depositar.lineEdit_3.setText('R$ ' + str(y.saldo))
+        conexao = self.ban.criando_conexao(
+                            'localhost',
+                            'root',
+                            '12345',
+                            'banco',
+                        )
+        x = self.ban.Buscar_cliente_bd_login(conexao,login)
+        y = self.ban.Buscar_conta_bd_login(conexao,login)
+        self.tela_depositar.lineEdit_4.setText(x[0][1])
+        self.tela_depositar.lineEdit_5.setText(str(y[0][0]))
+        self.tela_depositar.lineEdit_3.setText('R$ ' + str(y[0][2]))
 
     def abrirTelaSacar(self):
         """Carrega tela para realizar saque e informa os atributos do cliente"""
@@ -220,11 +226,17 @@ class Main(QMainWindow, Ui_Main):
         """Carrega tela para realizar transferência e informa os atributos do cliente"""
         self.QtStack.setCurrentIndex(7)
         login = self.tela_login.lineEdit.text()
-        x = self.cad.buscarConCli(login)
-        y = self.cad.buscarCliCon(login)
-        self.tela_transferir.lineEdit_6.setText(x.nome)
-        self.tela_transferir.lineEdit_5.setText(str(y.numero))
-        self.tela_transferir.lineEdit_4.setText('R$ ' + str(y.saldo))
+        conexao = self.ban.criando_conexao(
+                            'localhost',
+                            'root',
+                            '12345',
+                            'banco',
+                        )
+        x = self.ban.Buscar_cliente_bd_login(conexao,login)
+        y = self.ban.Buscar_conta_bd_login(conexao,login)
+        self.tela_transferir.lineEdit_6.setText((x[0][1]))
+        self.tela_transferir.lineEdit_5.setText(str(y[0][0]))
+        self.tela_transferir.lineEdit_4.setText('R$ ' + str(y[0][2]))
 
     def abrirTelaExtrato(self):
         """Carrega tela para mostrar o extrato do cliente"""
@@ -247,7 +259,7 @@ class Main(QMainWindow, Ui_Main):
                  
         cursor= conexao.cursor()
 
-
+        
         cursor.execute(f"select * from clientes where usuario = '{login}' and senha = '{senha}'")
         valor = cursor.fetchall()
         convert_lista= list(valor)
@@ -345,6 +357,8 @@ class Main(QMainWindow, Ui_Main):
 
         cliente = self.ban.Buscar_cliente_bd(conexao,cpf_titular)
         conta =self.ban.Buscar_conta_bd(conexao,cpf_titular)
+        teste=self.ban.retorna_dado_conta(conexao,numero,cpf_titular,2)
+        print(teste)
 
         if (cliente != None):
             if not(numero == '' or cpf_titular == '' or limite == ''):
@@ -374,20 +388,28 @@ class Main(QMainWindow, Ui_Main):
         """ Função para realizar depoósito"""
         conta_dep = self.tela_depositar.lineEdit.text()
         valor = self.tela_depositar.lineEdit_2.text()
-
+        conexao = self.ban.criando_conexao(
+                    'localhost',
+                    'root',
+                    '12345',
+                    'banco',
+                )
         
-        c = self.cad.buscarCon(conta_dep)
+        c = self.ban.retorna_dado_conta(conexao,'cpf_titular','numero',conta_dep)
+        saldo =self.ban.retorna_dado_conta(conexao,'saldo','numero',conta_dep)
+        list(saldo)
         if(c != None):
-            if not(conta_dep == '' or valor == ''):
+            if not(c==None):
 
-                c.deposita(int(valor))
+                self.ban.altera_saldo(conexao,float(valor),c[0][0])
+                saldo =self.ban.retorna_dado_conta(conexao,'saldo','numero',conta_dep)
                 
                 QMessageBox.information(
                     None, 'POO2', 'deposito feito com sucesso!')
                 self.tela_depositar.lineEdit.setText('')
                 self.tela_depositar.lineEdit_2.setText('')
-                self.tela_depositar.lineEdit_3.setText('R$ ' + str(c.saldo))
-                self.tela_menu.lineEdit.setText('R$ ' + str(c.saldo))
+                self.tela_depositar.lineEdit_3.setText('R$ ' + str(saldo[0][0]))
+                self.tela_menu.lineEdit.setText('R$ ' + str(saldo[0][0]))
             else:
                 QMessageBox.information(
                     None, 'POO2', 'Todos os campos devem ser preenchidos!')
@@ -415,19 +437,27 @@ class Main(QMainWindow, Ui_Main):
     def botaoTransferir(self):
         """ Função para realizar transferência"""
 
-
-        conta_saida = self.tela_transferir.lineEdit_3.text()
         conta_destino = self.tela_transferir.lineEdit.text()
         valor = self.tela_transferir.lineEdit_2.text()
-        cs = self.cad.buscarCon(conta_saida)
-        if not(conta_saida == '' or conta_destino == '' or valor == ''):
-            if (cs != None):
-                if(self.cad.buscarCon(conta_destino)):
-                    d =self.cad.buscarCon(conta_destino)
-                    d.transfere(cs,d,int(valor))
+        conexao = self.ban.criando_conexao(
+                    'localhost',
+                    'root',
+                    '12345',
+                    'banco',
+                )
+
+        cs = self.tela_login.lineEdit.text()
+        buscar_conta = self.ban.Buscar_conta_bd_login(conexao,cs) #retorna a chave primaria da conta que é o cpf
+        Busca_conta_de_destino = self.ban.retorna_dado_conta(conexao,'cpf_titular','numero',conta_destino)
+        if not( conta_destino == '' or valor == ''):
+            if (buscar_conta[0][0] != None):
+                if(Busca_conta_de_destino):
+                    
+                    self.ban.transferirBD(conexao,Busca_conta_de_destino[0][0],cs,float(valor))
+                    cs =self.ban.Buscar_conta_bd(conexao,buscar_conta[0][1])
                     QMessageBox.information(None, 'POO2', 'Transferencia feita com sucesso')
-                    self.tela_transferir.lineEdit_4.setText('R$ ' + str(cs.saldo))
-                    self.tela_menu.lineEdit.setText('R$ ' + str(cs.saldo))
+                    self.tela_transferir.lineEdit_4.setText('R$ ' + str(cs[0][2]))
+                    self.tela_menu.lineEdit.setText('R$ ' + str(cs[0][2]))
                 else:
                     QMessageBox.information(None, 'POO2', 'Conta de destino não existe!')
             else:

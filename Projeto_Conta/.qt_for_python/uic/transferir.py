@@ -29,7 +29,7 @@ class Ui_MainWindow(object):
         self.centralwidget.setObjectName(u"centralwidget")
         self.label_2 = QLabel(self.centralwidget)
         self.label_2.setObjectName(u"label_2")
-        self.label_2.setGeometry(QRect(108, 265, 271, 20))
+        self.label_2.setGeometry(QRect(108, 225, 271, 20))
         font = QFont()
         font.setFamilies([u"Noto Sans"])
         font.setPointSize(10)
@@ -39,7 +39,7 @@ class Ui_MainWindow(object):
         self.label_2.setStyleSheet(u"color: rgb(255, 255, 255);")
         self.label_3 = QLabel(self.centralwidget)
         self.label_3.setObjectName(u"label_3")
-        self.label_3.setGeometry(QRect(108, 315, 261, 20))
+        self.label_3.setGeometry(QRect(108, 275, 261, 20))
         self.label_3.setFont(font)
         self.label_3.setStyleSheet(u"color: rgb(255, 255, 255);")
         self.pushButton = QPushButton(self.centralwidget)
@@ -60,12 +60,12 @@ class Ui_MainWindow(object):
 "color: rgb(255, 255, 255);")
         self.lineEdit = QLineEdit(self.centralwidget)
         self.lineEdit.setObjectName(u"lineEdit")
-        self.lineEdit.setGeometry(QRect(388, 264, 113, 21))
+        self.lineEdit.setGeometry(QRect(388, 224, 113, 21))
         self.lineEdit.setStyleSheet(u"background-color: rgb(255, 170, 0);\n"
 "color: rgb(0, 0, 0);")
         self.lineEdit_2 = QLineEdit(self.centralwidget)
         self.lineEdit_2.setObjectName(u"lineEdit_2")
-        self.lineEdit_2.setGeometry(QRect(388, 310, 113, 21))
+        self.lineEdit_2.setGeometry(QRect(388, 270, 113, 21))
         self.lineEdit_2.setStyleSheet(u"background-color: rgb(255, 170, 0);\n"
 "color: rgb(0, 0, 0);")
         self.frame = QFrame(self.centralwidget)
@@ -122,16 +122,6 @@ class Ui_MainWindow(object):
         self.lineEdit_6.setContextMenuPolicy(Qt.NoContextMenu)
         self.lineEdit_6.setStyleSheet(u"background-color: rgb(255, 170, 0);\n"
 "color: rgb(0, 0, 0);")
-        self.label_4 = QLabel(self.centralwidget)
-        self.label_4.setObjectName(u"label_4")
-        self.label_4.setGeometry(QRect(110, 211, 271, 20))
-        self.label_4.setFont(font)
-        self.label_4.setStyleSheet(u"color: rgb(255, 255, 255);")
-        self.lineEdit_3 = QLineEdit(self.centralwidget)
-        self.lineEdit_3.setObjectName(u"lineEdit_3")
-        self.lineEdit_3.setGeometry(QRect(390, 210, 113, 21))
-        self.lineEdit_3.setStyleSheet(u"background-color: rgb(255, 170, 0);\n"
-"color: rgb(0, 0, 0);")
         MainWindow.setCentralWidget(self.centralwidget)
         self.statusbar = QStatusBar(MainWindow)
         self.statusbar.setObjectName(u"statusbar")
@@ -154,6 +144,5 @@ class Ui_MainWindow(object):
         self.lineEdit_4.setText("")
         self.label_7.setText(QCoreApplication.translate("MainWindow", u"Cliente:", None))
         self.lineEdit_6.setText("")
-        self.label_4.setText(QCoreApplication.translate("MainWindow", u"Conta de Sa\u00edda", None))
     # retranslateUi
 
