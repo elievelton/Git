@@ -123,10 +123,14 @@ class Banco:
         float(novo_valor)
         
         teste+=novo_valor
+    
         
         self.cursor.execute(f'UPDATE `banco`.`contas` SET saldo = {teste} WHERE (cpf_titular = {chave_de_busca});')
+  
+        msg=f'Deposito de: {novo_valor}\n'
 
         self.conexao.commit()
+        self.gravar_historico(conexao,chave_de_busca,msg)
         
 
 
@@ -165,16 +169,40 @@ class Banco:
         teste-=valor
         
         self.cursor.execute(f'UPDATE `banco`.`contas` SET saldo = {teste} WHERE (cpf_titular = {saida});')
+    
 
         self.conexao.commit()
+        msg=f'Transferencia no valor de: {valor}\n'
+        self.gravar_historico(conexao,destino,msg)
 
 
-    def altera_saldo(self,conexao, query):
+    def altera_saldo2(self,conexao, query):
         self.cursor = conexao.cursor()
         altera_saldo = query
         try:
             self.cursor.execute(altera_saldo)
-            conexao.commit()
+            self.conexao.commit()
             print("Saldo alterado com sucesso")
         except Error as err:
             print(f"Error: '{err}'")
+
+
+    def gravar_historico(self,conexao,id,info):
+        self.cursor = conexao.cursor()
+        lista=[]
+
+        sql='UPDATE `banco`.`contas` SET historico = %s WHERE (cpf_titular = %s);'
+        val =(info,id)
+        self.cursor.execute(sql,val)
+        self.conexao.commit()
+
+
+
+    def gravar_abertura_conta(self,conexao,id,info):
+        self.cursor = conexao.cursor()
+        sql='UPDATE `banco`.`clientes` SET data_abertura = %s WHERE (cpf = %s);'
+        val =(info,id)
+        self.cursor.execute(sql,val)
+        self.conexao.commit()   
+
+

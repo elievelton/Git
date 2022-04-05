@@ -9,11 +9,11 @@ __email__ = "suporte@gamesbruna.com"
 __status__ = "Production"
 '''Sistema que simula um aplicativo bancario'''
 
-from datetime import datetime
+import datetime
 import string
 import sys
 import os
-from turtle import update
+
 
 
 from PyQt5 import QtCore, QtGui, QtWidgets
@@ -108,7 +108,8 @@ class Main(QMainWindow, Ui_Main):
         
         self.cad = Cadastro()
         self.his = Historico()
-        self.his.transacoes.append("Abertura de Conta:{}\n".format(self.his.data_de_abertura.strftime("%Y-%m-%d %H:%M:%S")))
+
+        
 
         """CRIANDO O BANCO DE DADOS E AS TABELAS"""
         self.ban = Banco()
@@ -116,11 +117,11 @@ class Main(QMainWindow, Ui_Main):
 
 
         conexao = self.ban.criando_conexao(
-            'localhost', 'root', 'mikasa', 'banco')
+            'localhost', 'root', '12345', 'banco')
 
         self.ban.criando_bancodedados(conexao, database_query)
 
-        tabela_clientes = "CREATE TABLE IF NOT EXISTS clientes( cpf bigint(11)  PRIMARY KEY, nome text NOT NULL , endereco text NOT NULL, nascimento text NOT NULL, usuario text NOT NULL, senha VARCHAR(32) NOT NULL, conta bigint(11), historico TEXT);"
+        tabela_clientes = "CREATE TABLE IF NOT EXISTS clientes( cpf bigint(11)  PRIMARY KEY, nome text NOT NULL , endereco text NOT NULL, nascimento text NOT NULL, usuario text NOT NULL, senha VARCHAR(32) NOT NULL, conta bigint(11), data_abertura TEXT);"
         self.ban.executando_query(conexao, tabela_clientes)
 
         tabela_contas = "CREATE TABLE IF NOT EXISTS contas( numero int(5) NOT NULL , cpf_titular bigint(11)  PRIMARY KEY, saldo FLOAT(5,2) NOT NULL, limite text NOT NULL, historico text DEFAULT NULL);"
@@ -222,7 +223,7 @@ class Main(QMainWindow, Ui_Main):
         conexao = self.ban.criando_conexao(
                             'localhost',
                             'root',
-                            'mikasa',
+                            '12345',
                             'banco',
                         )
         q1 = (f"select * from clientes where usuario = '{login}'")
@@ -266,20 +267,19 @@ class Main(QMainWindow, Ui_Main):
         conexao = self.ban.criando_conexao(
                     'localhost',
                     'root',
-                    'mikasa',
+                    '12345',
                     'banco',
                 )
-                 
         cursor= conexao.cursor()
-
+        b=self.ban.Buscar_cliente_bd_login(conexao,login) #retorna o cpf do cliente
+        buscar_cliente= self.ban.Buscar_cliente_bd(conexao,b[0][0])
+        
         
         cursor.execute(f"select * from clientes where usuario = '{login}' and senha = '{senha}'")
         valor = cursor.fetchall()
         convert_lista= list(valor)
-        print(convert_lista)
-
         if(convert_lista!=None):
-
+        
             
             if (convert_lista):
                 
@@ -325,7 +325,7 @@ class Main(QMainWindow, Ui_Main):
         conexao = self.ban.criando_conexao(
                             'localhost',
                             'root',
-                            'mikasa',
+                            '12345',
                             'banco',
                         )
         if not (nome == '' or endereco == '' or cpf == '' or nascimento == '' or usuario == ' ' or senha == ''):
@@ -363,7 +363,7 @@ class Main(QMainWindow, Ui_Main):
         conexao = self.ban.criando_conexao(
                     'localhost',
                     'root',
-                    'mikasa',
+                    '12345',
                     'banco',
                 )
         
@@ -371,14 +371,15 @@ class Main(QMainWindow, Ui_Main):
         cliente = self.ban.Buscar_cliente_bd(conexao,cpf_titular)
         conta =self.ban.Buscar_conta_bd(conexao,cpf_titular)
         teste=self.ban.retorna_dado_conta(conexao,numero,cpf_titular,2)
-        print(teste)
-
+        
+        now = datetime.datetime.utcnow()
         if (cliente != None):
             if not(numero == '' or cpf_titular == '' or limite == ''):
     
                 if(conta==None):
                     QMessageBox.information(
                         None, 'POO2', 'Cadastro Realizado com sucesso!')
+                    self.ban.gravar_abertura_conta(conexao,cliente[0][0],now.strftime('%Y-%m-%d %H:%M:%S'))
                     
                     inserindo_contas = f"INSERT INTO contas (numero, cpf_titular, saldo, limite) VALUES ({numero}, {cpf_titular}, {saldo}, {limite})"
                     self.ban.executando_query(conexao, inserindo_contas)
@@ -435,14 +436,15 @@ class Main(QMainWindow, Ui_Main):
         conexao = self.ban.criando_conexao(
                             'localhost',
                             'root',
-                            'mikasa',
+                            '12345',
                             'banco',
                         )
         cursor= conexao.cursor()
         cursor.execute(f"select * from clientes where usuario = '{login}'")
         valor = cursor.fetchall()
         convert_lista= list(valor)
-        print(convert_lista)
+        texto= str(valor_saq)
+
         if (convert_lista):
             if not(valor_saq == ''):
                 if((convert_lista[0][4]) == (login)):
@@ -450,6 +452,9 @@ class Main(QMainWindow, Ui_Main):
                     s = conta[0][2]
                     if (s >= valor_saq):
                         QMessageBox.information(None, 'POO2', 'Saque feito com sucesso!')
+                        msg=f'Saque no Valor de : {valor_saq}\n'
+                        self.ban.gravar_historico(conexao,conta[0][1],msg)
+                        
                         convert_conta = list(map(list, conta))
                         convert_conta[0][2] = (s - valor_saq)
                         self.tela_sacar.lineEdit_4.setText(convert_lista[0][1])
@@ -457,9 +462,10 @@ class Main(QMainWindow, Ui_Main):
                         self.tela_sacar.lineEdit_3.setText('R$ ' + str(convert_conta[0][2]))
                         self.tela_menu.lineEdit.setText('R$ ' + str(convert_conta[0][2]))
 
+
                         alterar_saldo = (f'UPDATE `banco`.`contas` SET saldo = {convert_conta[0][2]} WHERE (numero = {conta[0][0]});')
                         self.ban.executando_query(conexao, alterar_saldo)
-                        print(convert_conta)
+                        
                     else:
                         QMessageBox.information(None, 'POO2', 'Saldo insuficiente!')
             else:
@@ -505,7 +511,7 @@ class Main(QMainWindow, Ui_Main):
         conexao = self.ban.criando_conexao(
                             'localhost',
                             'root',
-                            'mikasa',
+                            '12345',
                             'banco',
                         )
         q1 = (f"select * from clientes where usuario = '{login}'")
@@ -523,22 +529,19 @@ class Main(QMainWindow, Ui_Main):
         conexao = self.ban.criando_conexao(
                             'localhost',
                             'root',
-                            'mikasa',
+                            '12345',
                             'banco',
                         )
         q1 = (f"select * from clientes where usuario = '{login}'")
-        '''dados = self.ban.lendo_dados(conexao, q1)
+        dados = self.ban.lendo_dados(conexao, q1)
         lista = list(dados)
         conta = self.ban.Buscar_conta_bd(conexao,lista[0][6])
         convert_conta = list(conta)
-        msg = """SELECT historico FROM contas"""
-        result = self.ban.lendo_dados(conexao, msg)
-        msg = self.his.data_de_abertura.strftime("Data de abertura: %m/%d/%Y, %H:%M:%S\n")
-        for x in c.historico.transacoes:
-        msg += str(x)+"\n"   
-        for x in result:
-            str(x)+"\n"
-            self.tela_historico.textBrowser.setText(result)'''
+    
+
+        self.tela_historico.textBrowser.setText(str(convert_conta[0][4]))
+
+
 
 if __name__ == "__main__":
 
