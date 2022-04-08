@@ -1,13 +1,4 @@
-# -*- coding: utf-8 -*-
-__author__ = "Elievelto & Bruna"
-__copyright__ = "Copyright 2022, Por mim"
-__credits__ = ["Elievelto & Bruna"]
-__license__ = "GPL"
-__version__ = "1.0"
-__maintainer__ = "eu também"
-__email__ = "suporte@gamesbruna.com"
-__status__ = "Production"
-'''Sistema que simula um aplicativo bancario'''
+import socket
 
 import datetime
 import string
@@ -18,18 +9,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtWidgets import QMessageBox, QMainWindow, QApplication, QFileDialog
 from PyQt5.QtCore import QCoreApplication
 
-"""importando as telas"""
-from telas.tela_menuCadastrar import Tela_Menu_Cadastrar
-from telas.tela_menu import Tela_Menu
-from telas.tela_login import Tela_Login
-from telas.tela_CadastroCon import Tela_CadastroCon
-from telas.tela_CadastroCli import Tela_CadastroCli
-from telas.tela_transferir import Tela_Transferir
-from telas.tela_sacar import Tela_Sacar
-from telas.tela_historico import Tela_Historico
-from telas.tela_extrato import Tela_Extrato
-from telas.tela_depositar import Tela_Depositar
-
+from main_cliente import Ui_Main, QMainWindow
 
 """import das classes"""
 from classBanco import Banco
@@ -38,64 +18,13 @@ from classHisto import Historico
 from classConta import Conta
 from classCliente import Cliente
 
+def aceita_conexoes():
+    """Esse loop aguarda eternamente(infinito) requerimentos de possíveis clientes"""
+    pass
 
-"""Ainda precisa ajustar esse código, depois que todas as telas estiverem prontas"""
-
-
-class Ui_Main(QtWidgets.QWidget):
-    def setupUi(self, Main):
-        """ Função que realiza as configurações das telas"""
-        Main.setObjectName('Main')
-        Main.resize(640, 480)
-
-        self.QtStack = QtWidgets.QStackedLayout()  # pilhas de telas
-
-        self.stack0 = QtWidgets.QMainWindow()
-        self.stack1 = QtWidgets.QMainWindow()
-        self.stack2 = QtWidgets.QMainWindow()
-        self.stack3 = QtWidgets.QMainWindow()
-        self.stack4 = QtWidgets.QMainWindow()
-        self.stack5 = QtWidgets.QMainWindow()
-        self.stack6 = QtWidgets.QMainWindow()
-        self.stack7 = QtWidgets.QMainWindow()
-        self.stack8 = QtWidgets.QMainWindow()
-        self.stack9 = QtWidgets.QMainWindow()
-
-        self.tela_login = Tela_Login()
-        self.tela_login.setupUi(self.stack0)
-        self.tela_menu = Tela_Menu()
-        self.tela_menu.setupUi(self.stack1)
-        self.tela_menuCadastrar = Tela_Menu_Cadastrar()
-        self.tela_menuCadastrar.setupUi(self.stack2)
-        self.tela_CadastroCli = Tela_CadastroCli()
-        self.tela_CadastroCli.setupUi(self.stack3)
-        self.tela_CadastroCon = Tela_CadastroCon()
-        self.tela_CadastroCon.setupUi(self.stack4)
-        self.tela_depositar = Tela_Depositar()
-        self.tela_depositar.setupUi(self.stack5)
-        self.tela_sacar = Tela_Sacar()
-        self.tela_sacar.setupUi(self.stack6)
-        self.tela_transferir = Tela_Transferir()
-        self.tela_transferir.setupUi(self.stack7)
-        self.tela_extrato = Tela_Extrato()
-        self.tela_extrato.setupUi(self.stack8)
-        self.tela_historico = Tela_Historico()
-        self.tela_historico.setupUi(self.stack9)
-
-        self.QtStack.addWidget(self.stack0)
-        self.QtStack.addWidget(self.stack1)
-        self.QtStack.addWidget(self.stack2)
-        self.QtStack.addWidget(self.stack3)
-        self.QtStack.addWidget(self.stack4)
-        self.QtStack.addWidget(self.stack5)
-        self.QtStack.addWidget(self.stack6)
-        self.QtStack.addWidget(self.stack7)
-        self.QtStack.addWidget(self.stack8)
-        self.QtStack.addWidget(self.stack9)
-
-
-"""Classe principal"""
-
+def trata_cliente(client):  # Recebe o socket do cliente como argumento
+    """Lida com uma única conexão de cliente."""
+    pass
 
 class Main(QMainWindow, Ui_Main):
 
@@ -130,7 +59,6 @@ class Main(QMainWindow, Ui_Main):
         REFERENCES contas(cpf_titular);
            """
         self.ban.executando_query(conexao, alter_cli_con)
-
 
 
         self.tela_login.pushButton.clicked.connect(self.botaoLogin)
@@ -182,8 +110,6 @@ class Main(QMainWindow, Ui_Main):
     def abrirTelaMenu(self):
         """Carrega tela menu"""
         self.QtStack.setCurrentIndex(1)
-
-        
 
     def abrirTelaMenu_Cadastro(self):
         """Carrega tela menu cadastro"""
@@ -270,8 +196,7 @@ class Main(QMainWindow, Ui_Main):
         cursor= conexao.cursor()
         b=self.ban.Buscar_cliente_bd_login(conexao,login) #retorna o cpf do cliente
         buscar_cliente= self.ban.Buscar_cliente_bd(conexao,b[0][0])
-        
-        
+
         cursor.execute(f"select * from clientes where usuario = '{login}' and senha = '{senha}'")
         valor = cursor.fetchall()
         convert_lista= list(valor)
@@ -298,16 +223,7 @@ class Main(QMainWindow, Ui_Main):
             self.tela_login.lineEdit.setText('')
             self.tela_login.lineEdit_2.setText('')
         conexao.close()    
-            
-
-
-
-           
-            
-          
-
         """Faz o login e verifica se existe usuário"""
-
 
 
     def cadastrar_cliente(self):
@@ -534,14 +450,18 @@ class Main(QMainWindow, Ui_Main):
         lista = list(dados)
         conta = self.ban.Buscar_conta_bd(conexao,lista[0][6])
         convert_conta = list(conta)
-    
-
         self.tela_historico.textBrowser.setText(str(convert_conta[0][4]))
 
+host = 'localhost' #Criando o nome do Host (aquele que vai receber os pedidos do cliente)
+port = 8000 #Definindo número de porta
+addr = (host, port) #Tupla que armazena o endereço e numero de porta
 
+serv_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM) 
+serv_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+serv_socket.bind(addr)
 
 if __name__ == "__main__":
+    serv_socket.listen(5)
+    print("Aguardando conexão...")
 
-    app = QApplication(sys.argv)
-    show_main = Main()
-    sys.exit(app.exec_())
+serv_socket.close()
