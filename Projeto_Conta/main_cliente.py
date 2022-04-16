@@ -30,10 +30,6 @@ class Conectar:
             else:
                 return msg_saida.split(',')
 
-    def recebe(self):
-        """Lida com o recebimento de mensagens."""
-        pass
-
     def exit(self):
         """Encerra a conexão"""
 
