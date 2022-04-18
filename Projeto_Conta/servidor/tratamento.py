@@ -1,3 +1,5 @@
+import hashlib
+
 def v_int(valor):
     try:
         valor = int(valor)
@@ -66,3 +68,10 @@ def replace_dados(msg):
     resu3 = resu2.replace(")","")  
 
     return resu3
+
+
+ 
+def md5_generator(str):
+    m = hashlib.md5()
+    m.update(str.encode())
+    return m.hexdigest()

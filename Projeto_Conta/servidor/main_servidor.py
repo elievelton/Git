@@ -3,7 +3,9 @@ import socket
 from classBanco import Banco
 from classCadastro import Cadastro
 import datetime
-from tratamento import concatenar_operacao, replace_dados, v_int, v_float
+from tratamento import concatenar_operacao, replace_dados, v_int, v_float, md5_generator
+import hashlib
+
 
 def aceita_conexoes():
     """Esse loop aguarda eternamente(infinito) requerimentos de possíveis clientes"""
@@ -33,10 +35,10 @@ conexao = ban.criando_conexao('localhost', 'root', 'daniel398', 'banco')
 
 ban.criando_bancodedados(conexao, database_query)
 
-tabela_clientes = "CREATE TABLE IF NOT EXISTS clientes( cpf bigint(11)  PRIMARY KEY, nome text NOT NULL , endereco text NOT NULL, nascimento text NOT NULL, usuario text NOT NULL, senha VARCHAR(32) NOT NULL, conta bigint(11), data_abertura TEXT);"
+tabela_clientes = "CREATE TABLE IF NOT EXISTS clientes( cpf bigint(11)  PRIMARY KEY, nome VARCHAR(50) NOT NULL , endereco VARCHAR(50) NOT NULL, nascimento VARCHAR(50) NOT NULL, usuario VARCHAR(50) NOT NULL, senha VARCHAR(50) NOT NULL, conta bigint(11), data_abertura TEXT);"
 ban.executando_query(conexao, tabela_clientes)
 
-tabela_contas = "CREATE TABLE IF NOT EXISTS contas( numero int(5) NOT NULL , cpf_titular bigint(11)  PRIMARY KEY, saldo FLOAT(5,2) NOT NULL, limite text NOT NULL, historico text DEFAULT NULL);"
+tabela_contas = "CREATE TABLE IF NOT EXISTS contas( numero int(5) NOT NULL , cpf_titular bigint(11)  PRIMARY KEY, saldo FLOAT(5,2) NOT NULL, limite VARCHAR(50) NOT NULL, historico TEXT DEFAULT NULL);"
 ban.executando_query(conexao, tabela_contas)
 
 alter_cli_con = """ALTER TABLE clientes ADD FOREIGN KEY(conta) REFERENCES contas(cpf_titular);"""
@@ -77,16 +79,16 @@ while(msg_recebida != 'encerrar'):
     elif(operacao[0] == '2'): #cadastrar cliente [2, nome1, endereco2, cpf3, nascimento4, usuario5, senha6]
         conexao = ban.criando_conexao('localhost','root','daniel398','banco',)
 
-        nome = operacao[1]
-        endereco = operacao[2]
+        nome = str(operacao[1])
+        endereco = str(operacao[2])
         cpf = v_int(operacao[3])
-        nascimento = operacao[4]
-        usuario = operacao[5]
+        nascimento = str(operacao[4])
+        usuario = str(operacao[5])
         senha = operacao[6]
 
         buscar = ban.Buscar_cliente_bd(conexao, cpf)
         if(buscar == None):
-            inserindo_clientes = f'INSERT INTO clientes (cpf, nome, endereco, nascimento, usuario, senha) VALUES ({cpf}, {nome}, {endereco}, {nascimento},{usuario}, {senha})'
+            inserindo_clientes = f'INSERT INTO clientes (nome, endereco, cpf, nascimento, usuario, senha) VALUES ("{nome}","{endereco}", {cpf}, "{nascimento}","{usuario}", MD5("{senha}"))'
             ban.executando_query(conexao, inserindo_clientes)
             conex.send('0, Cadastro realizado com sucesso!'.encode())
         else:
@@ -97,7 +99,9 @@ while(msg_recebida != 'encerrar'):
         cursor = conexao.cursor()
 
         login = operacao[1]
-        senha = operacao[2]
+    
+        valor = operacao[2]
+        senha = md5_generator(valor)
         sessao = login
 
         b = ban.Buscar_cliente_bd_login(conexao, login) #retorna o cpf do cliente
@@ -117,7 +121,7 @@ while(msg_recebida != 'encerrar'):
                     resul = replace_dados(teste)
                     resul2 = replace_dados(teste2)
                     resultado = resul+resul2
-                    print(resultado)
+    
                     conex.send(('0, Login Realizado com Sucesso!,' + resultado).encode())
                     
                 else :
@@ -141,7 +145,6 @@ while(msg_recebida != 'encerrar'):
         valor = cursor.fetchall()
         convert_lista= list(valor)
         texto= str(valor_saq)
-        print("Estrou aqui")
 
         if (convert_lista):
             if((convert_lista[0][4]) == (login)):
@@ -160,8 +163,6 @@ while(msg_recebida != 'encerrar'):
                         conta = ban.Buscar_conta_bd(conexao,convert_lista[0][0])
                         conta = concatenar_operacao(conta)
                         resu = replace_dados(conta)
-                        print('+++++++++++++++++++++')
-                        print(resu)
                         conex.send(('0, Saque realizado com sucesso!,' +resu).encode())
                     else:
                         conex.send('1, Saldo Insuficiente!'.encode())
@@ -179,6 +180,7 @@ while(msg_recebida != 'encerrar'):
         list(saldo)
         if(c != None):
             if not(c==None):
+               
                 ban.altera_saldo(conexao,valor,c[0][0])
                 saldo = ban.retorna_dado_conta(conexao,'saldo','numero', numero_conta)
                 saldo = concatenar_operacao(saldo)
@@ -236,14 +238,20 @@ while(msg_recebida != 'encerrar'):
     elif(operacao[0] == '9'): #historico [9, login]
         conexao = ban.criando_conexao('localhost','root','daniel398','banco',)
 
-        login = operacao[1]
+        login = sessao
         
         q1 = (f"select * from clientes where usuario = '{login}'")
         dados = ban.lendo_dados(conexao, q1)
         lista = list(dados)
         conta = ban.Buscar_conta_bd(conexao,lista[0][6])
         convert_conta = list(conta)
-    
+        teste = concatenar_operacao(lista)
+        teste2 = concatenar_operacao(convert_conta)
+        resul = replace_dados(teste)
+        resul2 = replace_dados(teste2)
+        resultado = resul+resul2
+        
+        conex.send(('0, Extrato realizado com sucesso!!,' + resultado).encode())
 
     elif(operacao[0] == '10'):#Abrir menu de de depositar
         conexao = ban.criando_conexao('localhost','root','daniel398','banco',)

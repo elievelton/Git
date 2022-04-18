@@ -251,8 +251,7 @@ class Main(QMainWindow, Ui_Main):
 
         if not( valor == ''):
             mensagem = self.conect.envia(concatenar_operacao(['6', valor]))
-            print('+++++++++++++')
-            print(mensagem)
+
             QMessageBox.information(None, 'mensagem', mensagem[1])
 
             self.tela_depositar.lineEdit_2.setText('')
@@ -310,10 +309,12 @@ class Main(QMainWindow, Ui_Main):
     #funcionamento tela historico
     def botaoHistorico(self):
         """ Função para informar o histórico"""
-        login = self.tela_login.lineEdit.text()
-        mensagem = self.conect.envia(concatenar_operacao(['9', login]))
+
+        mensagem = self.conect.envia(concatenar_operacao(['9']))
+        print(mensagem)
         QMessageBox.information(None, 'mensagem', mensagem[1])
-        self.tela_historico.textBrowser.setText(str(convert_conta[0][4]))
+        self.tela_historico.textBrowser.setText("conta aberta em : {} \n".format(f'{mensagem[9]}'))
+        self.tela_historico.textBrowser.setText(mensagem[14])
 
 if __name__ == "__main__":
 
