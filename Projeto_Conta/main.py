@@ -32,8 +32,8 @@ from telas.tela_depositar import Tela_Depositar
 
 
 """import das classes"""
-from classBanco import Banco
-from classCadastro import Cadastro
+from servidor.classBanco import Banco
+from servidor.classCadastro import Cadastro
 from classHisto import Historico
 from classConta import Conta
 from classCliente import Cliente

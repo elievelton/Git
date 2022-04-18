@@ -1,8 +1,6 @@
 import mysql.connector
 from mysql.connector import Error
-from classHisto import Historico
-from classConta import Conta
-from classCliente import Cliente
+
 import datetime
 
 
@@ -79,7 +77,7 @@ class Banco:
 
         resultado = self.Buscar_cliente_bd_login(conexao,login)
 
-        self.cursor.execute(f'SELECT * FROM contas WHERE contas.cpf_titular = {resultado[0][0]}')
+        self.cursor.execute(f"SELECT * FROM contas WHERE contas.cpf_titular = {resultado[0][0]}")
         resultado2= self.cursor.fetchall()
 
         if resultado2:

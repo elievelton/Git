@@ -1,4 +1,4 @@
- #-*- coding: utf-8 -*-
+# -*- coding: utf-8 -*-
 
 # Form implementation generated from reading ui file 'depositar.ui'
 #
@@ -16,18 +16,8 @@ class Tela_Depositar(object):
         MainWindow.setStyleSheet("background-color: rgb(0, 0, 127);")
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
-        self.label_2 = QtWidgets.QLabel(self.centralwidget)
-        self.label_2.setGeometry(QtCore.QRect(120, 220, 201, 31))
-        font = QtGui.QFont()
-        font.setFamily("Noto Sans")
-        font.setPointSize(11)
-        font.setBold(False)
-        font.setWeight(50)
-        self.label_2.setFont(font)
-        self.label_2.setStyleSheet("color: rgb(255, 255, 255);")
-        self.label_2.setObjectName("label_2")
         self.label_3 = QtWidgets.QLabel(self.centralwidget)
-        self.label_3.setGeometry(QtCore.QRect(130, 280, 181, 21))
+        self.label_3.setGeometry(QtCore.QRect(130, 240, 181, 21))
         font = QtGui.QFont()
         font.setFamily("Noto Sans")
         font.setPointSize(11)
@@ -59,14 +49,8 @@ class Tela_Depositar(object):
         self.pushButton_2.setStyleSheet("background-color: rgb(37, 37, 37);\n"
 "color: rgb(255, 255, 255);")
         self.pushButton_2.setObjectName("pushButton_2")
-        self.lineEdit = QtWidgets.QLineEdit(self.centralwidget)
-        self.lineEdit.setGeometry(QtCore.QRect(330, 230, 113, 21))
-        self.lineEdit.setStyleSheet("background-color: rgb(255, 170, 0);\n"
-"color: rgb(0, 0, 0);")
-        self.lineEdit.setText("")
-        self.lineEdit.setObjectName("lineEdit")
         self.lineEdit_2 = QtWidgets.QLineEdit(self.centralwidget)
-        self.lineEdit_2.setGeometry(QtCore.QRect(330, 280, 113, 21))
+        self.lineEdit_2.setGeometry(QtCore.QRect(330, 240, 113, 21))
         self.lineEdit_2.setStyleSheet("background-color: rgb(255, 170, 0);\n"
 "color: rgb(0, 0, 0);")
         self.lineEdit_2.setText("")
@@ -153,7 +137,6 @@ class Tela_Depositar(object):
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
-        self.label_2.setText(_translate("MainWindow", "Conta para deposito:"))
         self.label_3.setText(_translate("MainWindow", "Valor do depósito:"))
         self.pushButton.setText(_translate("MainWindow", "Depositar"))
         self.pushButton_2.setText(_translate("MainWindow", "Voltar"))
@@ -161,8 +144,6 @@ class Tela_Depositar(object):
         self.label_4.setText(_translate("MainWindow", "Cliente:"))
         self.label_5.setText(_translate("MainWindow", "Saldo Disponível:"))
         self.label_6.setText(_translate("MainWindow", "Conta:"))
-
-
 
 
 if __name__ == "__main__":
@@ -173,4 +154,3 @@ if __name__ == "__main__":
     ui.setupUi(MainWindow)
     MainWindow.show()
     sys.exit(app.exec_())
-

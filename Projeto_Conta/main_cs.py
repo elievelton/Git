@@ -19,13 +19,11 @@ from telas.tela_depositar import Tela_Depositar
 
 
 """import das classes"""
-from classBanco import Banco
-from classCadastro import Cadastro
-from classHisto import Historico
-from classConta import Conta
-from classCliente import Cliente
+
+
 
 from main_cliente import Conectar
+from servidor.tratamento import concatenar_operacao, replace_dados
 
 
 class Ui_Main(QtWidgets.QWidget):
@@ -90,6 +88,7 @@ class Main(QMainWindow, Ui_Main):
         self.setupUi(self)
         
         self.conect = Conectar()
+        
 
         self.tela_login.pushButton.clicked.connect(self.botaoLogin)
         self.tela_login.pushButton_2.clicked.connect(self.abrirTelaMenu_Cadastro)
@@ -149,53 +148,34 @@ class Main(QMainWindow, Ui_Main):
     def abrirTelaDepositar(self):
         """Carrega tela para realizar depósito e informa os atributos do cliente"""
         self.QtStack.setCurrentIndex(5)
-        login = self.tela_login.lineEdit.text()
-        conexao = self.ban.criando_conexao(
-                            'localhost',
-                            'root',
-                            '12345',
-                            'banco',
-                        )
-        x = self.ban.Buscar_cliente_bd_login(conexao,login)
-        y = self.ban.Buscar_conta_bd_login(conexao,login)
-        self.tela_depositar.lineEdit_4.setText(x[0][1])
-        self.tela_depositar.lineEdit_5.setText(str(y[0][0]))
-        self.tela_depositar.lineEdit_3.setText('R$ ' + str(y[0][2]))
 
+        mensagem = self.conect.envia(concatenar_operacao(['10']))
+       
+        print(mensagem)
+        if(mensagem !=None):
+            self.tela_depositar.lineEdit_4.setText(f'{mensagem[1]}')
+            self.tela_depositar.lineEdit_5.setText(f'{mensagem[9]}')
+            self.tela_depositar.lineEdit_3.setText('R$ ' + f'{mensagem[11]}')
+        #else:
+            #QMessageBox.information(None, 'mensagem', mensagem[1])
     def abrirTelaSacar(self):
         """Carrega tela para realizar saque e informa os atributos do cliente"""
         self.QtStack.setCurrentIndex(6)
-        login = self.tela_login.lineEdit.text()
-        conexao = self.ban.criando_conexao(
-                            'localhost',
-                            'root',
-                            '12345',
-                            'banco',
-                        )
-        q1 = (f"select * from clientes where usuario = '{login}'")
-        dados = self.ban.lendo_dados(conexao, q1)
-        lista = list(dados)
-        conta = self.ban.Buscar_conta_bd(conexao,lista[0][6])
-        convert_conta = list(conta)
-        self.tela_sacar.lineEdit_4.setText(lista[0][1])
-        self.tela_sacar.lineEdit_5.setText(str(convert_conta[0][0]))
-        self.tela_sacar.lineEdit_3.setText('R$ ' + str(convert_conta[0][2]))
+        mensagem = self.conect.envia(concatenar_operacao(['11']))
+
+        if(mensagem !=None):
+            self.tela_sacar.lineEdit_4.setText(f'{mensagem[1]}')
+            self.tela_sacar.lineEdit_5.setText(f'{mensagem[2]}')
+            self.tela_sacar.lineEdit_3.setText('R$ ' + f'{mensagem[3]}')
 
     def abrirTelaTransferir(self):
         """Carrega tela para realizar transferência e informa os atributos do cliente"""
         self.QtStack.setCurrentIndex(7)
-        login = self.tela_login.lineEdit.text()
-        conexao = self.ban.criando_conexao(
-                            'localhost',
-                            'root',
-                            '12345',
-                            'banco',
-                        )
-        x = self.ban.Buscar_cliente_bd_login(conexao,login)
-        y = self.ban.Buscar_conta_bd_login(conexao,login)
-        self.tela_transferir.lineEdit_6.setText((x[0][1]))
-        self.tela_transferir.lineEdit_5.setText(str(y[0][0]))
-        self.tela_transferir.lineEdit_4.setText('R$ ' + str(y[0][2]))
+        mensagem = self.conect.envia(concatenar_operacao(['12']))
+  
+        self.tela_transferir.lineEdit_6.setText(f'{mensagem[1]}')
+        self.tela_transferir.lineEdit_5.setText(f'{mensagem[9]}')
+        self.tela_transferir.lineEdit_4.setText('R$ ' + f'{mensagem[11]}')
 
     def abrirTelaExtrato(self):
         """Carrega tela para mostrar o extrato do cliente"""
@@ -211,12 +191,18 @@ class Main(QMainWindow, Ui_Main):
         senha = self.tela_login.lineEdit_2.text()
         
         if not(login == '' or senha == ''):
-            mensagem = self.conect.envia([3, login, senha])
-            QMessageBox.information(None, 'mensagem', mensagem[1])
-            self.abrirTelaMenu()
-            self.tela_menu.lineEdit_2.setText(convert_lista[0][1])
-            self.tela_menu.lineEdit_3.setText(str(convert_conta[0][0]))
-            self.tela_menu.lineEdit.setText('R$ ' + str(convert_conta[0][2]))
+            mensagem = self.conect.envia(concatenar_operacao(['3', login, senha]))
+            self.tela_login.lineEdit.setText('')
+            self.tela_login.lineEdit_2.setText('')
+            if mensagem != None:
+                if mensagem[0] == '0':
+                    self.abrirTelaMenu()
+                    QMessageBox.information(None, 'mensagem', mensagem[1])
+                    print(mensagem)
+                                
+                    self.tela_menu.lineEdit_2.setText(str(f'{mensagem[6]}'))
+                    self.tela_menu.lineEdit_3.setText(f'{mensagem[10]}')
+                    self.tela_menu.lineEdit.setText('R$ ' + f'{mensagem[12]}')
 
     def cadastrar_cliente(self):
         """ Função para cadastrar o cliente"""
@@ -228,7 +214,7 @@ class Main(QMainWindow, Ui_Main):
         senha = self.tela_CadastroCli.lineEdit_6.text()
 
         if not (nome == '' or endereco == '' or cpf == '' or nascimento == '' or usuario == ' ' or senha == ''):
-            mensagem = self.conect.envia([2, nome, endereco, cpf, nascimento, usuario, senha])
+            mensagem = self.conect.envia(concatenar_operacao(['2', nome, endereco, cpf, nascimento, usuario, senha]))
             QMessageBox.information(None, 'mensagem', mensagem[1])
 
             self.tela_CadastroCli.lineEdit.setText('')
@@ -248,7 +234,7 @@ class Main(QMainWindow, Ui_Main):
         limite = self.tela_CadastroCon.lineEdit_3.text()
         
         if not(numero == '' or cpf_titular == '' or limite == ''):
-            mensagem = self.conect.envia([1, numero, cpf_titular, saldo, limite])
+            mensagem = self.conect.envia(concatenar_operacao(['1', numero, cpf_titular, saldo, limite]))
             QMessageBox.information(None, 'mensagem', mensagem[1])
 
             self.tela_CadastroCon.lineEdit.setText('')
@@ -260,34 +246,38 @@ class Main(QMainWindow, Ui_Main):
     #funcionamento tela de depositar
     def botaoDepositar(self):
         """ Função para realizar depoósito"""
-        conta_dep = self.tela_depositar.lineEdit.text()
+        
         valor = self.tela_depositar.lineEdit_2.text()
 
-        if not(conta_dep == '' or valor == ''):
-            mensagem = self.conect.envia([6, conta_dep, valor])
+        if not( valor == ''):
+            mensagem = self.conect.envia(concatenar_operacao(['6', valor]))
+            print('+++++++++++++')
+            print(mensagem)
             QMessageBox.information(None, 'mensagem', mensagem[1])
 
-            self.tela_depositar.lineEdit.setText('')
             self.tela_depositar.lineEdit_2.setText('')
-            self.tela_depositar.lineEdit_3.setText('R$ ' + str(saldo[0][0]))
-            self.tela_menu.lineEdit.setText('R$ ' + str(saldo[0][0]))
+            self.tela_depositar.lineEdit_4.setText(f'{mensagem[3]}')
+            self.tela_depositar.lineEdit_5.setText(f'{mensagem[2]}')
+            self.tela_depositar.lineEdit_3.setText('R$ ' + f'{mensagem[7]}')
+            
         else:
             QMessageBox.information(None, 'POO2', 'Todos os campos devem ser preenchidos!')
 
     #funcionamento tela de sacar
     def botaoSacar(self):
         """ Função para realizar saque"""
-        login = self.tela_login.lineEdit.text()
-        valor_saq = float(self.tela_sacar.lineEdit_2.text())
+        
+        valor_saq = self.tela_sacar.lineEdit_2.text()
 
         if not(valor_saq == ''):
-            mensagem = self.conect.envia([5, login, valor_saq])
+            mensagem = self.conect.envia(concatenar_operacao(['5', valor_saq]))
+            print(mensagem)
             QMessageBox.information(None, 'mensagem', mensagem[1])
     
-            self.tela_sacar.lineEdit_4.setText(convert_lista[0][1])
-            self.tela_sacar.lineEdit_5.setText(str(convert_conta[0][0]))
-            self.tela_sacar.lineEdit_3.setText('R$ ' + str(convert_conta[0][2]))
-            self.tela_menu.lineEdit.setText('R$ ' + str(convert_conta[0][2]))  
+            self.tela_sacar.lineEdit_4.setText(f'{mensagem[3]}')
+            self.tela_sacar.lineEdit_5.setText(f'{mensagem[2]}')
+            self.tela_sacar.lineEdit_3.setText('R$ ' + f'{mensagem[4]}')
+            self.tela_menu.lineEdit.setText('R$ ' + f'{mensagem[4]}') 
         else:
             QMessageBox.information(None, 'POO2', 'Todos os campos devem ser preenchidos!')
 
@@ -298,30 +288,30 @@ class Main(QMainWindow, Ui_Main):
         conta_destino = self.tela_transferir.lineEdit.text()
         valor = self.tela_transferir.lineEdit_2.text()
 
-        cs = self.tela_login.lineEdit.text()
-        if not( conta_destino == '' or valor == ''):
-            mensagem = self.conect.envia([7, cs, conta_destino, valor])
+        
+        if ( conta_destino != None ):
+            mensagem = self.conect.envia(concatenar_operacao(['7', conta_destino, valor]))
+            
             QMessageBox.information(None, 'mensagem', mensagem[1])
-
-            self.tela_transferir.lineEdit_4.setText('R$ ' + str(cs[0][2]))
-            self.tela_menu.lineEdit.setText('R$ ' + str(cs[0][2]))
+            self.tela_transferir.lineEdit_4.setText('R$ ' + f'{mensagem[4]}')
+            self.tela_transferir.lineEdit_6.setText(f'{mensagem[11]}')
+            self.tela_transferir.lineEdit_5.setText(f'{mensagem[3]}')
+            self.tela_menu.lineEdit.setText('R$ ' + f'{mensagem[4]}')
         else:
             QMessageBox.information(None, 'POO2', 'Todos os campos devem ser preenchidos!')
 
     #funcionamento tela de extrato
     def botaoExtrato(self):
         """ Função para informar o extrato"""
-        login = self.tela_login.lineEdit.text()
-        mensagem = self.conect.envia([8, login])
-        QMessageBox.information(None, 'mensagem', mensagem[1])
+        mensagem = self.conect.envia(concatenar_operacao(['8']))        
 
-        self.tela_extrato.textBrowser.setText("Numero Conta: {} \nSaldo Disponível: {}".format(convert_conta[0][0], convert_conta[0][2]))
+        self.tela_extrato.textBrowser.setText("Numero Conta: {} \nSaldo Disponível: {}".format(f'{mensagem[1]}', f'{mensagem[3]}'))
     
     #funcionamento tela historico
     def botaoHistorico(self):
         """ Função para informar o histórico"""
         login = self.tela_login.lineEdit.text()
-        mensagem = self.conect.envia([9, login])
+        mensagem = self.conect.envia(concatenar_operacao(['9', login]))
         QMessageBox.information(None, 'mensagem', mensagem[1])
         self.tela_historico.textBrowser.setText(str(convert_conta[0][4]))
 
