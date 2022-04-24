@@ -189,8 +189,8 @@ class Main(QMainWindow, Ui_Main):
     def botaoLogin(self):
         """Faz o login e verifica se existe usuário"""
         login = self.tela_login.lineEdit.text()
-        senha = self.tela_login.lineEdit_2.text()
-        
+        senha_sem_tratar = self.tela_login.lineEdit_2.text()
+        senha = self.md5_generator(senha_sem_tratar)
         if not(login == '' or senha == ''):
             mensagem = self.conect.envia(concatenar_operacao(['3', login, senha]))
             self.tela_login.lineEdit.setText('')
