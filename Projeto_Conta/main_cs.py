@@ -1,5 +1,6 @@
 import datetime
 import sys
+import hashlib
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtWidgets import QMessageBox, QMainWindow, QApplication, QFileDialog
@@ -315,6 +316,11 @@ class Main(QMainWindow, Ui_Main):
         QMessageBox.information(None, 'mensagem', mensagem[1])
         self.tela_historico.textBrowser.setText("conta aberta em : {} \n".format(f'{mensagem[9]}'))
         self.tela_historico.textBrowser.setText(mensagem[14])
+
+    def md5_generator(self,str):
+        m = hashlib.md5()
+        m.update(str.encode())
+        return m.hexdigest()
 
 if __name__ == "__main__":
 

@@ -3,15 +3,21 @@
 ################################################################################
 ## Form generated from reading UI file 'tela_menu.ui'
 ##
-## Created by: Qt User Interface Compiler version 5.15.2
+## Created by: Qt User Interface Compiler version 6.2.3
 ##
 ## WARNING! All changes made in this file will be lost when recompiling UI file!
 ################################################################################
 
-from PySide2.QtCore import *
-from PySide2.QtGui import *
-from PySide2.QtWidgets import *
-
+from PySide6.QtCore import (QCoreApplication, QDate, QDateTime, QLocale,
+    QMetaObject, QObject, QPoint, QRect,
+    QSize, QTime, QUrl, Qt)
+from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
+    QFont, QFontDatabase, QGradient, QIcon,
+    QImage, QKeySequence, QLinearGradient, QPainter,
+    QPalette, QPixmap, QRadialGradient, QTransform)
+from PySide6.QtWidgets import (QApplication, QFrame, QLabel, QLineEdit,
+    QMainWindow, QPushButton, QSizePolicy, QStatusBar,
+    QWidget)
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
@@ -28,10 +34,9 @@ class Ui_MainWindow(object):
         self.pushButton.setObjectName(u"pushButton")
         self.pushButton.setGeometry(QRect(250, 190, 121, 31))
         font = QFont()
-        font.setFamily(u"Agency FB")
+        font.setFamilies([u"Agency FB"])
         font.setPointSize(14)
         font.setBold(True)
-        font.setWeight(75)
         self.pushButton.setFont(font)
         self.pushButton.setStyleSheet(u"color: rgb(255, 255, 255);\n"
 "background-color: rgb(0, 170, 0);")
@@ -57,10 +62,9 @@ class Ui_MainWindow(object):
         self.pushButton_5.setObjectName(u"pushButton_5")
         self.pushButton_5.setGeometry(QRect(500, 412, 81, 31))
         font1 = QFont()
-        font1.setFamily(u"Agency FB")
+        font1.setFamilies([u"Agency FB"])
         font1.setPointSize(12)
         font1.setBold(True)
-        font1.setWeight(75)
         self.pushButton_5.setFont(font1)
         self.pushButton_5.setStyleSheet(u"color: rgb(255, 255, 255);\n"
 "background-color: rgb(68, 68, 68);\n"
@@ -75,21 +79,19 @@ class Ui_MainWindow(object):
         self.label.setObjectName(u"label")
         self.label.setGeometry(QRect(290, 20, 101, 41))
         font2 = QFont()
-        font2.setFamily(u"Bahnschrift")
+        font2.setFamilies([u"Bahnschrift"])
         font2.setPointSize(20)
         font2.setBold(True)
         font2.setUnderline(False)
-        font2.setWeight(75)
         self.label.setFont(font2)
         self.label.setStyleSheet(u"color: rgb(255, 255, 255);")
         self.label_2 = QLabel(self.centralwidget)
         self.label_2.setObjectName(u"label_2")
         self.label_2.setGeometry(QRect(280, 120, 171, 21))
         font3 = QFont()
-        font3.setFamily(u"Noto Sans")
+        font3.setFamilies([u"Noto Sans"])
         font3.setPointSize(11)
         font3.setBold(False)
-        font3.setWeight(50)
         self.label_2.setFont(font3)
         self.label_2.setStyleSheet(u"color: rgb(255, 255, 255);")
         self.lineEdit = QLineEdit(self.centralwidget)
