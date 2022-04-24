@@ -75,8 +75,7 @@ class cliente_Thread(threading.Thread):
 
             # cadastrar cliente [2, nome1, endereco2, cpf3, nascimento4, usuario5, senha6]
             elif(operacao[0] == '2'):
-                conexao = ban.criando_conexao(
-                    'localhost', 'root', 'daniel398', 'banco',)
+                
 
                 nome = str(operacao[1])
                 endereco = str(operacao[2])
@@ -98,8 +97,7 @@ class cliente_Thread(threading.Thread):
 
             elif(operacao[0] == '3'):  # logar [3, login, senha]
 
-                conexao = ban.criando_conexao(
-                    'localhost', 'root', 'daniel398', 'banco',)
+               
                 cursor = conexao.cursor()
 
                 login = operacao[1]
@@ -147,8 +145,7 @@ class cliente_Thread(threading.Thread):
 
             elif(operacao[0] == '5'):  # sacar [5, login, valor_saq]
                 self.sinc.acquire()
-                conexao = ban.criando_conexao(
-                    'localhost', 'root', 'daniel398', 'banco',)
+                
                 cursor = conexao.cursor()
 
                 login = sessao
@@ -187,8 +184,7 @@ class cliente_Thread(threading.Thread):
 
             elif(operacao[0] == '6'):  # depositar [6, conta_dep, valor]
                 self.sinc.acquire()
-                conexao = ban.criando_conexao(
-                    'localhost', 'root', 'daniel398', 'banco',)
+                
 
                 conta_dep = ban.Buscar_conta_bd_login(conexao, sessao)
                 numero_conta = conta_dep[0][0]
@@ -217,8 +213,7 @@ class cliente_Thread(threading.Thread):
 
             elif(operacao[0] == '7'):  # transferir [7, conta_destino, valor, cs]
                 self.sinc.acquire()
-                conexao = ban.criando_conexao(
-                    'localhost', 'root', 'daniel398', 'banco',)
+                
 
                 conta_destino = operacao[1]
                 valor = v_float(operacao[2])
@@ -256,8 +251,7 @@ class cliente_Thread(threading.Thread):
 
             elif(operacao[0] == '8'):  # extrato [8, login]
                 self.sinc.acquire()
-                conexao = ban.criando_conexao(
-                    'localhost', 'root', 'daniel398', 'banco',)
+                
 
                 login = sessao
 
@@ -274,8 +268,7 @@ class cliente_Thread(threading.Thread):
 
             elif(operacao[0] == '9'):  # historico [9, login]
                 self.sinc.acquire()
-                conexao = ban.criando_conexao(
-                    'localhost', 'root', 'daniel398', 'banco',)
+                
 
                 login = sessao
 
@@ -295,8 +288,7 @@ class cliente_Thread(threading.Thread):
                 self.sinc.release()
 
             elif(operacao[0] == '10'):  # Abrir menu de de depositar
-                conexao = ban.criando_conexao(
-                    'localhost', 'root', 'daniel398', 'banco',)
+                
                 cursor = conexao.cursor()
 
                 login = sessao
@@ -315,8 +307,7 @@ class cliente_Thread(threading.Thread):
                 self.conex.send(('0,' + tratamento).encode())
 
             elif(operacao[0] == '11'):  # Abrir menu de saque
-                conexao = ban.criando_conexao(
-                    'localhost', 'root', 'daniel398', 'banco',)
+                
                 login = sessao
                 q1 = (f"select * from clientes where usuario = '{login}'")
                 dados = ban.lendo_dados(conexao, q1)
@@ -328,8 +319,7 @@ class cliente_Thread(threading.Thread):
                 self.conex.send(('0,' + tratamento).encode())
 
             elif(operacao[0] == '12'):  # Abrir menu de saque
-                conexao = ban.criando_conexao(
-                    'localhost', 'root', 'daniel398', 'banco',)
+                
                 login = sessao
 
                 q1 = (f"select * from clientes where usuario = '{login}'")
