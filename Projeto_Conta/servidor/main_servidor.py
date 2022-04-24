@@ -43,6 +43,7 @@ class cliente_Thread(threading.Thread):
             msg_recebida = self.conex.recv(1024).decode()
             print(f'{msg_recebida}')
             operacao = msg_recebida.split(',')
+            
 
             if(operacao[0] == '1'):  # cadastrar conta [1, numero, cpf_titular, saldo, limite]]
                 conexao = ban.criando_conexao(
@@ -97,7 +98,7 @@ class cliente_Thread(threading.Thread):
 
             elif(operacao[0] == '3'):  # logar [3, login, senha]
 
-               
+                conexao = ban.criando_conexao('localhost', 'root', 'daniel398', 'banco')
                 cursor = conexao.cursor()
 
                 login = operacao[1]
@@ -105,13 +106,13 @@ class cliente_Thread(threading.Thread):
                 valor = operacao[2]
                 senha = valor
                 sessao = login
-
-                b = ban.Buscar_cliente_bd_login(
-                    conexao, login)  # retorna o cpf do cliente
+                
+                b = ban.Buscar_cliente_bd_login(conexao, login)  # retorna o cpf do cliente
+                print("Testando mais um print")
                 buscar_cliente = ban.Buscar_cliente_bd(conexao, b[0][0])
+                
 
-                cursor.execute(
-                    f"select * from clientes where usuario = '{login}' and senha = '{senha}'")
+                cursor.execute(f"select * from clientes where usuario = '{login}' and senha = '{senha}'")
                 valor = cursor.fetchall()
                 convert_lista = list(valor)
                 if(convert_lista != None):
@@ -200,8 +201,7 @@ class cliente_Thread(threading.Thread):
                     if not(c == None):
 
                         ban.altera_saldo(conexao, valor, c[0][0])
-                        saldo = ban.retorna_dado_conta(
-                            conexao, 'saldo', 'numero', numero_conta)
+                        saldo = ban.retorna_dado_conta(conexao, 'saldo', 'numero', numero_conta)
                         saldo = concatenar_operacao(saldo)
                         conta_dep = concatenar_operacao(conta_dep)
                         resultado = conta_dep + saldo
@@ -212,27 +212,24 @@ class cliente_Thread(threading.Thread):
                     self.sinc.release()
 
             elif(operacao[0] == '7'):  # transferir [7, conta_destino, valor, cs]
-                self.sinc.acquire()
+                
                 
 
-                conta_destino = operacao[1]
+                conta_destino = v_int(operacao[1])
                 valor = v_float(operacao[2])
                 cs = sessao
 
                 # retorna a chave primaria da conta que é o cpf
                 buscar_conta = ban.Buscar_conta_bd_login(conexao, cs)
-                Busca_conta_de_destino = ban.retorna_dado_conta(
-                    conexao, 'cpf_titular', 'numero', conta_destino)
+                Busca_conta_de_destino = ban.retorna_dado_conta(conexao, 'cpf_titular', 'numero', conta_destino)
                 if(Busca_conta_de_destino):
-
+                    self.sinc.acquire()
                     if (buscar_conta[0][0] != None):
 
-                        ban.transferirBD(
-                            conexao, Busca_conta_de_destino[0][0], buscar_conta[0][1], valor)
+                        ban.transferirBD(conexao, Busca_conta_de_destino[0][0], buscar_conta[0][1], valor)
                         cs1 = ban.Buscar_conta_bd(conexao, buscar_conta[0][1])
 
-                        cliente = ban.Buscar_cliente_bd_login(
-                            conexao, cs1[0][1])
+                        cliente = str( ban.Buscar_cliente_bd_login(conexao, cs1[0][1]))
 
                         cliente = concatenar_operacao(cliente)
                         cliente_replace = replace_dados(cliente)

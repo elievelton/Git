@@ -314,8 +314,17 @@ class Main(QMainWindow, Ui_Main):
         mensagem = self.conect.envia(concatenar_operacao(['9']))
         print(mensagem)
         QMessageBox.information(None, 'mensagem', mensagem[1])
-        self.tela_historico.textBrowser.setText("conta aberta em : {} \n".format(f'{mensagem[9]}'))
-        self.tela_historico.textBrowser.setText(mensagem[14])
+
+        tratar= mensagem[14]
+        dividir = tratar.split('\\n')
+        print("Primeiro teste")
+        print(dividir)
+        msg = "Abertura da conta : " + mensagem[9] + "\n" + "\n"
+
+        for i in dividir:
+            msg+= str(i) + "\n"
+
+        self.tela_historico.textBrowser.setText(msg)
 
     def md5_generator(self,str):
         m = hashlib.md5()

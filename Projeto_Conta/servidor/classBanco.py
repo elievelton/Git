@@ -88,7 +88,7 @@ class Banco:
     def Buscar_cliente_bd_login(self,conexao,login):
         self.cursor = conexao.cursor()
 
-        self.cursor.execute(f'SELECT * FROM clientes WHERE clientes.usuario = {login}') #filtra pelo cpf
+        self.cursor.execute(f'SELECT * FROM clientes WHERE clientes.usuario = "{login}"') #filtra pelo cpf
         resultado = self.cursor.fetchall()
 
         if resultado:
@@ -170,8 +170,11 @@ class Banco:
     
 
         self.conexao.commit()
-        msg=f'Transferencia no valor de: {valor}\n'
+        msg=f'Transferencia feita de: {valor} Para conta :{saida}\n'
+        msg2 =f'Transferencia recebida: {valor} Conta de Envio :{destino}\n'
         self.gravar_historico(conexao,destino,msg)
+        self.gravar_historico(conexao,saida,msg2)
+        self.conexao.commit()
 
 
     def altera_saldo2(self,conexao, query):
@@ -187,10 +190,16 @@ class Banco:
 
     def gravar_historico(self,conexao,id,info):
         self.cursor = conexao.cursor()
-        lista=[]
+        
+        
+        self.cursor.execute(f'SELECT * FROM contas WHERE contas.cpf_titular = {id}') #filtra pelo cpf
+        resultado = self.cursor.fetchall()
+        list(resultado)
+        msg = str(resultado[0][4])
+        msg+=str(info)
 
         sql='UPDATE `banco`.`contas` SET historico = %s WHERE (cpf_titular = %s);'
-        val =(info,id)
+        val =(msg,id)
         self.cursor.execute(sql,val)
         self.conexao.commit()
 
