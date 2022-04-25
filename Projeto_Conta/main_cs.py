@@ -132,7 +132,11 @@ class Main(QMainWindow, Ui_Main):
 
     def abrirTelaMenu(self):
         """Carrega tela menu"""
-        self.QtStack.setCurrentIndex(1)   
+        self.QtStack.setCurrentIndex(1) 
+        self.tela_menu.pushButton_5.clicked.connect(self.botaoSair)
+        
+
+       
 
     def abrirTelaMenu_Cadastro(self):
         """Carrega tela menu cadastro"""
@@ -149,6 +153,7 @@ class Main(QMainWindow, Ui_Main):
     def abrirTelaDepositar(self):
         """Carrega tela para realizar depósito e informa os atributos do cliente"""
         self.QtStack.setCurrentIndex(5)
+    
 
         mensagem = self.conect.envia(concatenar_operacao(['10']))
        
@@ -159,6 +164,11 @@ class Main(QMainWindow, Ui_Main):
             self.tela_depositar.lineEdit_3.setText('R$ ' + f'{mensagem[11]}')
         #else:
             #QMessageBox.information(None, 'mensagem', mensagem[1])
+
+    def botaoSair(self):
+        a = "encerrar"   
+        self.conect.envia(a)
+        
     def abrirTelaSacar(self):
         """Carrega tela para realizar saque e informa os atributos do cliente"""
         self.QtStack.setCurrentIndex(6)
@@ -199,11 +209,21 @@ class Main(QMainWindow, Ui_Main):
                 if mensagem[0] == '0':
                     self.abrirTelaMenu()
                     QMessageBox.information(None, 'mensagem', mensagem[1])
-                    print(mensagem)
                                 
                     self.tela_menu.lineEdit_2.setText(str(f'{mensagem[6]}'))
                     self.tela_menu.lineEdit_3.setText(f'{mensagem[10]}')
                     self.tela_menu.lineEdit.setText('R$ ' + f'{mensagem[12]}')
+                    
+                elif mensagem[0] == '1':
+                    QMessageBox.information(None, 'mensagem', mensagem[1])
+
+                elif mensagem[0] == '2':
+                    QMessageBox.information(None, 'mensagem', mensagem[1])
+
+                elif mensagem[0] == '3':
+                    QMessageBox.information(None, 'mensagem', mensagem[1])
+                
+
 
     def cadastrar_cliente(self):
         """ Função para cadastrar o cliente"""
@@ -317,8 +337,7 @@ class Main(QMainWindow, Ui_Main):
 
         tratar= mensagem[14]
         dividir = tratar.split('\\n')
-        print("Primeiro teste")
-        print(dividir)
+        
         msg = "Abertura da conta : " + mensagem[9] + "\n" + "\n"
 
         for i in dividir:

@@ -18,5 +18,5 @@ while True:
     conex, c = serv_socket.accept() # servidor aguarda uma conexao
 
     sinc = threading.Lock()
-    Thread = cliente_Thread(c, conex, sinc)
-    Thread.start()
+    New_Thread = cliente_Thread(c, conex, sinc)
+    New_Thread.start()
