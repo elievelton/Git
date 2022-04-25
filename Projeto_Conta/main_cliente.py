@@ -30,7 +30,7 @@ class Conectar:
             else:
                 return msg_saida.split(',')
 
-    def exit(self):
+    def sair(self):
         """Encerra a conexão"""
 
         print('\nConexao Encerrada...')

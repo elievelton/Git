@@ -157,7 +157,7 @@ class Main(QMainWindow, Ui_Main):
 
         mensagem = self.conect.envia(concatenar_operacao(['10']))
        
-        print(mensagem)
+        
         if(mensagem !=None):
             self.tela_depositar.lineEdit_4.setText(f'{mensagem[1]}')
             self.tela_depositar.lineEdit_5.setText(f'{mensagem[9]}')
@@ -166,8 +166,11 @@ class Main(QMainWindow, Ui_Main):
             #QMessageBox.information(None, 'mensagem', mensagem[1])
 
     def botaoSair(self):
-        a = "encerrar"   
-        self.conect.envia(a)
+        
+        self.conect.sair()
+        self.conect.envia("encerrar")
+        
+
         
     def abrirTelaSacar(self):
         """Carrega tela para realizar saque e informa os atributos do cliente"""
@@ -291,7 +294,7 @@ class Main(QMainWindow, Ui_Main):
 
         if not(valor_saq == ''):
             mensagem = self.conect.envia(concatenar_operacao(['5', valor_saq]))
-            print(mensagem)
+            
             QMessageBox.information(None, 'mensagem', mensagem[1])
     
             self.tela_sacar.lineEdit_4.setText(f'{mensagem[3]}')
@@ -332,7 +335,7 @@ class Main(QMainWindow, Ui_Main):
         """ Função para informar o histórico"""
 
         mensagem = self.conect.envia(concatenar_operacao(['9']))
-        print(mensagem)
+        
         QMessageBox.information(None, 'mensagem', mensagem[1])
 
         tratar= mensagem[14]

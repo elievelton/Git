@@ -39,16 +39,20 @@ class cliente_Thread(threading.Thread):
         msg_recebida = ''
         while(msg_recebida != 'encerrar'):
             msg_recebida = self.conex.recv(1024).decode()
-            print(f'{msg_recebida}')
+            if(msg_recebida == 'encerrar'):
+                print("Cliente encerrado com sucesso! Aguardando Novas Conecxões...")
+            else:            
+                print(f'{msg_recebida}')
+                
             operacao = msg_recebida.split(',')
 
             if(operacao[0] == '1'):  # cadastrar conta [1, numero, cpf_titular, saldo, limite]]
-                conexao = ban.criando_conexao(
-                    'localhost', 'root', 'daniel398', 'banco',)
+                
                 numero = v_int(operacao[1])
                 cpf_titular = v_int(operacao[2])
                 saldo = v_float(operacao[3])
                 limite = operacao[4]
+                self.sinc.acquire()
 
                 cliente = ban.Buscar_cliente_bd(conexao, cpf_titular)
                 conta = ban.Buscar_conta_bd(conexao, cpf_titular)
@@ -70,7 +74,7 @@ class cliente_Thread(threading.Thread):
                 else:
                     self.conex.send('1, Cliente não cadastrado'.encode())
                 
-
+                self.sinc.release()
             # cadastrar cliente [2, nome1, endereco2, cpf3, nascimento4, usuario5, senha6]
             elif(operacao[0] == '2'):
 
@@ -80,7 +84,7 @@ class cliente_Thread(threading.Thread):
                 nascimento = str(operacao[4])
                 usuario = str(operacao[5])
                 senha = operacao[6]
-
+                self.sinc.acquire()
                 buscar = ban.Buscar_cliente_bd(conexao, cpf)
                 if(buscar == None):
                     
@@ -91,7 +95,7 @@ class cliente_Thread(threading.Thread):
                 else:
                     self.conex.send('1, O CPF já está cadastrado!'.encode())
                 
-
+                self.sinc.release()
             elif(operacao[0] == '3'):  # logar [3, login, senha]
                 
                 
@@ -149,7 +153,7 @@ class cliente_Thread(threading.Thread):
                 login = sessao
                 valor_saq = v_float(operacao[1])
                 
-
+                self.sinc.acquire()
                 cursor.execute(
                     f"select * from clientes where usuario = '{login}'")
                 valor = cursor.fetchall()
@@ -178,7 +182,7 @@ class cliente_Thread(threading.Thread):
                                 ('0, Saque realizado com sucesso!,' + resu).encode())
                         else:
                             self.conex.send('1, Saldo Insuficiente!'.encode())
-                        
+                        self.sinc.release()
 
             elif(operacao[0] == '6'):  # depositar [6, conta_dep, valor]
                 
@@ -187,7 +191,7 @@ class cliente_Thread(threading.Thread):
                 numero_conta = conta_dep[0][0]
 
                 valor = v_float(operacao[1])
-                
+                self.sinc.acquire()
                 c = ban.retorna_dado_conta(
                     conexao, 'cpf_titular', 'numero', numero_conta)
                 saldo = ban.retorna_dado_conta(
@@ -206,14 +210,14 @@ class cliente_Thread(threading.Thread):
 
                         self.conex.send(
                             ('0, Depósito realizado com sucesso!,' + resu).encode())
-                    
+                self.sinc.release()    
 
             elif(operacao[0] == '7'):  # transferir [7, conta_destino, valor, cs]
 
                 conta_destino = v_int(operacao[1])
                 valor = v_float(operacao[2])
                 cs = sessao
-
+                self.sinc.acquire()
                 # retorna a chave primaria da conta que é o cpf
                 buscar_conta = ban.Buscar_conta_bd_login(conexao, cs)
                 Busca_conta_de_destino = ban.retorna_dado_conta(
@@ -242,13 +246,13 @@ class cliente_Thread(threading.Thread):
                             '1, Conta de destino não existe'.encode())
                 else:
                     self.conex.send('1, Conta de saída não existe'.encode())
-                
+                self.sinc.release()
 
             elif(operacao[0] == '8'):  # extrato [8, login]
                 
 
                 login = sessao
-                
+                self.sinc.acquire()
                 q1 = (f"select * from clientes where usuario = '{login}'")
                 dados = ban.lendo_dados(conexao, q1)
                 lista = list(dados)
@@ -258,13 +262,13 @@ class cliente_Thread(threading.Thread):
                 resultado = replace_dados(resu)
 
                 self.conex.send(('0,' + resultado).encode())
-                
+                self.sinc.release()
 
             elif(operacao[0] == '9'):  # historico [9, login]
                 
 
                 login = sessao
-                
+                self.sinc.acquire()
                 q1 = (f"select * from clientes where usuario = '{login}'")
                 dados = ban.lendo_dados(conexao, q1)
                 lista = list(dados)
@@ -278,14 +282,14 @@ class cliente_Thread(threading.Thread):
 
                 self.conex.send(
                     ('0, Extrato realizado com sucesso!!,' + resultado).encode())
-                
+                self.sinc.release()
 
             elif(operacao[0] == '10'):  # Abrir menu de de depositar
 
                 cursor = conexao.cursor()
 
                 login = sessao
-
+                self.sinc.acquire()
                 cursor.execute(
                     f"select * from clientes where usuario = '{login}'")
                 valor = cursor.fetchall()
@@ -298,10 +302,11 @@ class cliente_Thread(threading.Thread):
                 # remove aspas e () das mensagens
                 tratamento = replace_dados(resultado)
                 self.conex.send(('0,' + tratamento).encode())
-
+                self.sinc.release()
             elif(operacao[0] == '11'):  # Abrir menu de saque
 
                 login = sessao
+                self.sinc.acquire()
                 q1 = (f"select * from clientes where usuario = '{login}'")
                 dados = ban.lendo_dados(conexao, q1)
                 lista = list(dados)
@@ -310,11 +315,11 @@ class cliente_Thread(threading.Thread):
                 tratamento = replace_dados(convert_conta)
                 print(tratamento)
                 self.conex.send(('0,' + tratamento).encode())
-
+                self.sinc.release()
             elif(operacao[0] == '12'):  # Abrir menu de saque
 
                 login = sessao
-
+                self.sinc.acquire()
                 q1 = (f"select * from clientes where usuario = '{login}'")
                 dados = ban.lendo_dados(conexao, q1)
                 lista = list(dados)
@@ -327,9 +332,10 @@ class cliente_Thread(threading.Thread):
                 print(resultado)
 
                 self.conex.send(('0,' + resultado).encode())
+                self.sinc.release()
 
-        else:
-            self.conex.send('1, Operação Inválida!'.encode())
-
+            else:
+                self.conex.send('1, Operação Inválida!'.encode())
+ 
         sessao = ''
         self.conex.send('1, Conexão Encerrada!!!'.encode())
