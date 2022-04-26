@@ -146,12 +146,14 @@ class cliente_Thread(threading.Thread):
                 login = self.sessao
                 valor_saq = v_float(operacao[1])
                 
-                
+                self.sinc.acquire()
                 cursor.execute(
                     f"select * from clientes where usuario = '{login}'")
                 valor = cursor.fetchall()
                 convert_lista = list(valor)
                 texto = str(valor_saq)
+                
+
 
                 if (convert_lista):
                     if((convert_lista[0][4]) == (login)):
@@ -175,7 +177,7 @@ class cliente_Thread(threading.Thread):
                                 ('0, Saque realizado com sucesso!,' + resu).encode())
                         else:
                             self.conex.send('1, Saldo Insuficiente!'.encode())
-                        
+                        self.sinc.release() 
 
             elif(operacao[0] == '6'):  # depositar [6, conta_dep, valor]
                 
@@ -184,6 +186,7 @@ class cliente_Thread(threading.Thread):
                 numero_conta = conta_dep[0][0]
 
                 valor = v_float(operacao[1])
+                self.sinc.acquire()
                 
                 c = self.ban.retorna_dado_conta(
                     conexao, 'cpf_titular', 'numero', numero_conta)
@@ -203,14 +206,14 @@ class cliente_Thread(threading.Thread):
 
                         self.conex.send(
                             ('0, Depósito realizado com sucesso!,' + resu).encode())
-                   
+                self.sinc.release()   
 
             elif(operacao[0] == '7'):  # transferir [7, conta_destino, valor, cs]
 
                 conta_destino = v_int(operacao[1])
                 valor = v_float(operacao[2])
                 cs = self.sessao
-                
+                self.sinc.acquire()# bloqueia para uma operação dessa por vez
                 # retorna a chave primaria da conta que é o cpf
                 buscar_conta = self.ban.Buscar_conta_bd_login(conexao, cs)
                 Busca_conta_de_destino = self.ban.retorna_dado_conta(
@@ -239,7 +242,7 @@ class cliente_Thread(threading.Thread):
                             '1, Conta de destino não existe'.encode())
                 else:
                     self.conex.send('1, Conta de saída não existe'.encode())
-                
+                self.sinc.release() # Desblqueia a operação
 
             elif(operacao[0] == '8'):  # extrato [8, login]
                 
