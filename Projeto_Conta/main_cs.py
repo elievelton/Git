@@ -154,8 +154,8 @@ class Main(QMainWindow, Ui_Main):
         """Carrega tela para realizar depósito e informa os atributos do cliente"""
         self.QtStack.setCurrentIndex(5)
     
-
-        mensagem = self.conect.envia(concatenar_operacao(['10']))
+        login =  self.tela_login.lineEdit.text()
+        mensagem = self.conect.envia(concatenar_operacao(['10', login]))
        
         
         if(mensagem !=None):
@@ -175,7 +175,8 @@ class Main(QMainWindow, Ui_Main):
     def abrirTelaSacar(self):
         """Carrega tela para realizar saque e informa os atributos do cliente"""
         self.QtStack.setCurrentIndex(6)
-        mensagem = self.conect.envia(concatenar_operacao(['11']))
+        login =  self.tela_login.lineEdit.text()
+        mensagem = self.conect.envia(concatenar_operacao(['11', login]))
 
         if(mensagem !=None):
             self.tela_sacar.lineEdit_4.setText(f'{mensagem[1]}')
@@ -185,7 +186,8 @@ class Main(QMainWindow, Ui_Main):
     def abrirTelaTransferir(self):
         """Carrega tela para realizar transferência e informa os atributos do cliente"""
         self.QtStack.setCurrentIndex(7)
-        mensagem = self.conect.envia(concatenar_operacao(['12']))
+        login =  self.tela_login.lineEdit.text()
+        mensagem = self.conect.envia(concatenar_operacao(['12',login]))
   
         self.tela_transferir.lineEdit_6.setText(f'{mensagem[1]}')
         self.tela_transferir.lineEdit_5.setText(f'{mensagem[9]}')
@@ -272,9 +274,10 @@ class Main(QMainWindow, Ui_Main):
         """ Função para realizar depoósito"""
         
         valor = self.tela_depositar.lineEdit_2.text()
+        login =  self.tela_login.lineEdit.text()
 
         if not( valor == ''):
-            mensagem = self.conect.envia(concatenar_operacao(['6', valor]))
+            mensagem = self.conect.envia(concatenar_operacao(['6', valor, login]))
 
             QMessageBox.information(None, 'mensagem', mensagem[1])
 
@@ -291,9 +294,10 @@ class Main(QMainWindow, Ui_Main):
         """ Função para realizar saque"""
         
         valor_saq = self.tela_sacar.lineEdit_2.text()
+        login = self.tela_login.lineEdit.text()
 
         if not(valor_saq == ''):
-            mensagem = self.conect.envia(concatenar_operacao(['5', valor_saq]))
+            mensagem = self.conect.envia(concatenar_operacao(['5', valor_saq,login]))
             
             QMessageBox.information(None, 'mensagem', mensagem[1])
     
@@ -310,10 +314,11 @@ class Main(QMainWindow, Ui_Main):
 
         conta_destino = self.tela_transferir.lineEdit.text()
         valor = self.tela_transferir.lineEdit_2.text()
+        login =  self.tela_login.lineEdit.text()
 
         
         if ( conta_destino != None ):
-            mensagem = self.conect.envia(concatenar_operacao(['7', conta_destino, valor]))
+            mensagem = self.conect.envia(concatenar_operacao(['7', conta_destino, valor, login]))
             
             QMessageBox.information(None, 'mensagem', mensagem[1])
             self.tela_transferir.lineEdit_4.setText('R$ ' + f'{mensagem[4]}')
@@ -325,16 +330,17 @@ class Main(QMainWindow, Ui_Main):
 
     #funcionamento tela de extrato
     def botaoExtrato(self):
+        login =  self.tela_login.lineEdit.text()
         """ Função para informar o extrato"""
-        mensagem = self.conect.envia(concatenar_operacao(['8']))        
+        mensagem = self.conect.envia(concatenar_operacao(['8',login]))        
 
         self.tela_extrato.textBrowser.setText("Numero Conta: {} \nSaldo Disponível: {}".format(f'{mensagem[1]}', f'{mensagem[3]}'))
     
     #funcionamento tela historico
     def botaoHistorico(self):
         """ Função para informar o histórico"""
-
-        mensagem = self.conect.envia(concatenar_operacao(['9']))
+        login =  self.tela_login.lineEdit.text()
+        mensagem = self.conect.envia(concatenar_operacao(['9', login]))
         
         QMessageBox.information(None, 'mensagem', mensagem[1])
 

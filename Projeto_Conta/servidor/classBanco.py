@@ -129,6 +129,23 @@ class Banco:
 
         self.conexao.commit()
         self.gravar_historico(conexao,chave_de_busca,msg)
+    
+    def criar_Banco(self):
+
+        database_query = "CREATE DATABASE IF NOT EXISTS banco"
+        conexao = self.criando_conexao(
+            'localhost', 'root', '12345', 'banco')
+
+        self.criando_bancodedados(conexao, database_query)
+
+        tabela_clientes = "CREATE TABLE IF NOT EXISTS clientes( cpf bigint(11)  PRIMARY KEY, nome VARCHAR(50) NOT NULL , endereco VARCHAR(50) NOT NULL, nascimento VARCHAR(50) NOT NULL, usuario VARCHAR(50) NOT NULL, senha VARCHAR(50) NOT NULL, conta bigint(11), data_abertura TEXT);"
+        self.executando_query(conexao, tabela_clientes)
+
+        tabela_contas = "CREATE TABLE IF NOT EXISTS contas( numero int(5) NOT NULL , cpf_titular bigint(11)  PRIMARY KEY, saldo FLOAT(5,2) NOT NULL, limite VARCHAR(50) NOT NULL, historico TEXT DEFAULT NULL);"
+        self.executando_query(conexao, tabela_contas)
+
+        alter_cli_con = """ALTER TABLE clientes ADD FOREIGN KEY(conta) REFERENCES contas(cpf_titular);"""
+        self.executando_query(conexao, alter_cli_con)
         
 
 
