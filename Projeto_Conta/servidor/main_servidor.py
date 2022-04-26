@@ -4,21 +4,24 @@ import datetime
 from tratamento import concatenar_operacao, replace_dados, v_int, v_float
 
 
+
 import threading
 
 
 class cliente_Thread(threading.Thread):
 
-    def __init__(self, addr, socket, sinc):
+    def __init__(self, addr, socket,sinc):
+    
         threading.Thread.__init__(self)
         self.conex = socket
         self.sinc = sinc
         self.ban = Banco()
+        self.sessao = ''
         print(f"Nova conexao de: {addr}")
 
     def run(self):
         """CRIANDO CONEXAO"""
-
+        
         conexao = self.ban.criando_conexao(
             'localhost', 'root', '12345', 'banco')
         
@@ -36,7 +39,7 @@ class cliente_Thread(threading.Thread):
             operacao = msg_recebida.split(',')
 
             if(operacao[0] == '1'):  # cadastrar conta [1, numero, cpf_titular, saldo, limite]]
-                self.ban.criar_Banco()
+                
                 numero = v_int(operacao[1])
                 cpf_titular = v_int(operacao[2])
                 saldo = v_float(operacao[3])
@@ -66,7 +69,7 @@ class cliente_Thread(threading.Thread):
                 
             # cadastrar cliente [2, nome1, endereco2, cpf3, nascimento4, usuario5, senha6]
             elif(operacao[0] == '2'):
-                self.ban.criar_Banco()
+
                 nome = str(operacao[1])
                 endereco = str(operacao[2])
                 cpf = v_int(operacao[3])
@@ -92,6 +95,7 @@ class cliente_Thread(threading.Thread):
                 login = operacao[1]
                 valor = operacao[2]
                 senha = valor
+                self.sessao = login
 
                 
                 
@@ -139,7 +143,7 @@ class cliente_Thread(threading.Thread):
 
                 cursor = conexao.cursor()
 
-                login = operacao[2]
+                login = self.sessao
                 valor_saq = v_float(operacao[1])
                 
                 
@@ -175,7 +179,7 @@ class cliente_Thread(threading.Thread):
 
             elif(operacao[0] == '6'):  # depositar [6, conta_dep, valor]
                 
-                login =operacao[2]
+                login = self.sessao
                 conta_dep = self.ban.Buscar_conta_bd_login(conexao, login)
                 numero_conta = conta_dep[0][0]
 
@@ -205,7 +209,7 @@ class cliente_Thread(threading.Thread):
 
                 conta_destino = v_int(operacao[1])
                 valor = v_float(operacao[2])
-                cs = operacao[3]
+                cs = self.sessao
                 
                 # retorna a chave primaria da conta que é o cpf
                 buscar_conta = self.ban.Buscar_conta_bd_login(conexao, cs)
@@ -240,7 +244,7 @@ class cliente_Thread(threading.Thread):
             elif(operacao[0] == '8'):  # extrato [8, login]
                 
 
-                login = operacao[1]                
+                login = self.sessao                
                 q1 = (f"select * from clientes where usuario = '{login}'")
                 dados = self.ban.lendo_dados(conexao, q1)
                 lista = list(dados)
@@ -255,7 +259,7 @@ class cliente_Thread(threading.Thread):
             elif(operacao[0] == '9'):  # historico [9, login]
                 
 
-                login = operacao[1]
+                login = self.sessao
                 
                 q1 = (f"select * from clientes where usuario = '{login}'")
                 dados = self.ban.lendo_dados(conexao, q1)
@@ -276,7 +280,7 @@ class cliente_Thread(threading.Thread):
 
                 cursor = conexao.cursor()
 
-                login = operacao[1]
+                login = self.sessao
                 
                 cursor.execute(
                     f"select * from clientes where usuario = '{login}'")
@@ -293,7 +297,7 @@ class cliente_Thread(threading.Thread):
                 
             elif(operacao[0] == '11'):  # Abrir menu de saque
 
-                login = operacao[1]
+                login = self.sessao
                 
                 q1 = (f"select * from clientes where usuario = '{login}'")
                 dados = self.ban.lendo_dados(conexao, q1)
@@ -306,7 +310,7 @@ class cliente_Thread(threading.Thread):
                 
             elif(operacao[0] == '12'):  # Abrir menu de transferir
 
-                login = operacao[1]
+                login = self.sessao
                 
                 q1 = (f"select * from clientes where usuario = '{login}'")
                 dados = self.ban.lendo_dados(conexao, q1)
@@ -325,5 +329,5 @@ class cliente_Thread(threading.Thread):
             else:
                 self.conex.send('1, Operação Inválida!'.encode())
  
-        
+        self.sessao= ''
         self.conex.send('1, Conexão Encerrada!!!'.encode())

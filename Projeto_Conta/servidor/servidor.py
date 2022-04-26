@@ -1,6 +1,8 @@
 import socket
 import threading
 
+
+
 from main_servidor import cliente_Thread
 
 host = 'localhost' #Criando o nome do Host (aquele que vai receber os pedidos do cliente)
@@ -15,8 +17,10 @@ serv_socket.listen(10)
 print('\nAGUARDANDO CONEXAO...')
 
 while True:
+    
     conex, c = serv_socket.accept() # servidor aguarda uma conexao
 
     sinc = threading.Lock()
     New_Thread = cliente_Thread(c, conex, sinc)
     New_Thread.start()
+   
