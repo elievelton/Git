@@ -243,7 +243,7 @@ class Main(QMainWindow, Ui_Main):
                 elif mensagem[0] == '3':
                     QMessageBox.information(None, 'mensagem', mensagem[1])
             else:
-                QMessageBox.information(None, 'POO2', 'Usuaio não cadastro, Realize seu cadastro!')
+                QMessageBox.information(None, 'AppBanck', 'Servidor fora do ar! tente mais tarde')
 
         else:
             QMessageBox.information(None, 'POO2', 'Todos os campos devem ser preenchidos')  

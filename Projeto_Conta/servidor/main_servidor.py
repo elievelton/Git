@@ -96,7 +96,7 @@ class cliente_Thread(threading.Thread):
                 busca = cursor.fetchall()
                 convert_lista = list(busca)
 
-                if(convert_lista != None):
+                if(convert_lista != ''):
                     if (convert_lista):
                         if((convert_lista[0][4] and convert_lista[0][5]) == (login and senha)):
 
@@ -114,7 +114,7 @@ class cliente_Thread(threading.Thread):
 
                 else:
                     self.conex.send(
-                        '3, Cliente não existe! Clique no botão cadastrar e faça seu cadastro'.encode())
+                        '3, Cliente não cadastrado!'.encode())
 
            
 
@@ -238,7 +238,7 @@ class cliente_Thread(threading.Thread):
 
                 resultado = self.ban.tratamento_dados(conexao, self.sessao)
                 self.conex.send(('0,' + resultado).encode())
-                
+
              # Botão VOltar para o menu
             elif(operacao[0] == '13'): 
                 resultado = self.ban.tratamento_dados(conexao, self.sessao)
