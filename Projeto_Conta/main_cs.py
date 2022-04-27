@@ -224,12 +224,13 @@ class Main(QMainWindow, Ui_Main):
             mensagem = self.conect.envia(concatenar_operacao(['3', login, senha]))
             self.tela_login.lineEdit.setText('')
             self.tela_login.lineEdit_2.setText('')
+            print(mensagem)
             if mensagem != None:
                 if mensagem[0] == '0':
                     self.abrirTelaMenu()
                     QMessageBox.information(None, 'mensagem', mensagem[1])
                                 
-                    self.tela_menu.lineEdit_2.setText(str(f'{mensagem[6]}'))
+                    self.tela_menu.lineEdit_2.setText(str(f'{mensagem[3]}'))
                     self.tela_menu.lineEdit_3.setText(f'{mensagem[10]}')
                     self.tela_menu.lineEdit.setText('R$ ' + f'{mensagem[12]}')
                     
@@ -241,7 +242,11 @@ class Main(QMainWindow, Ui_Main):
 
                 elif mensagem[0] == '3':
                     QMessageBox.information(None, 'mensagem', mensagem[1])
-                
+            else:
+                QMessageBox.information(None, 'POO2', 'Usuaio não cadastro, Realize seu cadastro!')
+
+        else:
+            QMessageBox.information(None, 'POO2', 'Todos os campos devem ser preenchidos')  
 
 
     def cadastrar_cliente(self):
@@ -299,6 +304,7 @@ class Main(QMainWindow, Ui_Main):
             self.tela_depositar.lineEdit_4.setText(f'{mensagem[3]}')
             self.tela_depositar.lineEdit_5.setText(f'{mensagem[10]}')
             self.tela_depositar.lineEdit_3.setText('R$ ' + f'{mensagem[12]}')
+            self.tela_menu.lineEdit.setText('R$ ' + f'{mensagem[12]}') 
             
         else:
             QMessageBox.information(None, 'POO2', 'Todos os campos devem ser preenchidos!')
@@ -312,13 +318,16 @@ class Main(QMainWindow, Ui_Main):
 
         if not(valor_saq == ''):
             mensagem = self.conect.envia(concatenar_operacao(['5', valor_saq]))
+            if(mensagem[0]=='0'):              
             
-            QMessageBox.information(None, 'mensagem', mensagem[1])
-    
-            self.tela_sacar.lineEdit_4.setText(f'{mensagem[3]}')
-            self.tela_sacar.lineEdit_5.setText(f'{mensagem[10]}')
-            self.tela_sacar.lineEdit_3.setText('R$ ' + f'{mensagem[12]}')
-            self.tela_menu.lineEdit.setText('R$ ' + f'{mensagem[12]}') 
+                QMessageBox.information(None, 'mensagem', mensagem[1])
+        
+                self.tela_sacar.lineEdit_4.setText(f'{mensagem[3]}')
+                self.tela_sacar.lineEdit_5.setText(f'{mensagem[10]}')
+                self.tela_sacar.lineEdit_3.setText('R$ ' + f'{mensagem[12]}')
+                self.tela_menu.lineEdit.setText('R$ ' + f'{mensagem[12]}')
+            else:
+                QMessageBox.information(None, 'mensagem', mensagem[1])    
         else:
             QMessageBox.information(None, 'POO2', 'Todos os campos devem ser preenchidos!')
 
@@ -331,16 +340,21 @@ class Main(QMainWindow, Ui_Main):
         
 
         
-        if ( conta_destino != None ):
+        if not ( conta_destino == '' or valor == '' ):
             mensagem = self.conect.envia(concatenar_operacao(['7', conta_destino, valor]))
-            
-            QMessageBox.information(None, 'mensagem', mensagem[1])
-            self.tela_transferir.lineEdit_4.setText('R$ ' + f'{mensagem[12]}')
-            self.tela_transferir.lineEdit_6.setText(f'{mensagem[3]}')
-            self.tela_transferir.lineEdit_5.setText(f'{mensagem[10]}')
-            self.tela_menu.lineEdit.setText('R$ ' + f'{mensagem[12]}')
-            self.tela_transferir.lineEdit.setText('')
-            self.tela_transferir.lineEdit_2.setText('')
+
+            if(mensagem[0]=='0'):
+                QMessageBox.information(None, 'mensagem', mensagem[1])
+                self.tela_transferir.lineEdit_4.setText('R$ ' + f'{mensagem[12]}')
+                self.tela_transferir.lineEdit_6.setText(f'{mensagem[3]}')
+                self.tela_transferir.lineEdit_5.setText(f'{mensagem[10]}')
+                self.tela_menu.lineEdit.setText('R$ ' + f'{mensagem[12]}')
+                self.tela_transferir.lineEdit.setText('')
+                self.tela_transferir.lineEdit_2.setText('')
+            elif(mensagem[0]=='1'):
+                QMessageBox.information(None, 'mensagem', mensagem[1])
+            elif(mensagem[0]=='3'):
+                QMessageBox.information(None, 'mensagem', mensagem[1])
         else:
             QMessageBox.information(None, 'POO2', 'Todos os campos devem ser preenchidos!')
 

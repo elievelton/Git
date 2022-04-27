@@ -86,7 +86,7 @@ class Banco:
         if resultado2:
             return list(resultado2)
         else:
-            None
+           return None
 
     def Buscar_cliente_bd_login(self, conexao, login):
         self.cursor = conexao.cursor()
@@ -94,11 +94,12 @@ class Banco:
         self.cursor.execute(
             f'SELECT * FROM clientes WHERE clientes.usuario = "{login}"')  # filtra pelo cpf
         resultado = self.cursor.fetchall()
+        print(resultado)
 
         if resultado:
             return list(resultado)
         else:
-            None
+            return None
 
     def InserirConta_cliente(self, conexao, cpf_titular):
         self.cursor = conexao.cursor()
@@ -184,6 +185,11 @@ class Banco:
         float(saldo2[0][0])
         teste = saldo2[0][0]
         float(valor)
+        
+        if(valor>teste):
+            return False
+        elif(valor<teste):
+            return True
 
         teste -= valor
 

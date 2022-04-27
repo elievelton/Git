@@ -90,30 +90,19 @@ class cliente_Thread(threading.Thread):
                 senha = valor
                 self.sessao = login
 
-                b = self.ban.Buscar_cliente_bd_login(
-                    conexao, login)  # retorna o cpf do cliente
-                buscar_cliente = self.ban.Buscar_cliente_bd(conexao, b[0][0])
-                lista_cliente = list(buscar_cliente)
                 cursor.execute(
-                    f"select * from clientes where usuario = '{login}' and senha = '{senha}'")
+                    f"select * from clientes where usuario = '{login}' ")
                 busca = cursor.fetchall()
                 convert_lista = list(busca)
 
                 if(convert_lista != None):
                     if (convert_lista):
                         if((convert_lista[0][4] and convert_lista[0][5]) == (login and senha)):
-                            conta = self.ban.Buscar_conta_bd(
-                                conexao, convert_lista[0][6])
-                            convert_conta = list(conta)
 
-                            teste = concatenar_operacao(convert_lista)
-                            teste2 = concatenar_operacao(convert_conta)
-                            resul = replace_dados(teste)
-                            resul2 = replace_dados(teste2)
-                            resultado = resul+resul2
-
+                            resultado = self.ban.tratamento_dados(
+                                conexao, self.sessao)
                             self.conex.send(
-                                ('0, Login Realizado com Sucesso!,' + resultado).encode())
+                                ('0, Login Realizado com Sucesso! ,' + resultado).encode())
 
                         else:
                             self.conex.send(
@@ -158,8 +147,10 @@ class cliente_Thread(threading.Thread):
                             alterar_saldo = (
                                 f'UPDATE `banco`.`contas` SET saldo = {convert_conta[0][2]} WHERE (numero = {conta[0][0]});')
                             self.ban.executando_query(conexao, alterar_saldo)
-                            resultado = self.ban.tratamento_dados(conexao,self.sessao)
-                            self.conex.send(('0, Saquefeito com sucesso!,' + resultado).encode())
+                            resultado = self.ban.tratamento_dados(
+                                conexao, self.sessao)
+                            self.conex.send(
+                                ('0, Saque feito com sucesso!,' + resultado).encode())
                         else:
                             self.conex.send('1, Saldo Insuficiente!'.encode())
                         self.sinc.release()
@@ -182,8 +173,10 @@ class cliente_Thread(threading.Thread):
                     if not(c == None):
 
                         self.ban.altera_saldo(conexao, valor, c[0][0])
-                        resultado = self.ban.tratamento_dados(conexao,self.sessao)
-                        self.conex.send(('0, Deposito feito com sucesso!,' + resultado).encode())
+                        resultado = self.ban.tratamento_dados(
+                            conexao, self.sessao)
+                        self.conex.send(
+                            ('0, Deposito feito com sucesso!,' + resultado).encode())
                 self.sinc.release()
 
             elif(operacao[0] == '7'):  # transferir [7, conta_destino, valor, cs]
@@ -200,9 +193,12 @@ class cliente_Thread(threading.Thread):
 
                     if (buscar_conta[0][0] != None):
 
-                        self.ban.transferirBD(conexao, Busca_conta_de_destino[0][0], buscar_conta[0][1], valor)
-                        resultado = self.ban.tratamento_dados(conexao,self.sessao)
-                        self.conex.send(('0, Transferencia feita com sucesso!,' + resultado).encode())
+                        saldo = self.ban.transferirBD(conexao, Busca_conta_de_destino[0][0], buscar_conta[0][1], valor)
+                        if(saldo ==True):
+                            resultado = self.ban.tratamento_dados(conexao, self.sessao)
+                            self.conex.send(('0, Transferencia feita com sucesso!,' + resultado).encode())
+                        else:
+                            self.conex.send(('3, Saldo insuficiente!,' + resultado).encode())
 
                     else:
                         self.conex.send(
@@ -213,32 +209,33 @@ class cliente_Thread(threading.Thread):
 
             elif(operacao[0] == '8'):  # extrato [8, login]
 
-                resultado = self.ban.tratamento_dados(conexao,self.sessao)
-                self.conex.send(('0, Extrato realizado com Sucesso!,' + resultado).encode())
+                resultado = self.ban.tratamento_dados(conexao, self.sessao)
+                self.conex.send(
+                    ('0, Extrato realizado com Sucesso!,' + resultado).encode())
 
             elif(operacao[0] == '9'):  # historico [9, login]
 
-                resultado = self.ban.tratamento_dados(conexao,self.sessao)
-                self.conex.send(('0, Histórico realizado com Sucesso!,' + resultado).encode())
+                resultado = self.ban.tratamento_dados(conexao, self.sessao)
+                self.conex.send(
+                    ('0, Histórico realizado com Sucesso!,' + resultado).encode())
 
             elif(operacao[0] == '10'):  # Abrir menu de de depositar
 
-                resultado = self.ban.tratamento_dados(conexao,self.sessao)
+                resultado = self.ban.tratamento_dados(conexao, self.sessao)
                 self.conex.send(('0,' + resultado).encode())
-
 
             elif(operacao[0] == '11'):  # Abrir menu de saque
-                
-                resultado = self.ban.tratamento_dados(conexao,self.sessao)
+
+                resultado = self.ban.tratamento_dados(conexao, self.sessao)
                 self.conex.send(('0,' + resultado).encode())
 
-            elif(operacao[0] == '12'):  # Abrir menu de transferir                
-                
-                resultado = self.ban.tratamento_dados(conexao,self.sessao)
+            elif(operacao[0] == '12'):  # Abrir menu de transferir
+
+                resultado = self.ban.tratamento_dados(conexao, self.sessao)
                 self.conex.send(('0,' + resultado).encode())
-            
-            elif(operacao[0] == '13'): # Botão VOltar para o menu
-                resultado = self.ban.tratamento_dados(conexao,self.sessao)
+
+            elif(operacao[0] == '13'):  # Botão VOltar para o menu
+                resultado = self.ban.tratamento_dados(conexao, self.sessao)
                 self.conex.send(('0,' + resultado).encode())
             else:
                 self.conex.send('1, Operação Inválida!'.encode())
