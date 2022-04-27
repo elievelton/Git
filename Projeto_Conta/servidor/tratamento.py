@@ -1,5 +1,6 @@
 import hashlib
 
+
 def v_int(valor):
     try:
         valor = int(valor)
@@ -32,6 +33,7 @@ def trata_data(data):
 
     return data
 
+
 def valida_cpf(cpf):
     if cpf.isdigit() == True and len(cpf) == 11:
         return True
@@ -52,25 +54,28 @@ def trata_mensagen(operacao):
 
     return transacao
 
+
 def concatenar_operacao(operacao):
     trasacao = ''
 
     for i in operacao:
-        trasacao+= str(i) + ','
+        trasacao += str(i) + ','
 
     return trasacao
 
-#remove aspas e parenteses das mensagens
-def replace_dados(msg): 
-    
-    resu = msg.replace("(","")
-    resu2 = resu.replace("'","")
-    resu3 = resu2.replace(")","")  
-
-    return resu3
+# remove aspas e parenteses das mensagens
 
 
- 
+def replace_dados(msg):
+
+    resu = msg.replace("(", "")
+    resu2 = resu.replace("'", "")
+    resu3 = resu2.replace(")", "")
+    resu4 = resu3.replace("None", "")
+
+    return resu4
+
+
 def md5_generator(str):
     m = hashlib.md5()
     m.update(str.encode())

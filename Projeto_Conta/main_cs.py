@@ -110,8 +110,11 @@ class Main(QMainWindow, Ui_Main):
         self.tela_CadastroCon.pushButton.clicked.connect(self.cadastrar_conta)
         self.tela_CadastroCon.pushButton_2.clicked.connect(self.abrirTelaMenu_Cadastro)
 
+
         self.tela_depositar.pushButton.clicked.connect(self.botaoDepositar)
         self.tela_depositar.pushButton_2.clicked.connect(self.abrirTelaMenu)
+        
+        
 
         self.tela_sacar.pushButton.clicked.connect(self.botaoSacar)
         self.tela_sacar.pushButton_2.clicked.connect(self.abrirTelaMenu)
@@ -156,19 +159,25 @@ class Main(QMainWindow, Ui_Main):
     
         
         mensagem = self.conect.envia(concatenar_operacao(['10']))
-       
         
         if(mensagem !=None):
-            self.tela_depositar.lineEdit_4.setText(f'{mensagem[1]}')
+            self.tela_depositar.lineEdit_4.setText(f'{mensagem[2]}')
             self.tela_depositar.lineEdit_5.setText(f'{mensagem[9]}')
             self.tela_depositar.lineEdit_3.setText('R$ ' + f'{mensagem[11]}')
-        #else:
-            #QMessageBox.information(None, 'mensagem', mensagem[1])
+            self.tela_depositar.pushButton_2.clicked.connect(self.botao_Voltar_Menu)
+            
+            
 
-    def botaoSair(self):
+    def botaoSair(self): #função para fecha conexao do cliente
         
         self.conect.sair()
         self.conect.envia("encerrar")
+    
+    def botao_Voltar_Menu(self):# função para atualizar saldo da conta
+        mensagem = self.conect.envia(concatenar_operacao(['13']))
+        self.tela_depositar.lineEdit_3.setText('R$ ' + f'{mensagem[11]}')
+
+
         
 
         
@@ -177,21 +186,25 @@ class Main(QMainWindow, Ui_Main):
         self.QtStack.setCurrentIndex(6)
         
         mensagem = self.conect.envia(concatenar_operacao(['11']))
+        
 
         if(mensagem !=None):
-            self.tela_sacar.lineEdit_4.setText(f'{mensagem[1]}')
-            self.tela_sacar.lineEdit_5.setText(f'{mensagem[2]}')
-            self.tela_sacar.lineEdit_3.setText('R$ ' + f'{mensagem[3]}')
+            self.tela_sacar.lineEdit_4.setText(f'{mensagem[2]}')
+            self.tela_sacar.lineEdit_5.setText(f'{mensagem[9]}')
+            self.tela_sacar.lineEdit_3.setText('R$ ' + f'{mensagem[11]}')
+            self.tela_sacar.pushButton_2.clicked.connect(self.botao_Voltar_Menu)
 
     def abrirTelaTransferir(self):
         """Carrega tela para realizar transferência e informa os atributos do cliente"""
         self.QtStack.setCurrentIndex(7)
         
         mensagem = self.conect.envia(concatenar_operacao(['12']))
+        
   
-        self.tela_transferir.lineEdit_6.setText(f'{mensagem[1]}')
-        self.tela_transferir.lineEdit_5.setText(f'{mensagem[9]}')
-        self.tela_transferir.lineEdit_4.setText('R$ ' + f'{mensagem[11]}')
+        self.tela_transferir.lineEdit_6.setText(f'{mensagem[2]}') #Nome do Cliente
+        self.tela_transferir.lineEdit_5.setText(f'{mensagem[9]}') #Numero da conta
+        self.tela_transferir.lineEdit_4.setText('R$ ' + f'{mensagem[11]}') #valor da conta
+        self.tela_transferir.pushButton_2.clicked.connect(self.botao_Voltar_Menu)
 
     def abrirTelaExtrato(self):
         """Carrega tela para mostrar o extrato do cliente"""
@@ -284,8 +297,8 @@ class Main(QMainWindow, Ui_Main):
 
             self.tela_depositar.lineEdit_2.setText('')
             self.tela_depositar.lineEdit_4.setText(f'{mensagem[3]}')
-            self.tela_depositar.lineEdit_5.setText(f'{mensagem[2]}')
-            self.tela_depositar.lineEdit_3.setText('R$ ' + f'{mensagem[7]}')
+            self.tela_depositar.lineEdit_5.setText(f'{mensagem[10]}')
+            self.tela_depositar.lineEdit_3.setText('R$ ' + f'{mensagem[12]}')
             
         else:
             QMessageBox.information(None, 'POO2', 'Todos os campos devem ser preenchidos!')
@@ -303,9 +316,9 @@ class Main(QMainWindow, Ui_Main):
             QMessageBox.information(None, 'mensagem', mensagem[1])
     
             self.tela_sacar.lineEdit_4.setText(f'{mensagem[3]}')
-            self.tela_sacar.lineEdit_5.setText(f'{mensagem[2]}')
-            self.tela_sacar.lineEdit_3.setText('R$ ' + f'{mensagem[4]}')
-            self.tela_menu.lineEdit.setText('R$ ' + f'{mensagem[4]}') 
+            self.tela_sacar.lineEdit_5.setText(f'{mensagem[10]}')
+            self.tela_sacar.lineEdit_3.setText('R$ ' + f'{mensagem[12]}')
+            self.tela_menu.lineEdit.setText('R$ ' + f'{mensagem[12]}') 
         else:
             QMessageBox.information(None, 'POO2', 'Todos os campos devem ser preenchidos!')
 
@@ -322,10 +335,12 @@ class Main(QMainWindow, Ui_Main):
             mensagem = self.conect.envia(concatenar_operacao(['7', conta_destino, valor]))
             
             QMessageBox.information(None, 'mensagem', mensagem[1])
-            self.tela_transferir.lineEdit_4.setText('R$ ' + f'{mensagem[4]}')
-            self.tela_transferir.lineEdit_6.setText(f'{mensagem[11]}')
-            self.tela_transferir.lineEdit_5.setText(f'{mensagem[3]}')
-            self.tela_menu.lineEdit.setText('R$ ' + f'{mensagem[4]}')
+            self.tela_transferir.lineEdit_4.setText('R$ ' + f'{mensagem[12]}')
+            self.tela_transferir.lineEdit_6.setText(f'{mensagem[3]}')
+            self.tela_transferir.lineEdit_5.setText(f'{mensagem[10]}')
+            self.tela_menu.lineEdit.setText('R$ ' + f'{mensagem[12]}')
+            self.tela_transferir.lineEdit.setText('')
+            self.tela_transferir.lineEdit_2.setText('')
         else:
             QMessageBox.information(None, 'POO2', 'Todos os campos devem ser preenchidos!')
 
@@ -335,7 +350,7 @@ class Main(QMainWindow, Ui_Main):
         """ Função para informar o extrato"""
         mensagem = self.conect.envia(concatenar_operacao(['8']))        
 
-        self.tela_extrato.textBrowser.setText("Numero Conta: {} \nSaldo Disponível: {}".format(f'{mensagem[1]}', f'{mensagem[3]}'))
+        self.tela_extrato.textBrowser.setText("Numero Conta: {} \nSaldo Disponível: {}".format(f'{mensagem[10]}', f'{mensagem[12]}'))
     
     #funcionamento tela historico
     def botaoHistorico(self):

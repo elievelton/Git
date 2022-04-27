@@ -2,12 +2,12 @@ import mysql.connector
 from mysql.connector import Error
 
 import datetime
+from tratamento import concatenar_operacao, replace_dados, v_int, v_float
 
 
 class Banco:
 
-
-    def criando_conexao(self,host_name, user_name, user_passwd, db_name):
+    def criando_conexao(self, host_name, user_name, user_passwd, db_name):
         self.conexao = None
         try:
             self.conexao = mysql.connector.connect(
@@ -21,7 +21,7 @@ class Banco:
             print(f"Error: '{err}'")
         return self.conexao
 
-    def criando_bancodedados(self,conexao, query):
+    def criando_bancodedados(self, conexao, query):
         self.cursor = conexao.cursor()
         try:
             self.cursor.execute(query)
@@ -29,7 +29,7 @@ class Banco:
         except Error as err:
             print(f"Error: '{err}'")
 
-    def executando_query(self,conexao, query):
+    def executando_query(self, conexao, query):
         self.cursor = conexao.cursor()
         try:
             self.cursor.execute(query)
@@ -38,7 +38,7 @@ class Banco:
         except Error as err:
             print(f"Error: '{err}'")
 
-    def lendo_dados(self,conexao, query):
+    def lendo_dados(self, conexao, query):
         self.cursor = conexao.cursor()
         self.result = None
         try:
@@ -48,11 +48,12 @@ class Banco:
         except Error as err:
             print(f"Error: '{err}'")
 
-
-    def Buscar_cliente_bd(self,conexao,cpf):
+    def Buscar_cliente_bd(self, conexao, cpf):
         self.cursor = conexao.cursor()
 
-        self.cursor.execute(f'SELECT * FROM clientes WHERE clientes.cpf = {cpf}') #filtra pelo cpf
+        # filtra pelo cpf
+        self.cursor.execute(
+            f'SELECT * FROM clientes WHERE clientes.cpf = {cpf}')
         resultado = self.cursor.fetchall()
 
         if resultado:
@@ -60,11 +61,12 @@ class Banco:
         else:
             None
 
-
-    def Buscar_conta_bd(self,conexao,cpf):
+    def Buscar_conta_bd(self, conexao, cpf):
         self.cursor = conexao.cursor()
 
-        self.cursor.execute(f'SELECT * FROM contas WHERE contas.cpf_titular = {cpf}') #filtra pelo cpf
+        # filtra pelo cpf
+        self.cursor.execute(
+            f'SELECT * FROM contas WHERE contas.cpf_titular = {cpf}')
         resultado = self.cursor.fetchall()
 
         if resultado:
@@ -72,64 +74,70 @@ class Banco:
         else:
             None
 
-    def Buscar_conta_bd_login(self,conexao,login):
+    def Buscar_conta_bd_login(self, conexao, login):
         self.cursor = conexao.cursor()
 
-        resultado = self.Buscar_cliente_bd_login(conexao,login)
+        resultado = self.Buscar_cliente_bd_login(conexao, login)
 
-        self.cursor.execute(f"SELECT * FROM contas WHERE contas.cpf_titular = {resultado[0][0]}")
-        resultado2= self.cursor.fetchall()
+        self.cursor.execute(
+            f"SELECT * FROM contas WHERE contas.cpf_titular = {resultado[0][0]}")
+        resultado2 = self.cursor.fetchall()
 
         if resultado2:
             return list(resultado2)
         else:
             None
-    
-    def Buscar_cliente_bd_login(self,conexao,login):
+
+    def Buscar_cliente_bd_login(self, conexao, login):
         self.cursor = conexao.cursor()
 
-        self.cursor.execute(f'SELECT * FROM clientes WHERE clientes.usuario = "{login}"') #filtra pelo cpf
+        self.cursor.execute(
+            f'SELECT * FROM clientes WHERE clientes.usuario = "{login}"')  # filtra pelo cpf
         resultado = self.cursor.fetchall()
 
         if resultado:
             return list(resultado)
         else:
-            None      
+            None
 
-    def InserirConta_cliente(self,conexao,cpf_titular):
+    def InserirConta_cliente(self, conexao, cpf_titular):
         self.cursor = conexao.cursor()
 
-        self.cursor.execute(f'UPDATE `banco`.`clientes` SET conta = {cpf_titular} WHERE (cpf = {cpf_titular});')
+        self.cursor.execute(
+            f'UPDATE `banco`.`clientes` SET conta = {cpf_titular} WHERE (cpf = {cpf_titular});')
         self.conexao.commit()
         #cliente = self.Buscar_cliente_bd(conexao,cpf_titular)
-        #return cliente
-    
-    def logar_na_conta(self,conexao,login,senha):
+        # return cliente
+
+    def logar_na_conta(self, conexao, login, senha):
         self.cursor = conexao.cursor()
-        self.cursor.execute(f"select * from clientes where usuario = '{login}' and senha = MD5('{senha}')")
+        self.cursor.execute(
+            f"select * from clientes where usuario = '{login}' and senha = MD5('{senha}')")
         valor = self._cursor.fetchall()
         print(valor)
 
-    def altera_saldo(self,conexao,novo_valor,chave_de_busca):
+    def altera_saldo(self, conexao, novo_valor, chave_de_busca):
         self.cursor = conexao.cursor()
-        self.cursor.execute(f'SELECT * FROM contas WHERE contas.cpf_titular = {chave_de_busca}') #filtra pelo cpf
+        self.cursor.execute(
+            f'SELECT * FROM contas WHERE contas.cpf_titular = {chave_de_busca}')  # filtra pelo cpf
         resultado = self.cursor.fetchall()
         list(resultado)
-        saldo2 = self.retorna_dado_conta(conexao,'saldo','cpf_titular',chave_de_busca)
+        saldo2 = self.retorna_dado_conta(
+            conexao, 'saldo', 'cpf_titular', chave_de_busca)
         float(saldo2[0][0])
-        teste=saldo2[0][0]
+        teste = saldo2[0][0]
         float(novo_valor)
-        
-        teste+=novo_valor
-    
-        
-        self.cursor.execute(f'UPDATE `banco`.`contas` SET saldo = {teste} WHERE (cpf_titular = {chave_de_busca});')
-  
-        msg=f'Deposito de: {novo_valor}\n'
+
+        teste += novo_valor
+
+        self.cursor.execute(
+            f'UPDATE `banco`.`contas` SET saldo = {teste} WHERE (cpf_titular = {chave_de_busca});')
+
+        msg = f'Deposito de: {novo_valor}\n'
 
         self.conexao.commit()
-        self.gravar_historico(conexao,chave_de_busca,msg)
-    
+        self.gravar_historico(conexao, chave_de_busca, msg)
+
     def criar_Banco(self):
 
         database_query = "CREATE DATABASE IF NOT EXISTS banco"
@@ -146,18 +154,12 @@ class Banco:
 
         alter_cli_con = """ALTER TABLE clientes ADD FOREIGN KEY(conta) REFERENCES contas(cpf_titular);"""
         self.executando_query(conexao, alter_cli_con)
-        
 
-
-
-
-
-    def retorna_dado_conta(self,conexao,dado,atributo,parametro):
+    def retorna_dado_conta(self, conexao, dado, atributo, parametro):
         self.cursor = conexao.cursor()
 
-
-
-        self.cursor.execute(f'select {dado} from contas where {atributo} = {parametro}')
+        self.cursor.execute(
+            f'select {dado} from contas where {atributo} = {parametro}')
 
         valor = self.cursor.fetchall()
         print(valor)
@@ -167,34 +169,35 @@ class Banco:
         else:
             return list(valor)
 
-    def transferirBD(self,conexao,destino,saida,valor):
+    def transferirBD(self, conexao, destino, saida, valor):
         self.cursor = conexao.cursor()
 
-        self.altera_saldo(conexao,valor,destino)
+        self.altera_saldo(conexao, valor, destino)
 
-    
-        self.cursor.execute(f'SELECT * FROM contas WHERE contas.cpf_titular = {saida}') #filtra pelo cpf
+        # filtra pelo cpf
+        self.cursor.execute(
+            f'SELECT * FROM contas WHERE contas.cpf_titular = {saida}')
         resultado = self.cursor.fetchall()
         list(resultado)
-        saldo2 = self.retorna_dado_conta(conexao,'saldo','cpf_titular',saida)
+        saldo2 = self.retorna_dado_conta(
+            conexao, 'saldo', 'cpf_titular', saida)
         float(saldo2[0][0])
-        teste=saldo2[0][0]
+        teste = saldo2[0][0]
         float(valor)
-        
-        teste-=valor
-        
-        self.cursor.execute(f'UPDATE `banco`.`contas` SET saldo = {teste} WHERE (cpf_titular = {saida});')
-    
+
+        teste -= valor
+
+        self.cursor.execute(
+            f'UPDATE `banco`.`contas` SET saldo = {teste} WHERE (cpf_titular = {saida});')
 
         self.conexao.commit()
-        msg=f'Transferencia feita de: {valor} Para conta :{saida}\n'
-        msg2 =f'Transferencia recebida: {valor} Conta de Envio :{destino}\n'
-        self.gravar_historico(conexao,destino,msg)
-        self.gravar_historico(conexao,saida,msg2)
+        msg = f'Transferencia recebida de: {valor} da conta :{saida}\n'
+        msg2 = f'Transferencia Feita de: {valor} para conta :{destino}\n'
+        self.gravar_historico(conexao, destino, msg)
+        self.gravar_historico(conexao, saida, msg2)
         self.conexao.commit()
 
-
-    def altera_saldo2(self,conexao, query):
+    def altera_saldo2(self, conexao, query):
         self.cursor = conexao.cursor()
         altera_saldo = query
         try:
@@ -204,29 +207,39 @@ class Banco:
         except Error as err:
             print(f"Error: '{err}'")
 
-
-    def gravar_historico(self,conexao,id,info):
+    def gravar_historico(self, conexao, id, info):
         self.cursor = conexao.cursor()
-        
-        
-        self.cursor.execute(f'SELECT * FROM contas WHERE contas.cpf_titular = {id}') #filtra pelo cpf
+
+        # filtra pelo cpf
+        self.cursor.execute(
+            f'SELECT * FROM contas WHERE contas.cpf_titular = {id}')
         resultado = self.cursor.fetchall()
         list(resultado)
         msg = str(resultado[0][4])
-        msg+=str(info)
+        msg += str(info)
 
-        sql='UPDATE `banco`.`contas` SET historico = %s WHERE (cpf_titular = %s);'
-        val =(msg,id)
-        self.cursor.execute(sql,val)
+        sql = 'UPDATE `banco`.`contas` SET historico = %s WHERE (cpf_titular = %s);'
+        val = (msg, id)
+        self.cursor.execute(sql, val)
         self.conexao.commit()
 
-
-
-    def gravar_abertura_conta(self,conexao,id,info):
+    def gravar_abertura_conta(self, conexao, id, info):
         self.cursor = conexao.cursor()
-        sql='UPDATE `banco`.`clientes` SET data_abertura = %s WHERE (cpf = %s);'
-        val =(info,id)
-        self.cursor.execute(sql,val)
-        self.conexao.commit()   
+        sql = 'UPDATE `banco`.`clientes` SET data_abertura = %s WHERE (cpf = %s);'
+        val = (info, id)
+        self.cursor.execute(sql, val)
+        self.conexao.commit()
 
+    def tratamento_dados(self, conexao, user):
+        login = user
 
+        q1 = (f"select * from clientes where usuario = '{login}'")
+        dados = self.lendo_dados(conexao, q1)
+        lista = list(dados)
+        busca_conta = self.Buscar_conta_bd_login(conexao, login)
+        cli = concatenar_operacao(lista)
+        con = concatenar_operacao(busca_conta)
+        resu_cli = replace_dados(cli)
+        resu_con = replace_dados(con)
+        resultado = resu_cli + resu_con
+        return resultado

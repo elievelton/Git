@@ -37,7 +37,7 @@ class Conectar:
         self.cliente_socket.close()
         self.conectado = False
         return 'Conexao Encerrada...'
-
+    
     def fecha():
         """Essa funcão é chamada quando a janela é fechada"""
         pass
