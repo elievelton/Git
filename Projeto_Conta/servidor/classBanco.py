@@ -4,9 +4,10 @@ from mysql.connector import Error
 import datetime
 from tratamento import concatenar_operacao, replace_dados, v_int, v_float
 
+'''Essa classe Banco tem como objetivo auxiliar  main_servidor.py'''
 
 class Banco:
-
+    '''Função usada para criar uma conexao com o Banco de dados'''
     def criando_conexao(self, host_name, user_name, user_passwd, db_name):
         self.conexao = None
         try:
@@ -20,7 +21,7 @@ class Banco:
         except Error as err:
             print(f"Error: '{err}'")
         return self.conexao
-
+    #funcao para criar banco de dados
     def criando_bancodedados(self, conexao, query):
         self.cursor = conexao.cursor()
         try:
@@ -28,7 +29,7 @@ class Banco:
             print("Banco de dados criado com sucesso!")
         except Error as err:
             print(f"Error: '{err}'")
-
+    #executando um query, já recebe o comando do bando de dados na variavel query
     def executando_query(self, conexao, query):
         self.cursor = conexao.cursor()
         try:
@@ -37,7 +38,7 @@ class Banco:
             print("SQL Executado!")
         except Error as err:
             print(f"Error: '{err}'")
-
+    #lendo dados de um Banco 
     def lendo_dados(self, conexao, query):
         self.cursor = conexao.cursor()
         self.result = None
@@ -47,7 +48,7 @@ class Banco:
             return self.result
         except Error as err:
             print(f"Error: '{err}'")
-
+    #busca cliente pelo cpf
     def Buscar_cliente_bd(self, conexao, cpf):
         self.cursor = conexao.cursor()
 
@@ -60,7 +61,7 @@ class Banco:
             return list(resultado)
         else:
             None
-
+    #busca uma conta pelo cpf
     def Buscar_conta_bd(self, conexao, cpf):
         self.cursor = conexao.cursor()
 
@@ -107,8 +108,7 @@ class Banco:
         self.cursor.execute(
             f'UPDATE `banco`.`clientes` SET conta = {cpf_titular} WHERE (cpf = {cpf_titular});')
         self.conexao.commit()
-        #cliente = self.Buscar_cliente_bd(conexao,cpf_titular)
-        # return cliente
+       
 
     def logar_na_conta(self, conexao, login, senha):
         self.cursor = conexao.cursor()

@@ -33,7 +33,7 @@ class cliente_Thread(threading.Thread):
                 print(f'{msg_recebida}')
 
             operacao = msg_recebida.split(',')
-
+            """Função realiza o cadastro de uma conta"""
             if(operacao[0] == '1'):  # cadastrar conta [1, numero, cpf_titular, saldo, limite]]
 
                 numero = v_int(operacao[1])
@@ -82,7 +82,8 @@ class cliente_Thread(threading.Thread):
                 else:
                     self.conex.send('1, O CPF já está cadastrado!'.encode())
 
-            elif(operacao[0] == '3'):  # logar [3, login, senha]
+            # logar [3, login, senha]
+            elif(operacao[0] == '3'):  
 
                 cursor = conexao.cursor()
                 login = operacao[1]
@@ -115,8 +116,7 @@ class cliente_Thread(threading.Thread):
                     self.conex.send(
                         '3, Cliente não existe! Clique no botão cadastrar e faça seu cadastro'.encode())
 
-            elif(operacao[0] == 4):  # ver dados
-                pass
+           
 
             elif(operacao[0] == '5'):  # sacar [5, login, valor_saq]
 
@@ -155,7 +155,7 @@ class cliente_Thread(threading.Thread):
                             self.conex.send('1, Saldo Insuficiente!'.encode())
                         self.sinc.release()
 
-            elif(operacao[0] == '6'):  # depositar [6, conta_dep, valor]
+            elif(operacao[0] == '6'):  # Botão de depositar [6, conta_dep, valor]
 
                 login = self.sessao
                 conta_dep = self.ban.Buscar_conta_bd_login(conexao, login)
@@ -179,7 +179,8 @@ class cliente_Thread(threading.Thread):
                             ('0, Deposito feito com sucesso!,' + resultado).encode())
                 self.sinc.release()
 
-            elif(operacao[0] == '7'):  # transferir [7, conta_destino, valor, cs]
+             # Botão de transferir [7, conta_destino, valor, cs]
+            elif(operacao[0] == '7'): 
 
                 conta_destino = v_int(operacao[1])
                 valor = v_float(operacao[2])
@@ -205,36 +206,41 @@ class cliente_Thread(threading.Thread):
                             '1, Conta de destino não existe'.encode())
                 else:
                     self.conex.send('1, Conta de saída não existe'.encode())
-                self.sinc.release()  # Desblqueia a operação
-
-            elif(operacao[0] == '8'):  # extrato [8, login]
+                self.sinc.release()  # Desbloqueia a operação em Thread
+             # extrato [8, login]
+            elif(operacao[0] == '8'): 
 
                 resultado = self.ban.tratamento_dados(conexao, self.sessao)
                 self.conex.send(
                     ('0, Extrato realizado com Sucesso!,' + resultado).encode())
 
-            elif(operacao[0] == '9'):  # historico [9, login]
+            # historico [9, login]
+            elif(operacao[0] == '9'):  
 
                 resultado = self.ban.tratamento_dados(conexao, self.sessao)
                 self.conex.send(
                     ('0, Histórico realizado com Sucesso!,' + resultado).encode())
 
-            elif(operacao[0] == '10'):  # Abrir menu de de depositar
+            # Abrir menu de de depositar
+            elif(operacao[0] == '10'):  
 
                 resultado = self.ban.tratamento_dados(conexao, self.sessao)
                 self.conex.send(('0,' + resultado).encode())
 
-            elif(operacao[0] == '11'):  # Abrir menu de saque
+            # Abrir menu de saque
+            elif(operacao[0] == '11'):  
 
                 resultado = self.ban.tratamento_dados(conexao, self.sessao)
                 self.conex.send(('0,' + resultado).encode())
 
-            elif(operacao[0] == '12'):  # Abrir menu de transferir
+            # Abrir menu de transferir
+            elif(operacao[0] == '12'):  
 
                 resultado = self.ban.tratamento_dados(conexao, self.sessao)
                 self.conex.send(('0,' + resultado).encode())
-
-            elif(operacao[0] == '13'):  # Botão VOltar para o menu
+                
+             # Botão VOltar para o menu
+            elif(operacao[0] == '13'): 
                 resultado = self.ban.tratamento_dados(conexao, self.sessao)
                 self.conex.send(('0,' + resultado).encode())
             else:
