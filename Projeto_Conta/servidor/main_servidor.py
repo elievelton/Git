@@ -23,12 +23,13 @@ class cliente_Thread(threading.Thread):
 
         conexao = self.ban.criando_conexao(
             'localhost', 'root', '12345', 'banco')
-
+        
         msg_recebida = ''
         while(msg_recebida != 'encerrar'):
             msg_recebida = self.conex.recv(1024).decode()
             if(msg_recebida == 'encerrar'):
-                print("Cliente encerrado com sucesso! Aguardando Novas Conecxões...")
+                print("Cliente Encerrado com sucesso!")
+                print("AGUARDANDO NOVAS CONEXÕES...")
             else:
                 print(f'{msg_recebida}')
 

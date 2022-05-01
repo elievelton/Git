@@ -170,8 +170,10 @@ class Main(QMainWindow, Ui_Main):
 
     def botaoSair(self): #função para fecha conexao do cliente
         
-        self.conect.sair()
+        
         self.conect.envia("encerrar")
+        #self.conect.sair()
+        
     
     def botao_Voltar_Menu(self):# função para atualizar saldo da conta
         mensagem = self.conect.envia(concatenar_operacao(['13']))
@@ -224,7 +226,6 @@ class Main(QMainWindow, Ui_Main):
             mensagem = self.conect.envia(concatenar_operacao(['3', login, senha]))
             self.tela_login.lineEdit.setText('')
             self.tela_login.lineEdit_2.setText('')
-            print(mensagem)
             if mensagem != None:
                 if mensagem[0] == '0':
                     self.abrirTelaMenu()
