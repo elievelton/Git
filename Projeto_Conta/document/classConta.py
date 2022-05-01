@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 from classHisto import Historico
 
-
 class Conta:
     '''Classe Conta com todos os atributos que uma conta deve possuir neste programa'''
     _contador_de_contas = 0
@@ -55,14 +54,7 @@ class Conta:
 
         if(novo_valor != None):
             self._saldo += novo_valor
-            self.historico.transacoes.append(
-                " Depositou o valor de: {}".format(novo_valor))
-            
-            
-            
-                
-
-
+            self.historico.transacoes.append(" Depositou o valor de: {}".format(novo_valor))
         else:
             return False
 
