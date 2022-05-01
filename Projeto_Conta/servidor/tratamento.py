@@ -30,7 +30,6 @@ def v_float(valor):
 def trata_data(data):
     data = data.split('/')
     data = f"{data[2]}/{data[1]}/{data[0]}"
-
     return data
 
 

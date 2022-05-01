@@ -1,4 +1,5 @@
 from Projeto_Conta.document import classCadastro, classCliente, classConta
+from Projeto_Conta.servidor import classBanco
 
 import pytest
 from pytest import mark
@@ -86,4 +87,28 @@ class TestDocument:
 
     @mark.classCadastro
     def test_buscarCliCon(self):
+        pass
+
+    @mark.classBanco
+    def test_criando_conexao(self):
+        pass
+
+    @mark.classBanco
+    def test_criando_bancodedados(self):
+        pass
+
+    @mark.classBanco
+    def test_executando_query(self):
+        pass
+
+    @mark.classBanco
+    def test_lendo_dados(self):
+        pass
+
+    @mark.classBanco
+    def test_Buscar_cliente_bd(self):
+        pass
+
+    @mark.classBanco
+    def test_buscar_conta_bd(self):
         pass

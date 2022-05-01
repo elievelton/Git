@@ -1,9 +1,29 @@
-from Projeto_Conta.servidor import *
+from Projeto_Conta.servidor import main_servidor, tratamento
 from Projeto_Conta import *
 
 from pytest import mark
 
 class TestServidor:
+
+    @mark.tratamento
+    def test_v_int(self):
+        valor_esperado = tratamento.v_int(50)
+        assert valor_esperado == 50
+
+    @mark.tratamento
+    def test_v_float(self):
+        valor_esperado = tratamento.v_float(50.5555)
+        assert valor_esperado == 50.5555
+
+    @mark.tratamento
+    def test_trata_data(self):
+        valor_esperado = tratamento.trata_data('20/10/2000')
+        valor_esperado == '2000/10/20'
+
+    @mark.tratamento
+    def test_valida_cpf(self):
+        valor_esperado = tratamento.valida_cpf('04093918325')
+        assert valor_esperado == True
 
     @mark.main_servidor
     def test_cadastrar_conta(self):
