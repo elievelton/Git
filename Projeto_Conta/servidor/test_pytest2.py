@@ -1,5 +1,6 @@
-from Projeto_Conta.servidor import main_servidor, tratamento
-from Projeto_Conta import *
+import os, sys; sys.path.append(os.path.dirname(os.path.realpath(__file__)))
+
+import main_servidor, tratamento
 
 from pytest import mark
 

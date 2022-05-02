@@ -11,7 +11,7 @@ class Cadastro:
         self._lista_de_contas = []
         self._db = Banco()
     
-    def cadastrarCli(self,cliente):
+    def cadastrarCli(self, cliente):
         """ Função que cadastra os clientes no banco"""
         existe = self.buscarCli(cliente.cpf)
         if (existe==None):
@@ -29,7 +29,7 @@ class Cadastro:
         else:
             return False
     
-    def buscarCli(self,cpf):
+    def buscarCli(self, cpf):
         """ Função que busca se os clientes existem no banco"""
         for lp in self._lista_de_pessoas:
             if (lp.cpf == cpf):

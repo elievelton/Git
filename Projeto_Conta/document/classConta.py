@@ -51,10 +51,10 @@ class Conta:
         self._limite = limite
 
     def deposita(self, novo_valor):
-
         if(novo_valor != None):
             self._saldo += novo_valor
             self.historico.transacoes.append(" Depositou o valor de: {}".format(novo_valor))
+            return True
         else:
             return False
 
