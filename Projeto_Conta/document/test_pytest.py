@@ -1,9 +1,7 @@
-from io import UnsupportedOperation
 import classCadastro, classCliente, classConta
 import classBanco
 
 import pytest
-from pytest import mark
 
 class TestDocument:
 
@@ -108,4 +106,16 @@ class TestDocument:
 
     #classBanco
     def test_buscar_conta_bd(self):
+        pass
+
+    #classBanco
+    def test_InserirConta_cliente(self):
+        pass
+
+    #classBanco
+    def test_logar_na_conta(self):
+        pass
+
+    #classBanco
+    def test_altera_saldo(self):
         pass

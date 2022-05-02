@@ -1,10 +1,14 @@
-import os, sys; sys.path.append(os.path.dirname(os.path.realpath(__file__)))
+import main_servidor, tratamento, main_cliente
 
-import main_servidor, tratamento
-
+import pytest
 from pytest import mark
 
 class TestServidor:
+
+    @pytest.fixture #main_cliente
+    def cliente(self):
+        cliente = main_cliente.Conectar()
+        return cliente
 
     @mark.tratamento
     def test_v_int(self):
@@ -75,7 +79,7 @@ class TestServidor:
         pass
 
     @mark.main_cliente
-    def test_envia(self):
+    def test_envia(self, cliente):
         pass
 
     @mark.main_cliente
