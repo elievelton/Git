@@ -3,6 +3,8 @@ from urllib.error import HTTPError
 from urllib.error import URLError
 from bs4 import BeautifulSoup
 import requests
+
+
 try:
     
     url = 'https://www.cataimagem.com/2019/03/moderninha-pro-ou-sumup-total-qual-devo.html'
