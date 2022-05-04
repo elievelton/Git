@@ -7,7 +7,7 @@ from bs4 import BeautifulSoup
 try:
     #https://www.mundoblogger.com.br/2021/05/como-desenvolver-softwares-na-area-da-saude.html  url de testes
     #https://www.cataimagem.com/2019/03/moderninha-pro-ou-sumup-total-qual-devo.html  url de testes
-    url = 'https://www.mundoblogger.com.br/2021/05/como-desenvolver-softwares-na-area-da-saude.html'
+    url = 'https://www.cataimagem.com/2019/03/moderninha-pro-ou-sumup-total-qual-devo.html'
     html = urlopen(url)
     
     
