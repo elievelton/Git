@@ -29,6 +29,7 @@ else:
     description = res.findAll("meta", {"property": "og:description"}) # pegando a descrição da pagina
     
     
+    
     #mostrando o que tem dentro da variavel 
     print("------------------------------------Titulo----------------------------------------------")
     for tag in titulo:
@@ -53,4 +54,5 @@ else:
         print(tag.getText())
     print("------------------------------------descricao----------------------------------------------")
     print(description)
+
  
