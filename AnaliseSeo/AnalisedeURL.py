@@ -18,12 +18,12 @@ else:
     
     res = BeautifulSoup(html.read(),"html5lib")
     
-    titulo = res.findAll("h3", {"class": "post-title"})# pegando o título do texto
-    titulo_da_pagina =res.findAll("title")
+    titulo = res.findAll("h3", {"class": "post-title"})# pegando o título do texto body
+    titulo_da_pagina =res.findAll("title") #pega o titulo da pagina
     texto = res.findAll("div", {"class": "post-body"}) # pegando o corpo do texto
     link = res.select("body a" ) #pega os titulos dos links
     h2 = res.findAll("h2")# pega tudo que tiver em H2 que são os topicos do texto
-    img = res.select("img") #pega o codigo de uma imagem ou varias imagens  precisa tratar pegando tudo que tive <img alt"aqui fica o titulo da imagem
+    img = res.select("img") #pega o codigo de uma imagem ou varias imagens. Precisa tratar pegando tudo que tive <img alt"aqui fica o titulo da imagem
     
     
     #mostrando o que tem dentro da variavel 
