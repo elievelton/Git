@@ -7,7 +7,7 @@ from bs4 import BeautifulSoup
 try:
     #https://www.mundoblogger.com.br/2021/05/como-desenvolver-softwares-na-area-da-saude.html  url de testes
     #https://www.cataimagem.com/2019/03/moderninha-pro-ou-sumup-total-qual-devo.html  url de testes
-    url = 'https://www.mundoblogger.com.br/2021/05/como-desenvolver-softwares-na-area-da-saude.html'
+    url = 'https://www.cataimagem.com/2019/03/moderninha-pro-ou-sumup-total-qual-devo.html '
     html = urlopen(url)
     
     
@@ -27,6 +27,7 @@ else:
     h2 = res.findAll("h2")# pega tudo que tiver em H2 que são os topicos do texto
     img = res.select("img") #pega o codigo de uma imagem ou varias imagens. Precisa tratar pegando tudo que tive <img alt"aqui fica o titulo da imagem
     description = res.findAll("meta", {"property": "og:description"}) # pegando a descrição da pagina
+    
     
     
     #mostrando o que tem dentro da variavel 
@@ -53,4 +54,5 @@ else:
         print(tag.getText())
     print("------------------------------------descricao----------------------------------------------")
     print(description)
+
  
