@@ -54,17 +54,26 @@ class Analise:
                 aux = self.repetir(elemento)
                 quantidades.append(aux)
 
-            for x in quantidades:
+            length = len(quantidades)
+            valor = 0
+
+            for x in range(length):
                 valor = valor + quantidades[x]
             
             return valor
             
     def tratamento(self, elemento):
-        return palavras
+        d = list()
+        for linha in elemento:
+            linha = linha.strip() #Remove os espaços no incio e final da string
+            linha = linha.lower() #converte todas a string para minusculo
+            linha = linha.translate(linha.maketrans(",", linha.punctuation)) #remove pontuações
+            d = linha.split("") #divide uma string em uma lista onde cada palavra é um item e coloca um espaço
+        return d
 
     def repetir(self, elemento):
         palavras = self.tratamento(elemento)
-        repetidas = []
-        repetidas = (Counter(palavras).most_common())
+        text = (Counter(palavras)) #conta os elemntos de uma string
+        repetidas = text[self._palavra] #contagem da palavra escolhida
         return repetidas
 
