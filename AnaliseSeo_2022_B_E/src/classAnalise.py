@@ -7,6 +7,7 @@ from urllib.error import HTTPError
 from urllib.error import URLError
 from bs4 import BeautifulSoup #Principal biblioteca
 from collections import Counter
+from selenium import webdriver
 
 
 from collections import Counter
@@ -15,15 +16,15 @@ class Analise:
     '''
         Essa classe analise recebe 2 paramentros que são str:
 
-            #A url que poderá ser digitada pelo usuario
-            #A palavra chave que também poderá ser digitada pelo usuario
+            # A url que poderá ser digitada pelo usuario
+            # A palavra chave que também poderá ser digitada pelo usuario
 
         Em seu init tem  a url, a palavra chave, uma lista de resultado que vai guarda os resultados das analise
         e o tamanho do texto  que está sendo analisado
     
     '''
 
-    __slots__ = ['_url', '_palavra','_lista_de_resultados','_tamanho_texto']
+    __slots__ = ['_url', '_palavra','_lista_de_resultados','_tamanho_texto','_tempo_de_carregamento']
 
     def __init__(self, url, palavra):
         """ Função inicializadora com os atributos necessários"""
@@ -31,6 +32,7 @@ class Analise:
         self._palavra = palavra
         self._lista_de_resultados = []
         self._tamanho_texto = 0
+        self._tempo_de_carregamento = 0.0
 
     @property
     def url(self):
@@ -40,15 +42,53 @@ class Analise:
     def palavra(self):
         return self._palavra
 
+    def calcula_velocidade_de_carregamento(self):
+        '''
+            # Essa função é usada para carregamento da url solicida
+            # precisa do chromedrive para simular a navegação    
+            # O tempo é dado em milliseconds (ms), mas fazemos a conversão
+            # para segundos para facilitar a visualização
+            # Esse tempo é armazenado na variavel do init self._tempo_de_carregamento
+        
+        '''
+
+        ''' Chrome web driver interface para simular o carregamento'''
+        hyperlink = self._url
+        driver = webdriver.Chrome()
+        print("Aguarde, analisando o site...")
+        driver.get(hyperlink)
+        List_temp = []
+        ''' Use a API Navigation Timing para calcular os tempos mais importantes '''   
+        
+        navigationStart = driver.execute_script("return window.performance.timing.navigationStart")
+        responseStart = driver.execute_script("return window.performance.timing.responseStart")
+        domComplete = driver.execute_script("return window.performance.timing.domComplete")
+        
+        ''' calcula a performance'''
+        backendPerformance_calc = responseStart - navigationStart
+        frontendPerformance_calc = domComplete - responseStart
+        List_temp.append(backendPerformance_calc/1000)
+        List_temp.append(frontendPerformance_calc/1000)
+        self._tempo_de_carregamento = sum(List_temp)
+        print(self._tempo_de_carregamento)
+        #mostra o tempo de carregamento
+        print( "O tempo de carregamento da sua página foi de: ")
+        print("Back End: %s" % backendPerformance_calc)
+        print("Front End: %s" % frontendPerformance_calc)
+        
+        driver.quit()
+
     def capturaInformacoes(self):
         '''
-            Essa função tem como principal objetivo baixar o hmrl da url digita 
-            Separar cada parte do html que será analisado e fazer algusn tratamnetos dos
+            # Essa função tem como principal objetivo baixar o hmrl da url digita 
+            # Separar cada parte do html que será analisado e fazer algusn tratamnetos dos
             resultados coletado
         
         '''
         informacoes = [] # serve para guarda informações da pagina
         listadelista_info =[] # ultilizada para guarda dados do site em formato lista de lista 
+
+        
         
         try:
             html = urlopen(self._url)
@@ -58,7 +98,7 @@ class Analise:
             print("Dominio digitado incorretamente")
         else:
             res = BeautifulSoup(html.read(),"html5lib") # captura o html inteiro e armazena em res
-        
+            self.calcula_velocidade_de_carregamento()
 
             titulo = res.find("h3", {"class": "post-title"})# {0}posição do vetor - pegando o título do texto body          
             informacoes.append(titulo.getText())
@@ -108,6 +148,9 @@ class Analise:
                 listadelista_info.append(tag.getText().replace("\n", ""))
             valor5 = self.tratamento_listaDeLista(listadelista_info)
             
+
+            
+            
             
             
             quantidades = []
@@ -123,8 +166,10 @@ class Analise:
                     quantidades[i]+=valor3
                 elif i == 3:
                     quantidades[i]+=valor4
+            quantidades.append(self._tempo_de_carregamento)
 
             self._lista_de_resultados = quantidades
+            print(self._lista_de_resultados)
     
 
             length = len(quantidades)
@@ -183,7 +228,7 @@ class Analise:
         print('*' * 100)
         print('*' * 100)
         print('------------------------------RECOMENDAÇÕES------------------------------')
-        for i in range(7):
+        for i in range(8):
 
             if(resultado[i] == 0 and i == 0):
                 
@@ -191,12 +236,12 @@ class Analise:
             elif (resultado[i] == 1 and i == 0):
                 
                 print("[1] Seu título está bom, pois apresenta a palavra chave nele.")
-                pontuacao+=20
+                pontuacao+=10
             elif (resultado[i] == 0 and i == 1):
                 print("[2] O título da página está ruim, recomendamos inserir a palavra-chave [{}] no seu título.".format(self._palavra))
             elif (resultado[i] == 1 and i == 1):
                 print("[2] O título de sua página está bom, pois contém a palvra chave inserido nele")
-                pontuacao+=20
+                pontuacao+=10
             elif (resultado[i] < 10 and i == 2 and self._tamanho_texto>1000):
                 print("[4] Seu texto principal ta ruim, precisa aumentar a quantidade de palavras chaves ou sinônimos")
                 print("[4] Mas o tamanho do seu texto está bom")
@@ -207,7 +252,7 @@ class Analise:
                 pontuacao+=5
             elif (resultado[i] > 10 and i == 2 and self._tamanho_texto>1000):
                 print("[4] O texto preincipal está bom, sua densidade de palavra chave ou sinônimos está acima de 10")
-                pontuacao+=20
+                pontuacao+=15
             elif(resultado[i]== 0 and i ==3):
                 print(" [5] Você não possui nenhum link com a palvra chave no alt")
                 print("[5] Recomendamos inserir ao menos 1 link que contenha o alt com a palvra chave")
@@ -219,14 +264,12 @@ class Analise:
 
             elif(resultado[i]== 0 and i ==6):
                 print("[8] Sua descrição está ruim, recomendo que coloque ao menos uma palavra chave")
-                print('*' * 100)
-                print('*' * 100)
+                
 
             elif(resultado[i]>=1 and i ==6):
                 print("[8] Parabéns, a descrição da sua página está boa")
                 pontuacao+=10
-                print('*' * 100)
-                print('*' * 100)
+                
 
             elif(resultado[i]>=1 and i ==4):
                 print("[6] Parabéns, o primeiro h2 do texto possui a palvra chave")
@@ -238,9 +281,8 @@ class Analise:
             elif(resultado[i]>= 1 and i ==5):
                 print("[7] Parabéns, você possui ao menos uma imagem com a palavra chave")
                 pontuacao+=15
-
-            else:
-                print("Algo de errado aconteceu, tente novamente!")
+            
+            #verifica o tamanho do texto principal
 
             if(self._tamanho_texto>1000 and i==1):
                 print("[3] Seu texto possui um tamanho bom, acima de 1000 palavras")
@@ -248,6 +290,24 @@ class Analise:
             elif(self._tamanho_texto<1000 and i==1):
                 print("[3] O tamanho ideal para um texto é acima de 1000 palavras")
                 print("[3] textos nesses tamanho tem prioridade nos ranqueamentos")
+
+            # verifica o tempo de carregamento
+            if(resultado[i]<3.0 and i==7):
+                print("[9] Parabéns, seu site carrega em menos de 3 segundos")
+                pontuacao+=15
+                print('*' * 100)
+                print('*' * 100)
+            elif( resultado[i]>3.0 and resultado[i]<6.0 and i==7 ):
+                print("[9] Site lento, seu site carrega em menos de {} segundos, precisa melhorar".format(resultado[i]))
+                pontuacao+=5
+                print('*' * 100)
+                print('*' * 100)
+            elif(resultado[i]>6.0 and i==7):
+                print("[9] CARREGAMENTO EXTREMAMENTE LENTO, Seu site foi carregaado em {} segundos o recomendavel é abaido dos 3 segundos".format(resultado[i]))
+                pontuacao+=3
+                print('*' * 100)
+                print('*' * 100)
+            
             
         if(pontuacao>=70):
             # Imprime a borda superior

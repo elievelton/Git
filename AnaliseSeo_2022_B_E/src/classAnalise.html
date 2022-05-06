@@ -18,7 +18,8 @@
     
 <tr><td bgcolor="#aa55cc"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
 <td width="100%"><table width="100%" summary="list"><tr><td width="25%" valign=top><a href="string.html">string</a><br>
-</td><td width="25%" valign=top></td><td width="25%" valign=top></td><td width="25%" valign=top></td></tr></table></td></tr></table><p>
+</td><td width="25%" valign=top><a href="selenium.webdriver.html">selenium.webdriver</a><br>
+</td><td width="25%" valign=top></td><td width="25%" valign=top></td></tr></table></td></tr></table><p>
 <table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
 <tr bgcolor="#ee77aa">
 <td colspan=3 valign=bottom>&nbsp;<br>
@@ -44,8 +45,8 @@
 &nbsp;<br>
 Essa&nbsp;classe&nbsp;analise&nbsp;recebe&nbsp;2&nbsp;paramentros&nbsp;que&nbsp;são&nbsp;str:<br>
 &nbsp;<br>
-&nbsp;&nbsp;&nbsp;&nbsp;#A&nbsp;url&nbsp;que&nbsp;poderá&nbsp;ser&nbsp;digitada&nbsp;pelo&nbsp;usuario<br>
-&nbsp;&nbsp;&nbsp;&nbsp;#A&nbsp;palavra&nbsp;chave&nbsp;que&nbsp;também&nbsp;poderá&nbsp;ser&nbsp;digitada&nbsp;pelo&nbsp;usuario<br>
+&nbsp;&nbsp;&nbsp;&nbsp;#&nbsp;A&nbsp;url&nbsp;que&nbsp;poderá&nbsp;ser&nbsp;digitada&nbsp;pelo&nbsp;usuario<br>
+&nbsp;&nbsp;&nbsp;&nbsp;#&nbsp;A&nbsp;palavra&nbsp;chave&nbsp;que&nbsp;também&nbsp;poderá&nbsp;ser&nbsp;digitada&nbsp;pelo&nbsp;usuario<br>
 &nbsp;<br>
 Em&nbsp;seu&nbsp;init&nbsp;tem&nbsp;&nbsp;a&nbsp;url,&nbsp;a&nbsp;palavra&nbsp;chave,&nbsp;uma&nbsp;lista&nbsp;de&nbsp;resultado&nbsp;que&nbsp;vai&nbsp;guarda&nbsp;os&nbsp;resultados&nbsp;das&nbsp;analise<br>
 e&nbsp;o&nbsp;tamanho&nbsp;do&nbsp;texto&nbsp;&nbsp;que&nbsp;está&nbsp;sendo&nbsp;analisado<br>&nbsp;</tt></td></tr>
@@ -53,8 +54,14 @@ e&nbsp;o&nbsp;tamanho&nbsp;do&nbsp;texto&nbsp;&nbsp;que&nbsp;está&nbsp;sendo&nb
 <td width="100%">Methods defined here:<br>
 <dl><dt><a name="Analise-__init__"><strong>__init__</strong></a>(self, url, palavra)</dt><dd><tt>Função&nbsp;inicializadora&nbsp;com&nbsp;os&nbsp;atributos&nbsp;necessários</tt></dd></dl>
 
-<dl><dt><a name="Analise-capturaInformacoes"><strong>capturaInformacoes</strong></a>(self)</dt><dd><tt>Essa&nbsp;função&nbsp;tem&nbsp;como&nbsp;principal&nbsp;objetivo&nbsp;baixar&nbsp;o&nbsp;hmrl&nbsp;da&nbsp;url&nbsp;digita&nbsp;<br>
-Separar&nbsp;cada&nbsp;parte&nbsp;do&nbsp;html&nbsp;que&nbsp;será&nbsp;analisado&nbsp;e&nbsp;fazer&nbsp;algusn&nbsp;tratamnetos&nbsp;dos<br>
+<dl><dt><a name="Analise-calcula_velocidade_de_carregamento"><strong>calcula_velocidade_de_carregamento</strong></a>(self)</dt><dd><tt>#&nbsp;Essa&nbsp;função&nbsp;é&nbsp;usada&nbsp;para&nbsp;carregamento&nbsp;da&nbsp;url&nbsp;solicida<br>
+#&nbsp;precisa&nbsp;do&nbsp;chromedrive&nbsp;para&nbsp;simular&nbsp;a&nbsp;navegação&nbsp;&nbsp;&nbsp;&nbsp;<br>
+#&nbsp;O&nbsp;tempo&nbsp;é&nbsp;dado&nbsp;em&nbsp;milliseconds&nbsp;(ms),&nbsp;mas&nbsp;fazemos&nbsp;a&nbsp;conversão<br>
+#&nbsp;para&nbsp;segundos&nbsp;para&nbsp;facilitar&nbsp;a&nbsp;visualização<br>
+#&nbsp;Esse&nbsp;tempo&nbsp;é&nbsp;armazenado&nbsp;na&nbsp;variavel&nbsp;do&nbsp;init&nbsp;self.<strong>_tempo_de_carregamento</strong></tt></dd></dl>
+
+<dl><dt><a name="Analise-capturaInformacoes"><strong>capturaInformacoes</strong></a>(self)</dt><dd><tt>#&nbsp;Essa&nbsp;função&nbsp;tem&nbsp;como&nbsp;principal&nbsp;objetivo&nbsp;baixar&nbsp;o&nbsp;hmrl&nbsp;da&nbsp;url&nbsp;digita&nbsp;<br>
+#&nbsp;Separar&nbsp;cada&nbsp;parte&nbsp;do&nbsp;html&nbsp;que&nbsp;será&nbsp;analisado&nbsp;e&nbsp;fazer&nbsp;algusn&nbsp;tratamnetos&nbsp;dos<br>
 resultados&nbsp;coletado</tt></dd></dl>
 
 <dl><dt><a name="Analise-repetir"><strong>repetir</strong></a>(self, elemento)</dt><dd><tt>Faz&nbsp;a&nbsp;analise&nbsp;de&nbsp;quantas&nbsp;vezes&nbsp;uma&nbsp;palavra&nbsp;se&nbsp;repete<br>

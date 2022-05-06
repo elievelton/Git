@@ -21,13 +21,16 @@ Será instalado da seguinte maneira
 ```
 $ pip install beautifulsoup4
 $ pip install html5lib
+$ pip install selenium
 ```
 
 ## 🛠️ Construído com
 
 Ferramenta usada para coleta de dados da web:
 
-* [Beautifulsoup](https://www.crummy.com/software/BeautifulSoup/bs4/doc/) - Dependencia
+* [Beautifulsoup](https://www.crummy.com/software/BeautifulSoup/bs4/doc/) - Dependência
+* [Selenium](https://selenium-python.readthedocs.io/installation.html#) - Dependência
+
 
 ## ⚙️ URL de teste
 
