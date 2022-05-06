@@ -1,18 +1,27 @@
+# -*- coding: utf-8 -*-
+from audioop import reverse
+from distutils.log import info
+import string
 from urllib.request import urlopen
 from urllib.error import HTTPError
 from urllib.error import URLError
 from bs4 import BeautifulSoup
+from collections import Counter
+
+
 
 from collections import Counter
 
 class Analise:
 
-    __slots__ = ['_url', '_palavra']
+    __slots__ = ['_url', '_palavra','_lista_de_resultados','_tamanho_texto']
 
     def __init__(self, url, palavra):
         """ Função inicializadora com os atributos necessários"""
         self._url = url
         self._palavra = palavra
+        self._lista_de_resultados = []
+        self._tamanho_texto = 0
 
     @property
     def url(self):
@@ -24,6 +33,7 @@ class Analise:
 
     def capturaInformacoes(self):
         informacoes = []
+        listadelista_info =[]
         try:
             html = urlopen(self._url)
         except HTTPError as e:
@@ -32,48 +42,201 @@ class Analise:
             print("Dominio digitado incorretamente")
         else:
             res = BeautifulSoup(html.read(),"html5lib")
-            titulo = res.findAll("h3", {"class": "post-title"})# pegando o título do texto body
-            informacoes.append(titulo)
-            titulo_da_pagina =res.findAll("title") #pega o titulo da pagina
-            informacoes.append(titulo_da_pagina)
-            texto = res.findAll("div", {"class": "post-body"}) # pegando o corpo do texto
-            informacoes.append(texto)
-            texto2 = res.findAll("p")
-            informacoes.append(texto2)
-            link = res.select("body a" ) #pega os titulos dos links
-            informacoes.append(link)
-            h2 = res.findAll("h2")# pega tudo que tiver em H2 que são os topicos do texto
-            informacoes.append(h2)
-            img = res.select("img") #pega o codigo de uma imagem ou varias imagens. Precisa tratar pegando tudo que tive <img alt"aqui fica o titulo da imagem
-            informacoes.append(img)
-            description = res.findAll("meta", {"property": "og:description"}) # pegando a descrição da pagina
-            informacoes.append(description)
+
+            titulo = res.find("h3", {"class": "post-title"})# {0} pegando o título do texto body          
+            informacoes.append(titulo.getText())
+            
+            titulo_da_pagina =res.find("title") #pega o titulo da pagina {1}
+            informacoes.append(titulo_da_pagina.getText())
+
+            texto = res.find("div", {"class": "post-body"}) # pegando o corpo do texto{2}
+            informacoes.append(texto.getText())
+            tam = texto.getText()
+            tam = tam.split()
+            tam = Counter(tam)
+            self._tamanho_texto = sum(tam.values())
+            
+
+            link = res.find("a") #pega os titulos dos links {3} posicao no vetor
+            informacoes.append(link.getText())
+
+            link_completo = res.findAll("a")# links completos {3}
+            for tag in link_completo:                
+                listadelista_info.append(tag.getText().replace("\n", ""))
+            valor4 = self.tratamento_listaDeLista(listadelista_info)
+
+            h2 = res.find("h2")# pega tudo que tiver em H2 que são os topicos do texto {4}
+            informacoes.append(h2.getText())
+            
+            
+            h2_completo = res.findAll("h2")# pega tudo que tiver em H2 que são os topicos do texto {4}
+            for tag in h2_completo:                
+                listadelista_info.append(tag.getText().replace("\n", ""))
+            valor2 = self.tratamento_listaDeLista(listadelista_info)
+            
+
+            img = res.find("img") # {5} pega a primeira imagem
+            listadelista_info =[]
+            informacoes.append(img.getText())
+
+            img_completo = res.findAll("img")# pega tudo img
+            for tag in img_completo:                
+                listadelista_info.append(tag.getText().replace("\n", ""))
+            valor3 = self.tratamento_listaDeLista(listadelista_info)
+
+            listadelista_info =[]
+            description = res.findAll("meta", {"property": "og:description"}) #{6} pegando a descrição da pagina
+            for tag in description:                
+                listadelista_info.append(tag.getText().replace("\n", ""))
+            valor5 = self.tratamento_listaDeLista(listadelista_info)
+            
+            
             
             quantidades = []
             for elemento in informacoes:
                 aux = self.repetir(elemento)
                 quantidades.append(aux)
+            quantidades.append(valor5)
+
+            for i in range(len(quantidades)):
+                if i == 4:
+                    quantidades[i]+=valor2
+                elif i == 5:
+                    quantidades[i]+=valor3
+                elif i == 3:
+                    quantidades[i]+=valor4
+
+            self._lista_de_resultados = quantidades
+    
 
             length = len(quantidades)
             valor = 0
 
             for x in range(length):
                 valor = valor + quantidades[x]
+                
             
             return valor
+    
+    def tratamento_listaDeLista(self, listadelista):
+        
+        for i in range(len(listadelista)):
+            listadelista[i] = listadelista[i].lower()            
             
-    def tratamento(self, elemento):
-        d = list()
-        for linha in elemento:
-            linha = linha.strip() #Remove os espaços no incio e final da string
-            linha = linha.lower() #converte todas a string para minusculo
-            linha = linha.translate(linha.maketrans(",", linha.punctuation)) #remove pontuações
-            d = linha.split("") #divide uma string em uma lista onde cada palavra é um item e coloca um espaço
-        return d
+        palavra_chave = self._palavra.lower()
+        
+        valor = listadelista.count(palavra_chave)
+        return valor
+
+                
 
     def repetir(self, elemento):
-        palavras = self.tratamento(elemento)
-        text = (Counter(palavras)) #conta os elemntos de uma string
-        repetidas = text[self._palavra] #contagem da palavra escolhida
+        
+        frase = elemento.lower() #converte todas a string para minus       
+        palavra_chave = self._palavra.lower() #converte tod           
+        repetidas = frase.count(palavra_chave) #conta os elemntos de uma lista
+              
         return repetidas
 
+    def resultados(self):
+        resultado = self._lista_de_resultados
+        pontuacao = 0
+
+        print('*' * 100)
+        print('*' * 100)
+        print('------------------------------RECOMENDAÇÕES------------------------------')
+        for i in range(7):
+
+            if(resultado[i] == 0 and i == 0):
+                
+                print("[1] Seu título precisa melhorar, recomendamos inserir a palavra-chave [{}] no inicio do título.".format(self._palavra))
+            elif (resultado[i] == 1 and i == 0):
+                
+                print("[1] Seu título está bom, pois apresenta a palavra chave nele.")
+                pontuacao+=20
+            elif (resultado[i] == 0 and i == 1):
+                print("[2] O título da página está ruim, recomendamos inserir a palavra-chave [{}] no seu título.".format(self._palavra))
+            elif (resultado[i] == 1 and i == 1):
+                print("[2] O título de sua página está bom, pois contém a palvra chave inserido nele")
+                pontuacao+=20
+            elif (resultado[i] < 10 and i == 2 and self._tamanho_texto>1000):
+                print("[4] Seu texto principal ta ruim, precisa aumentar a quantidade de palavras chaves ou sinônimos")
+                print("[4] Mas o tamanho do seu texto está bom")
+                pontuacao+=5
+            elif (resultado[i] > 10 and i == 2 and self._tamanho_texto<1000):
+                print("[4] Seu texto principal ta bom, ccontém uma densidade superior a 10 palavras chaves ou sinônimos")
+                print("[4] Precisa melhorar o tamanho do seu texto, recomendamos textos acima de 1000 palavras")
+                pontuacao+=5
+            elif (resultado[i] > 10 and i == 2 and self._tamanho_texto>1000):
+                print("[4] O texto preincipal está bom, sua densidade de palavra chave ou sinônimos está acima de 10")
+                pontuacao+=20
+            elif(resultado[i]== 0 and i ==3):
+                print(" [5] Você não possui nenhum link com a palvra chave no alt")
+                print("[5] Recomendamos inserir ao menos 1 link que contenha o alt com a palvra chave")
+            elif(resultado[i]>= 1 and i ==3):
+                print("[5] Seu site possui ao menos link com o alt com a palavra chave, isso é bom")
+                pontuacao+=10
+            elif(resultado[i]== 0 and i ==4):
+                print("[6] Nenhuma H2 possui a palavra chave, recomendamos que o primeiro contenha")
+
+            elif(resultado[i]== 0 and i ==6):
+                print("[8] Sua descrição está ruim, recomendo que coloque ao menos uma palavra chave")
+                print('*' * 100)
+                print('*' * 100)
+
+            elif(resultado[i]>=1 and i ==6):
+                print("[8] Parabéns, a descrição da sua página está boa")
+                pontuacao+=10
+                print('*' * 100)
+                print('*' * 100)
+
+            elif(resultado[i]>=1 and i ==4):
+                print("[6] Parabéns, o primeiro h2 do texto possui a palvra chave")
+                pontuacao+=10
+            elif(resultado[i]== 0 and i ==5):
+                
+                print("[7] Nenhuma imagem possui a palavra chave, recomendamos que ao menos uma tenha")
+                
+            elif(resultado[i]>= 1 and i ==5):
+                print("[7] Parabéns, você possui ao menos uma imagem com a palavra chave")
+                pontuacao+=15
+
+            else:
+                print("Algo de errado aconteceu, tente novamente!")
+
+            if(self._tamanho_texto>1000 and i==1):
+                print("[3] Seu texto possui um tamanho bom, acima de 1000 palavras")
+                pontuacao+=10
+            elif(self._tamanho_texto<1000 and i==1):
+                print("[3] O tamanho ideal para um texto é acima de 1000 palavras")
+                print("[3] textos nesses tamanho tem prioridade nos ranqueamentos")
+            
+        if(pontuacao>=70):
+            # Imprime a borda superior
+            print('#' * 60)
+            print('#' * 60)
+            print("Excelente, a pontuação da análise foi superior a {} pontos".format(pontuacao))
+            print('#' * 60)
+            print('#' * 60)
+        elif(pontuacao<70 and pontuacao>50):
+            print('#' * 60)
+            print('#' * 60)
+            print("O SEO esta regular, precisa de algumas melhorias, sua pontuação foi de:{}".format(pontuacao))
+            print('#' * 60)
+            print('#' * 60)
+        elif(pontuacao<50):
+            print('#' * 60)
+            print('#' * 60)
+            print("SEO desta página está ruim, sua pontuação foi de {}".format(pontuacao))
+            print('#' * 60)
+            print('#' * 60)
+
+  
+            
+            
+
+
+
+
+
+    
