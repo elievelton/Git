@@ -1,0 +1,8 @@
+LICENSE
+README.md
+pyproject.toml
+setup.cfg
+src/AnaliseSeoHtml.egg-info/PKG-INFO
+src/AnaliseSeoHtml.egg-info/SOURCES.txt
+src/AnaliseSeoHtml.egg-info/dependency_links.txt
+src/AnaliseSeoHtml.egg-info/top_level.txt

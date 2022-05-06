@@ -5,7 +5,7 @@ import string
 from urllib.request import urlopen
 from urllib.error import HTTPError
 from urllib.error import URLError
-from bs4 import BeautifulSoup
+from bs4 import BeautifulSoup #Principal biblioteca
 from collections import Counter
 
 
@@ -13,6 +13,16 @@ from collections import Counter
 from collections import Counter
 
 class Analise:
+    '''
+        Essa classe analise recebe 2 paramentros que são str:
+
+            #A url que poderá ser digitada pelo usuario
+            #A palavra chave que também poderá ser digitada pelo usuario
+
+        Em seu init tem  a url, a palavra chave, uma lista de resultado que vai guarda os resultados das analise
+        e o tamanho do texto  que está sendo analisado
+    
+    '''
 
     __slots__ = ['_url', '_palavra','_lista_de_resultados','_tamanho_texto']
 
@@ -32,6 +42,12 @@ class Analise:
         return self._palavra
 
     def capturaInformacoes(self):
+        '''
+            Essa função tem como principal objetivo baixar o hmrl da url digita 
+            Separar cada parte do html que será analisado e fazer algusn tratamnetos dos
+            resultados coletado
+        
+        '''
         informacoes = []
         listadelista_info =[]
         try:
@@ -41,17 +57,18 @@ class Analise:
         except URLError:
             print("Dominio digitado incorretamente")
         else:
-            res = BeautifulSoup(html.read(),"html5lib")
+            res = BeautifulSoup(html.read(),"html5lib") # captura o html inteiro e armazena em res
 
-            titulo = res.find("h3", {"class": "post-title"})# {0} pegando o título do texto body          
+            titulo = res.find("h3", {"class": "post-title"})# {0}posição do vetor - pegando o título do texto body          
             informacoes.append(titulo.getText())
             
-            titulo_da_pagina =res.find("title") #pega o titulo da pagina {1}
+            titulo_da_pagina =res.find("title") #pega o titulo da pagina - {1} posicao do vettor
             informacoes.append(titulo_da_pagina.getText())
 
             texto = res.find("div", {"class": "post-body"}) # pegando o corpo do texto{2}
             informacoes.append(texto.getText())
-            tam = texto.getText()
+            # faz o calculo para saber o tamnho do texto principal
+            tam = texto.getText() 
             tam = tam.split()
             tam = Counter(tam)
             self._tamanho_texto = sum(tam.values())
@@ -60,12 +77,12 @@ class Analise:
             link = res.find("a") #pega os titulos dos links {3} posicao no vetor
             informacoes.append(link.getText())
 
-            link_completo = res.findAll("a")# links completos {3}
+            link_completo = res.findAll("a")# links completos com titulos {3}
             for tag in link_completo:                
                 listadelista_info.append(tag.getText().replace("\n", ""))
             valor4 = self.tratamento_listaDeLista(listadelista_info)
 
-            h2 = res.find("h2")# pega tudo que tiver em H2 que são os topicos do texto {4}
+            h2 = res.find("h2")# pega o primeiro H2 {4}
             informacoes.append(h2.getText())
             
             
@@ -79,7 +96,7 @@ class Analise:
             listadelista_info =[]
             informacoes.append(img.getText())
 
-            img_completo = res.findAll("img")# pega tudo img
+            img_completo = res.findAll("img")# pega tudo que tiver imagem - {5} posição 5 no vetor
             for tag in img_completo:                
                 listadelista_info.append(tag.getText().replace("\n", ""))
             valor3 = self.tratamento_listaDeLista(listadelista_info)
@@ -94,7 +111,7 @@ class Analise:
             
             quantidades = []
             for elemento in informacoes:
-                aux = self.repetir(elemento)
+                aux = self.repetir(elemento) # buscas as palavras que se repetem
                 quantidades.append(aux)
             quantidades.append(valor5)
 
@@ -119,6 +136,12 @@ class Analise:
             return valor
     
     def tratamento_listaDeLista(self, listadelista):
+        '''
+            É  um tratamento especial quando temos uma lista de lista
+            Tivemos que fazer algumas analises separadas da lista principal
+            Pois nesse caso temos uma lista de lista e na lista normal é uma 
+            lista de string
+        '''
         
         for i in range(len(listadelista)):
             listadelista[i] = listadelista[i].lower()            
@@ -131,6 +154,11 @@ class Analise:
                 
 
     def repetir(self, elemento):
+        '''
+            Faz a analise de quantas vezes uma palavra se repete
+            recebe uma lista e em cada posição temos uma parte do html já convertido só em texto
+            que deverá ser analisado
+        '''
         
         frase = elemento.lower() #converte todas a string para minus       
         palavra_chave = self._palavra.lower() #converte tod           
@@ -139,6 +167,15 @@ class Analise:
         return repetidas
 
     def resultados(self):
+        '''
+            Após os resultados coletados, pegamos essas informações e fazemos o tratamento
+            delas aqui nessa função, passamos então dicas de melhorias em cada parte do html
+            que foi analisado.
+
+            Também é feito uma pontuação da página que vai de 0 a 100 
+        
+        
+        '''
         resultado = self._lista_de_resultados
         pontuacao = 0
 
