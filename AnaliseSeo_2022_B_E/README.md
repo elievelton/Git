@@ -29,6 +29,10 @@ Ferramenta usada para coleta de dados da web:
 
 * [Beautifulsoup](https://www.crummy.com/software/BeautifulSoup/bs4/doc/) - Dependencia
 
+## ⚙️ URL de teste
+
+https://www.cataimagem.com/2019/03/moderninha-pro-ou-sumup-total-qual-devo.html
+
 
 
 

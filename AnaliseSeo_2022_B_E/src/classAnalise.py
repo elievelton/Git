@@ -9,7 +9,6 @@ from bs4 import BeautifulSoup #Principal biblioteca
 from collections import Counter
 
 
-
 from collections import Counter
 
 class Analise:
@@ -48,8 +47,9 @@ class Analise:
             resultados coletado
         
         '''
-        informacoes = []
-        listadelista_info =[]
+        informacoes = [] # serve para guarda informações da pagina
+        listadelista_info =[] # ultilizada para guarda dados do site em formato lista de lista 
+        
         try:
             html = urlopen(self._url)
         except HTTPError as e:
@@ -58,6 +58,7 @@ class Analise:
             print("Dominio digitado incorretamente")
         else:
             res = BeautifulSoup(html.read(),"html5lib") # captura o html inteiro e armazena em res
+        
 
             titulo = res.find("h3", {"class": "post-title"})# {0}posição do vetor - pegando o título do texto body          
             informacoes.append(titulo.getText())
@@ -93,7 +94,7 @@ class Analise:
             
 
             img = res.find("img") # {5} pega a primeira imagem
-            listadelista_info =[]
+            listadelista_info =[] #zerando essa lista
             informacoes.append(img.getText())
 
             img_completo = res.findAll("img")# pega tudo que tiver imagem - {5} posição 5 no vetor
@@ -101,7 +102,7 @@ class Analise:
                 listadelista_info.append(tag.getText().replace("\n", ""))
             valor3 = self.tratamento_listaDeLista(listadelista_info)
 
-            listadelista_info =[]
+            listadelista_info =[] #zerando essa lista
             description = res.findAll("meta", {"property": "og:description"}) #{6} pegando a descrição da pagina
             for tag in description:                
                 listadelista_info.append(tag.getText().replace("\n", ""))
