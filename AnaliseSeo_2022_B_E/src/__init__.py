@@ -1,3 +1,0 @@
-from classAnalise import Analise
-
-
